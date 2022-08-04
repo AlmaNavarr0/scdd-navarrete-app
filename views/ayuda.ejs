@@ -1,0 +1,80 @@
+<% if (puesto =="Administración") {%>
+  <%- include('templates/menuAdministrador.ejs')%>
+<%}else{%>
+  <%- include('templates/menuLogistica.ejs')%>
+<%}%>
+
+<title>SCDD | Panel de ayuda </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<div class="col-xxl-8 px-4 py-1">
+  <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+    <div class="col-10 col-sm-8 col-lg-6 bg-warning p-0">
+      <img src="https://scdd-navarrete-app.herokuapp.com/imagenes/por.png" class="d-block border-bottom mx-lg-auto img-fluid bg-danger" alt="Bootstrap Themes" width="auto" height="500" loading="lazy">
+    </div>
+    <div class="col-lg-6 px-5">
+      <h1 class="mx-5 fw-bold text-muted" style="font-family: 'Quicksand', sans-serif;">¿Cómo usar el sistema de control de datos y documentos Navarrete?</h1>
+
+      <p class="mx-5 lead">
+        Migrar los datos y documentos de cada operador, empleado e integrante de está empresa Transportes Turísticos Navarrete es escencial para sobresalir
+        e innovar en la seguridad y respaldo de toda la información que es de suma importancia mantener en control.
+      </p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <button type="button" class="mx-5 btn btn-outline-secondary btn px-4"><i class="fa-solid fa-download"></i> Descargar manual</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content align-items-center" style="background: transparent;">
+        <video src="https://scdd-navarrete-app.herokuapp.com/videos/video.mp4#t=5" style="height: 100%;" height="1000" width="1000" controls loop="true"></video>
+      </div>
+    </div>
+  </div>
+<div class="col-lg-10 mx-auto p-3">
+    <main>
+      <hr class="col-12 col-md-12 mb-5">
+      <div class="row g-5">
+        <div class="col-md-4">
+          <h2 data-bs-toggle="modal" data-bs-target="#exampleModal" role="button" class="fw-bold text-muted" style="font-family: 'Quicksand', sans-serif;"><i class="fa-regular fa-circle-play"></i> Videos tutoriales</h2>
+          <p>
+            Se presenta una lista de videos disponibles sobre el uso de cada una de las secciones dentro de SCDD | Navarrete:
+          </p>
+          <ul class="icon-list ps-0">
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Cuenta | Inicio de sesión</a></li>
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Cuenta | Recuperación de cuenta</a></li>
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Cuenta | Edición de perfil</a></li>
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Cuenta | Cerrar sesión</a></li>
+          </ul>
+        </div>
+  
+        <div class="col-md-4">
+          <h2 data-bs-toggle="modal" data-bs-target="#exampleModal" role="button" class="fw-bold text-muted" style="font-family: 'Quicksand', sans-serif;"><i class="fa-regular fa-circle-play"></i> Videos tutoriales</h2>
+
+          <p>
+
+          </p>
+          <ul class="icon-list ps-0">
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Trabajadores | Listado</a></li>
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Flotillas | Registro rápido</a></li>
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Rutas | Impresión PDF o Excel</a></li>
+            <li class="d-flex align-items-start mb-1"><a href="" class="text-muted" rel="noopener" target="_blank"> Usuarios | Eliminar bajas</a></li>
+            <li class="text-muted d-flex align-items-start mb-1">Si tiene una duda, puede visitar el <br> manual de uso</li>
+          </ul>
+        </div>
+
+        <div class="col-md-4">
+          <h2 data-bs-toggle="modal" data-bs-target="#exampleModal" role="button" class="fw-bold text-muted" style="font-family: 'Quicksand', sans-serif;"><i class="fa-solid fa-laptop-code"></i> Manual técnico</h2>
+          <p>Se presenta el acceso a un manual técnico para mayor aclaración de dudas que se lleguen a presentar.</p>
+          <ul class="icon-list ps-0">
+            <button type="button" class="btn btn-outline-secondary btn-sm px-4"><i class="fa-solid fa-download"></i> Manual técnico</button>
+          </ul>
+        </div>
+      </div>
+    </main>
+    <footer class="pt-5 my-5 text-muted border-top">
+      Sistema de control de datos y documentos Navarrete © 2022
+      <br> <small class="text-muted">Contacto con desarrollador a deliang.ti20@utsjr.edu.mx</small>
+    </footer>
+  </div>
+  <%- include('templates/pie.ejs')%>

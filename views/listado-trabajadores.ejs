@@ -1,0 +1,520 @@
+<% if (puesto =="Administración") {%>
+  <%- include('templates/menuAdministrador.ejs')%>
+<%}else{%>
+  <%- include('templates/menuLogistica.ejs')%>
+<%}%>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+ <script src="http://localhost:3000/js/wow.min.js"></script>
+<title>SCDD | Trabajadores disponibles</title>
+<style>
+.custom-tooltip {
+    --bs-tooltip-bg: rgb(170, 45, 36);
+}
+.custom-tooltip-success {
+  --bs-tooltip-bg: rgb(58, 158, 161);
+}
+.tooltip-inner {
+    white-space: pre-wrap;
+}
+.nomostrar{
+    display:none;
+}
+</style>
+</head>
+<%
+    let date=new Date();
+    var dia=date.getDate(); 
+    var mes=date.getMonth()+1; 
+    var anyo=date.getFullYear(); 
+
+    var mes_string = '';
+    if(mes==1){mes_string = 'Enero'} if(mes==5){mes_string = 'Mayo'} if(mes==9){mes_string = 'Septiembre'}
+    if(mes==2){mes_string = 'Febrero'} if(mes==6){mes_string = 'Junio'} if(mes==10){mes_string = 'Octubre'}
+    if(mes==3){mes_string = 'Marzo'} if(mes==7){mes_string = 'Julio'} if(mes==11){mes_string = 'Noviembre'}
+    if(mes==4){mes_string = 'Abril'} if(mes==8){mes_string = 'Agosto'} if(mes==12){mes_string = 'Diciembre'}
+
+    var fecha_string = date.toDateString().slice(4);
+    var fecha_actual = new Date(anyo, mes,dia).toISOString().split('T')[0]; 
+%>
+
+<body class="">
+    <main class="p-5 pt-3 mb-5">
+      <!--Parte del submenu-->
+      <div class="d-flex align-items-center p-3 row my-1 text-white rounded shadow-sm bottom" style="background-image: url(http://localhost:3000/imagenes/otro.png); background-position: bottom left;">
+        <div class="col-sm-9">
+          <h1 class="h6 mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> <i class="fa-solid fa-circle-check ver"></i>  Listado de trabajadores activos </h1>
+          <small class="mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> &nbsp; &nbsp; <%=mes_string%> <%=anyo%></small>
+        </div>
+        
+        <div class="col-sm-3">
+        <form action="/panel/administracion/filtro-trabajores" method="POST" name="formulariobuscar" id="formulariobuscar">
+          <div class="btn-group dropdown-menu-dark float-end col-12 bottom">
+            <select class="form-select col-12 dropdown-menu-dark border border-secondary form-select-sm" style="background-color: transparent;" id="dia_inicio"
+            name="dia_inicio" onChange="document.formulariobuscar.submit();">
+            <option class="text-secondary" style="font-family: sans-serif;" selected
+                disabled value=""><small>Seleccione un área de trabajo</small></option>
+                <option>Conductor de personal</option>
+                <option>Conductor turístico</option>
+                <option>Secretaria</option>
+                <option>Mécanico</option>
+                <option>Velador</option>
+                <option>Logística</option>
+        </select>
+          </div>
+        </div>
+          </div>
+        </form>
+      </div>
+      <!--Lista de usuarios activos-->
+      <div class="d-flex align-items-center p-0 row my-3">
+        <div class="d-flex justify-content-lg-start mb-1">
+        <% if(trabajadores.length==0){
+          var mostrar = ' ';
+          var vert = 'nomostrar';
+        } else { mostrar= 'nomostrar'; vert = ' ';}%>
+          <div class="col-sm-3"></div>
+          <div class="text-center p-0 lh-1 small fw-normal <%=vert%> bottom text-muted col-sm-1">Núm. celular</div>
+          <div class="text-center p-0 lh-1 small fw-normal <%=vert%> bottom text-muted col-sm-2">Dirección</div>
+          <% if (puesto =="Logística") { var salario = 'Edad' } else { salario= 'Salario'}%>
+          <div class="mx-3 p-0 lh-1 small fw-normal <%=vert%> bottom text-muted pe-2"><%= salario%></div>
+          <div class="mx-4 px-1 p-0 lh-1 small fw-normal <%=vert%> bottom text-muted col-sm-1">Fecha de inicio</div>
+          <div class="text-center p-0 lh-1 small fw-normal <%=vert%> bottom text-muted col-sm-3">Vigencia en documentos</div>
+        </div>
+        <strong class="text-center text-muted top mt-5 <%=mostrar%>"><i class="small text-secondary fa-solid fa-triangle-exclamation"></i> No hay trabajadores registrados hasta este momento. O ver lista de bajas. </strong>
+        <% trabajadores.forEach((trabajadores)=>{ 
+          if(trabajadores.status_trabajador==true) {%>
+        <div class="d-flex align-items-center ms-0 pe-0 row top border border-muted shadow-sm">
+          <% if(trabajadores.foto_trabajador.includes("undefined") || (trabajadores.foto_trabajador=="" || trabajadores.foto_trabajador[trabajadores.foto_trabajador.length-1]=='-')){ 
+            var foto='fondo_full.jpg' ; 
+            } else { foto=trabajadores.foto_trabajador; } %>
+            <% if (puesto =="Administración") { %>
+            <div class="d-flex text-muted pt-3 col-sm-3 float-start">
+                    <a href="/panel/administracion/ir/<%=trabajadores.email_trabajador%>"  style="cursor: pointer;"><img src="http://localhost:3000/trabajadores/<%=foto%>" title="<%= trabajadores.nombre_trabajador%>" alt="mdo" width="32" height="32"
+                      class="mx-2 d-flex rounded-circle mx-3"></a>
+                    <p class="pb-3 mb-0 small lh-sm ">
+                        <strong class="d-block text-gray-dark">
+                            <a href="/panel/administracion/ir/<%=trabajadores.email_trabajador%>" style="cursor: pointer; text-decoration: none; color:rgb(88, 88, 88)"> <%= trabajadores.nombre_trabajador%> </a>
+                        </strong>
+                        <b><a href="/panel/administracion/ir/<%=trabajadores.email_trabajador%>" style="cursor: pointer; text-decoration: none; color:rgb(88, 88, 88)"><i class="fa-thin fa-at"></i></b> <%= trabajadores.email_trabajador%></a>
+                    </p>
+            </div>
+            <% } else {%>
+              <div class="d-flex text-muted pt-3 col-sm-3 float-start">
+                <img src="http://localhost:3000/trabajadores/<%=foto%>" title="<%= trabajadores.nombre_trabajador%>" alt="mdo" width="32" height="32"
+                  class="mx-2 d-flex rounded-circle mx-3">
+                <p class="pb-3 mb-0 small lh-sm ">
+                    <strong class="d-block text-gray-dark">
+                        <%= trabajadores.nombre_trabajador%>
+                    </strong>
+                    <%= trabajadores.email_trabajador%>
+                </p>
+        </div>
+              <% } %>
+            <div class="top col-sm-1 text-center">
+                <p class="text-muted fw-semibold pt-4"><small><%=trabajadores.telefono_trabajador%></small></p>
+            </div>
+            <div class="top col-sm-2 float-end d-flex justify-content-between">
+              <p class="text-muted small fw-semibold pt-4 lh-1 d-flex justify-content-between"><small>#<%=trabajadores.numero_direccion%>, <%=trabajadores.calle_direccion%>,
+              <%=trabajadores.colonia_direccion%>, <%=trabajadores.municio_direccion%>, <%=trabajadores.estado_direccion%></small></p>
+          </div>
+          <div class=" top col-sm-1">
+            <% if (puesto =="Logística") { 
+              var edad = anyo - trabajadores.anyo_nacimiento + 'años';
+            } else { 
+              edad= '$ ' + trabajadores.salario_trabajador;}%>
+            <p class="text-muted fw-semibold pt-4"><small><%= edad%></small></p>
+          </div>
+            <div class="top col-sm-1 p-0">
+              <p class="text-muted px-1 fw-semibold pt-4"><small><%=trabajadores.dia_inicio%> <%=trabajadores.mes_inicio%>, <%=trabajadores.anyo_inicio%></small></p>
+            </div>
+            <div class="form-check top col-sm-3 text-center p-3">
+                <div class="btn-group-sm " role="group">
+                    <% 
+                    var mes_number = '';
+                    if(trabajadores.mes_licencia=='Enero'){mes_number = '01'} if(trabajadores.mes_licencia=='Mayo'){mes_number = '05'} if(trabajadores.mes_licencia=='Septiembre'){mes_number = '09'}
+                    if(trabajadores.mes_licencia=='Febrero'){mes_number = '02'} if(trabajadores.mes_licencia=='Junio'){mes_number = '06'} if(trabajadores.mes_licencia=='Octubre'){mes_number = '10'}
+                    if(trabajadores.mes_licencia=='Marzo'){mes_number = '03'} if(trabajadores.mes_licencia=='Julio'){mes_number = '07'} if(trabajadores.mes_licencia=='Noviembre'){mes_number = '11'}
+                    if(trabajadores.mes_licencia=='Abril'){mes_number = '04'} if(trabajadores.mes_licencia=='Agosto'){mes_number = '08'} if(trabajadores.mes_licencia=='Diciembre'){mes_number = '12'}
+                    
+                    var fecha_licencia = trabajadores.anyo_licencia+'-'+mes_number+'-'+trabajadores.dia_licencia;
+                    var fecha_rango = new Date(anyo, mes+1, dia).toISOString().split('T')[0];
+
+                    if(fecha_licencia<=fecha_rango){
+                      var color = 'danger';
+                      var tooltip = 'custom-tooltip';
+                    } else {
+                      color = 'success'
+                      tooltip = 'custom-tooltip-success';
+                    }
+
+                    if(trabajadores.dia_licencia==null && trabajadores.mes_licencia==null && trabajadores.anyo_licencia==null && trabajadores.licencia_vigente.length==9 || trabajadores.licencia_vigente.length==10){
+                      var licenciad = 'disabled bg-white border-white text-white';
+                  } else{
+                      licenciad = 'mostrar';
+                  }
+
+                    %>
+                    <button data-bs-toggle="modal" id="btnmodal_licencia" data-bs-target="#modal_licencia" data-nom="<%= trabajadores.nombre_trabajador%>" data-pdf="<%= trabajadores.licencia_vigente%>" type="button" class="<%=licenciad%> btn btn-<%=color%>" ><i data-bs-toggle="tooltip" data-bs-placement="top"
+                      data-bs-custom-class="<%= tooltip%>" title="Vigencia de licencia: 
+<%= trabajadores.dia_licencia%> de <%=trabajadores.mes_licencia%>, <%=trabajadores.anyo_licencia%>" class="<%=licenciad%> fa-solid fa-download"></i> Licencia</button>
+                    
+                    <% if(trabajadores.dia_examen==null && trabajadores.mes_examen==null && trabajadores.anyo_examen==null && trabajadores.licencia_vigente.length==9 || trabajadores.licencia_vigente.length==10){
+                        var examen = 'disabled bg-white border-white text-white';
+                    } else{
+                        examen = 'mostrar';
+                    }
+                    
+                    var mes_examen = '';
+                    if(trabajadores.mes_examen=='Enero'){mes_examen = '01'} if(trabajadores.mes_examen=='Mayo'){mes_examen = '05'} if(trabajadores.mes_examen=='Septiembre'){mes_examen = '09'}
+                    if(trabajadores.mes_examen=='Febrero'){mes_examen = '02'} if(trabajadores.mes_examen=='Junio'){mes_examen = '06'} if(trabajadores.mes_examen=='Octubre'){mes_examen = '10'}
+                    if(trabajadores.mes_examen=='Marzo'){mes_examen = '03'} if(trabajadores.mes_examen=='Julio'){mes_examen = '07'} if(trabajadores.mes_examen=='Noviembre'){mes_examen = '11'}
+                    if(trabajadores.mes_examen=='Abril'){mes_examen = '04'} if(trabajadores.mes_examen=='Agosto'){mes_examen = '08'} if(trabajadores.mes_examen=='Diciembre'){mes_examen = '12'}
+                    
+                    var fecha_examen = trabajadores.anyo_examen+'-'+mes_examen+'-'+trabajadores.dia_examen;
+                    var fecha_rango = new Date(anyo, mes+1, dia).toISOString().split('T')[0];
+
+                    if(fecha_examen<=fecha_rango){
+                      var color_examen = 'danger';
+                      var tooltip_examen = 'custom-tooltip';
+                    } else {
+                      color_examen = 'success'
+                      tooltip_examen = 'custom-tooltip-success';
+                    }
+                    %>
+                    <button data-bs-toggle="modal" id="btnmodal_examen" data-bs-target="#modal_examen" data-nom="<%= trabajadores.nombre_trabajador%>" data-pdf="<%= trabajadores.examen_vigente%>" type="button" class="btn btn-<%=color_examen%> <%=examen%>"><i  data-bs-toggle="tooltip" data-bs-placement="top"
+                      data-bs-custom-class="<%=tooltip_examen%>" title="Vigencia de examen médico: 
+<%= trabajadores.dia_examen%> de <%=trabajadores.mes_examen%>, <%=trabajadores.anyo_examen%>" class="fa-solid fa-download"></i> Examen</button>
+                    
+                    <% if(trabajadores.dia_tarjeton==null && trabajadores.mes_tarjeton==null && trabajadores.anyo_tarjeton==null && trabajadores.licencia_vigente.length==9 || trabajadores.licencia_vigente.length==10){
+                        var tarjeton = 'disabled bg-white border-white text-white';
+                    } else{
+                        tarjeton = 'mostrar';
+                    }
+                    
+                    var mes_tarjeton = '';
+                    if(trabajadores.mes_tarjeton=='Enero'){mes_tarjeton = '01'} if(trabajadores.mes_tarjeton=='Mayo'){mes_tarjeton = '05'} if(trabajadores.mes_tarjeton=='Septiembre'){mes_tarjeton = '09'}
+                    if(trabajadores.mes_tarjeton=='Febrero'){mes_tarjeton = '02'} if(trabajadores.mes_tarjeton=='Junio'){mes_tarjeton = '06'} if(trabajadores.mes_tarjeton=='Octubre'){mes_tarjeton = '10'}
+                    if(trabajadores.mes_tarjeton=='Marzo'){mes_tarjeton = '03'} if(trabajadores.mes_tarjeton=='Julio'){mes_tarjeton = '07'} if(trabajadores.mes_tarjeton=='Noviembre'){mes_tarjeton = '11'}
+                    if(trabajadores.mes_tarjeton=='Abril'){mes_tarjeton = '04'} if(trabajadores.mes_tarjeton=='Agosto'){mes_tarjeton = '08'} if(trabajadores.mes_tarjeton=='Diciembre'){mes_tarjeton = '12'}
+                    
+                    var fecha_tarjeton = trabajadores.anyo_tarjeton+'-'+mes_tarjeton+'-'+trabajadores.dia_tarjeton;
+                    var fecha_rango = new Date(anyo, mes+1, dia).toISOString().split('T')[0];
+
+                    if(fecha_tarjeton<=fecha_rango){
+                      var color_tarjeton = 'danger';
+                      var tooltip_tarjeton = 'custom-tooltip';
+                    } else {
+                      color_tarjeton = 'success'
+                      tooltip_tarjeton = 'custom-tooltip-success';
+                    }
+                    %>
+                    <button data-bs-toggle="modal" id="btnmodal_tarjeton" data-bs-target="#modal_tarjeton" data-nom="<%= trabajadores.nombre_trabajador%>" data-pdf="<%= trabajadores.tarjeton_vigente%>" type="button" class="btn btn-<%=color_tarjeton%> <%=tarjeton%>"><i data-bs-toggle="tooltip" data-bs-placement="top"
+                      data-bs-custom-class="<%=tooltip_tarjeton%>" title="Vigencia de tarjetón vehícular: 
+<%= trabajadores.dia_tarjeton%> de <%=trabajadores.mes_tarjeton%>, <%=trabajadores.anyo_tarjeton%>" class="fa-solid fa-download"></i> Tarjetón</button>
+                  </div>
+            </div>
+            <!--Boton para abrir el modal-->
+            <div class="form-check col-sm-1 float-end">
+              <button type="button" id="btnmodal" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" 
+              data-nom="<%= trabajadores.nombre_trabajador%>" data-identidad="<%= trabajadores._id%>" data-correo="<%= trabajadores.email_trabajador%>" data-celular="<%= trabajadores.telefono_trabajador%>" 
+              data-tipo="<%= trabajadores.puesto_trabajador%>" data-despido="<%= trabajadores.motivo_despido%>" data-imagen="<%= trabajadores.foto_trabajador%>" data-fr="<%=trabajadores.mes_inicio%> <%=trabajadores.dia_inicio%> <%=trabajadores.anyo_inicio%>" data-fm="<%=fecha_string%>"
+              class="btn border border-white">
+              <small><i class="fa-solid fa-user-minus" style="color: rgba(128, 128, 128, 0.618);"></i></small></button>
+            </div>
+        </div>
+        <!--Modulo de JS en SCRIPT-->
+        <script>
+          $(document).on("click", "#btnmodal", function(){
+            var nombre = $(this).data('nom');
+            var id = $(this).data('identidad');
+            var correo = $(this).data('correo');
+            var celular = $(this).data('celular');
+            var tipo = $(this).data('tipo');
+            var foto = $(this).data('imagen');
+            var fecha_r = $(this).data('fr');
+            var despido = $(this).data('despido');
+            var fecha_modificacion = $(this).data('fm');
+            
+            $("#despido").val(despido);
+            $("#id").val(id);
+            $("#nombre").val(nombre);
+            $("#correo").val(correo);
+            $("#celular").val(celular);
+            $("#tipo").val(tipo);
+            $("#fecha_registro").val(fecha_r);
+            $("#foto").val(foto);
+            $("#fecha_modificacion").val(fecha_modificacion);
+            
+            nombre = document.getElementById("nombre").value;
+            document.getElementById('nom').innerHTML = nombre;
+            document.getElementById('id_editar').value = nombre;
+
+            correo_editar = document.getElementById("correo").value;
+            document.getElementById('correo_editar').value = correo_editar;
+
+
+            fecha_modificacion = document.getElementById("fecha_modificacion").value;
+            document.getElementById('fecha_m').value = fecha_modificacion;
+
+            foto = document.getElementById("foto").value;
+            if(foto.includes("undefined") || foto==null || foto[foto.length-1]=="-"){
+              document.getElementById("imagen").src="http://localhost:3000/trabajadores/fondo_full.jpg";
+            } else{
+              document.getElementById("imagen").src="http://localhost:3000/trabajadores/"+foto;
+            }
+          })
+          $(document).ready(function(){
+            $("#exampleModalToggle").on('shown.bs.modal', function(){
+             $(this).find('#exampleFormControlTextarea1').focus();
+            });
+
+            var area = document.getElementById('exampleFormControlTextarea1');
+            area.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('motivo').value = inputText;
+            })           
+            });
+
+            var contratista = document.getElementById('status');
+            contratista.addEventListener('change', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('estado').value = inputText;
+            })
+
+            var fecha = document.getElementById('fecha_modificacion');
+            fecha.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('fecha_m').value = inputText;
+            })
+
+            var nombre_value = document.getElementById('nombre');
+            nombre_value.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('nom').value = inputText;
+            })
+
+            function estado() {
+            document.getElementById('estado').value = document.getElementById('status').value;
+          }
+
+        </script>
+        <!--MODAL DE DATOS-->
+        <div class="modal fade " id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-muted" style="font-family: 'Quicksand', sans-serif;" id="nom"></h5>
+                  <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <form class="row needs-validation text-black" method="POST" action="/panel/administracion/editar">
+                    <input type="text" id="id_editar" name="id_editar" style="display: none;">
+                    <input type="text" id="correo_editar" name="correo_editar" style="display: none;">
+                    <div class="d-flex justify-content-center">
+                      <input id="foto" style="display: none;">
+                      <img src="http://localhost:3000/usuarios/fondo_full.jpg" id="imagen" style="object-fit: cover;" alt="Navarrete"
+                        width="150" height="150" class="rounded-circle bg-light">
+                      </div>
+                    <div class="col-md-4">
+                      <label for="correo" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Correo electrónico</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="correo" name="correo">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="celular" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Celular</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="celular">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="tipo" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Área de trabajo</label>
+                      <div class="input-group has-validation">
+                        <input type="text" class="form-control fw-bold" disabled readonly id="tipo" aria-describedby="inputGroupPrepend" >
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="fecha_registro" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Fecha de registro</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="fecha_registro" >
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="fecha_modificacion" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Fecha de edición</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="fecha_modificacion" name="fecha_modificacion">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="status" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Estado *</label>
+                      <select class="form-select dropdown-menu-dark form-select-sm" id="status" name="status" onclick="estado();">
+                        <option class="text-black" selected disabled value=""><small>Selecciona una opcion</small></option>
+                        <option class="text-black" value="false">Baja</option>
+                      </select>
+                     
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Motivo de baja*</label>
+                        <textarea autofocus class="form-control autofocus" id="exampleFormControlTextarea1" rows="2"></textarea>
+                      </div>
+                    <div class="col-12 d-flex pt-3"> 
+                      <button class="btn float-end justify-content-lg-start btn-outline-primary col-3" type="submit">VER MÁS</button>
+                      </form>
+                      <div>&nbsp;</div>
+                      <form method="post" class="justify-content-lg-end d-flex  col-9 float-start col-3" action="/panel/administracion/modificar_trabajador" name="formularioid" id="formularioid">
+                          <input type="text" id="id" name="id" style="display: none;">
+                          <input id="nombre" name="nombre" style="display: none;">
+                          <input id="fecha_m" name="fecha_m" style="display: none;">
+                          <input id="motivo" name="motivo" style="display: none;">
+                          <input id="estado" name="estado" style="display: none;">
+                          <input id="despido" name="despido" style="display: none;">
+                          <button type="submit" class="btn justify-content-lg-end btn-secondary col-4">BAJA</button>
+                    </form>
+                    </div>
+                </div>
+              </div>
+        </div>
+        </div>
+        <div class="text-white mt-0 p-0" style="font-size: 8px;">.</div>
+        <% }
+        }); %>
+        </div>
+        <!--Lista de usuarios no activos BAJAS-->
+        </div>
+    </div>
+  </div>
+  <script>
+    $(document).on("click", "#btnmodal_tarjeton", function () {
+      var nombre = $(this).data('nom');
+      var id = $(this).data('identidad');
+      var pdf = $(this).data('pdf');
+
+      $("#id").val(id);
+      $("#nombre_modal").val(nombre);
+      $("#pdf").val(pdf);
+
+      nombre = document.getElementById("nombre_modal").value;
+      document.getElementById('nommodal').innerHTML = 'Tarjetón vehicular | ' + nombre;
+      pdf_tarjeton = document.getElementById("pdf").value;
+      document.querySelector('#ver_pdf').setAttribute('src', 'http://localhost:3000/trabajadores/' + pdf_tarjeton);
+
+    })
+  </script>
+  <div class="modal fade " id="modal_tarjeton" aria-hidden="true" aria-labelledby="nom" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nommodal">
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0 m-0">
+          <input type="text" id="nombre_modal" name="nombre_modal" style="display: none;">
+          <input type="text" id="pdf" name="pdf" style="display: none;">
+          <embed id="ver_pdf" type="application/pdf" width="100%" height="510px" />
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).on("click", "#btnmodal_examen", function () {
+      var nombre = $(this).data('nom');
+      var pdf = $(this).data('pdf');
+
+      $("#id").val(id);
+      $("#nombre_examen").val(nombre);
+      $("#pdf_examen").val(pdf);
+
+      nombre = document.getElementById("nombre_examen").value;
+      document.getElementById('nommodalexa').innerHTML = 'Examen médico | ' + nombre;
+      pdf_examen = document.getElementById("pdf_examen").value;
+      document.querySelector('#ver_pdf_examen').setAttribute('src', 'http://localhost:3000/trabajadores/' + pdf_examen);
+
+    })
+  </script>
+  <div class="modal fade " id="modal_examen" aria-hidden="true" aria-labelledby="nom" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nommodalexa">
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0 m-0">
+          <input type="text" id="nombre_examen" name="nombre_examen" style="display: none;">
+          <input type="text" id="pdf_examen" name="pdf_examen" style="display: none;">
+          <embed id="ver_pdf_examen" type="application/pdf" width="100%" height="510px" />
+        </div>
+        <div class="modal-footer">
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).on("click", "#btnmodal_licencia", function () {
+      var nombre = $(this).data('nom');
+      var pdf = $(this).data('pdf');
+
+      $("#id").val(id);
+      $("#nombre_licencia").val(nombre);
+      $("#pdf_licencia").val(pdf);
+
+      nombre = document.getElementById("nombre_licencia").value;
+      document.getElementById('nommodalli').innerHTML = 'Licencia de conducir | ' + nombre;
+      pdf_licencia = document.getElementById("pdf_licencia").value;
+      document.querySelector('#ver_pdf_licencia').setAttribute('src', 'http://localhost:3000/trabajadores/' + pdf_licencia);
+
+    })
+  </script>
+  <div class="modal fade " id="modal_licencia" aria-hidden="true" aria-labelledby="nom" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nommodalli">
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0 m-0">
+          <input type="text" id="nombre_licencia" name="nombre_licencia" style="display: none;">
+          <input type="text" id="pdf_licencia" name="pdf_licencia" style="display: none;">
+          <embed id="ver_pdf_licencia" type="application/pdf" width="100%" height="510px" />
+        </div>
+        <div class="modal-footer">
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <div class="text-light">
+    .
+  </div>
+  </main>
+  </body>
+  <script>
+    window.sr = ScrollReveal();
+    sr.reveal('.top', {
+      duration: 2000,
+      origin: 'top',
+      distance: '-100px'
+    });
+
+    sr.reveal('.bottom', {
+      duration: 2000,
+      origin: 'bottom',
+      distance: '-100px'
+    });
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+  </script>

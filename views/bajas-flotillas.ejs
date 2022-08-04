@@ -1,0 +1,321 @@
+<% if (puesto =="Administración") {%>
+  <%- include('templates/menuAdministrador.ejs')%>
+<%}else{%>
+  <%- include('templates/menuLogistica.ejs')%>
+<%}%>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+ <script src="http://localhost:3000/js/wow.min.js"></script>
+<title>SCDD | Flotillas disponibles</title>
+<style>
+.custom-tooltip {
+    --bs-tooltip-bg: rgb(170, 45, 36);
+}
+.custom-tooltip-success {
+  --bs-tooltip-bg: rgb(58, 158, 161);
+}
+.nomostrar{
+    display:none;
+}
+
+</style>
+</head>
+<%
+    let date=new Date();
+    var dia=date.getDate(); 
+    var mes=date.getMonth()+1; 
+    var anyo=date.getFullYear(); 
+
+    var mes_string = '';
+    if(mes==1){mes_string = 'Enero'} if(mes==5){mes_string = 'Mayo'} if(mes==9){mes_string = 'Septiembre'}
+    if(mes==2){mes_string = 'Febrero'} if(mes==6){mes_string = 'Junio'} if(mes==10){mes_string = 'Octubre'}
+    if(mes==3){mes_string = 'Marzo'} if(mes==7){mes_string = 'Julio'} if(mes==11){mes_string = 'Noviembre'}
+    if(mes==4){mes_string = 'Abril'} if(mes==8){mes_string = 'Agosto'} if(mes==12){mes_string = 'Diciembre'}
+
+    var fecha_string = date.toDateString().slice(4);
+    var fecha_actual = new Date(anyo, mes,dia).toISOString().split('T')[0]; 
+%>
+<body class="">
+    <main class="p-5 pt-3 mb-5">
+      <!--Parte del submenu-->
+      <div class="d-flex align-items-center p-3 row my-1 text-white rounded shadow-sm bottom" style="background-image: url(http://localhost:3000/imagenes/otro.png); background-position: bottom left;">
+        <div class="col-sm-9">
+          <h1 class="h6 mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> <i class="fa-solid fa-circle-xmark ocultar"></i> Listado de flotillas no disponibles</h1>
+          <small class="mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> &nbsp; &nbsp; <%=mes_string%> <%=anyo%></small>
+        </div>
+        <div class="col-sm-3">
+        <form action="/panel/administracion/filtro-flotillas-bajas" method="POST" name="formulariobuscar" id="formulariobuscar">
+          <div class="btn-group dropdown-menu-dark float-end col-12 bottom">
+            <select class="form-select col-12 dropdown-menu-dark border border-secondary form-select-sm" style="background-color: transparent;" id="dia_inicio"
+            name="dia_inicio" onChange="document.formulariobuscar.submit();">
+            <option class="text-secondary" style="font-family: sans-serif;" selected
+                disabled value=""><small>Seleccione un tipo de flotilla</small></option>
+                <option>Personal</option>
+                <option>Turísmo</option>
+                <option>Doble uso</option>
+                <option>Utilitario</option>
+        </select>
+          </div>
+        </div>
+          </div>
+        </form>
+      </div>
+      <!--Lista de usuarios activos-->
+      <div class="d-flex align-items-center p-0 row my-3">
+        <% if(flotillas.length==0){
+          var mostrar = ' ';
+          var verm = 'nomostrar';
+        } else { mostrar= 'nomostrar'; verm = ' '}%>
+        <div class="d-flex justify-content-lg-start mb-1 <%=verm%>">
+          <div class="col-sm-6"></div>
+          <div class="text-center p-0 lh-1 small fw-normal <%=verm%> bottom text-muted col-sm-5">Motivo y fecha de baja</div>
+          <div class="col-sm-1"></div>
+        </div>
+        <strong class="text-center text-muted mt-5 top <%=mostrar%>"><i class="small text-secondary fa-solid fa-triangle-exclamation"></i> No hay flotillas dadas de baja. Ver lista de flotillas activas. </strong>
+               <% flotillas.forEach((flotillas)=>{ 
+          if(flotillas.status_flotilla==false) {%>
+        <div class="d-flex align-items-center ms-0 top pe-0 row border border-muted shadow-sm">
+            <div class="d-flex text-muted pt-3 col-sm-6 float-start">
+                <% if(flotillas.foto_flotilla.includes("undefined") || (flotillas.foto_flotilla=="") || (flotillas.foto_flotilla[flotillas.foto_flotilla.length-1]=="-")){ 
+                    var foto='fondo_full.jpg' ; 
+                    } else { foto=flotillas.foto_flotilla; } %>
+                    <img src="http://localhost:3000/flotillas/<%=foto%>" title="<%= flotillas.numero_economico%>" alt="mdo" width="32" height="32"
+                      class="mx-2 d-flex rounded-circle mx-3">
+                    <p class="pb-3 mb-0 small lh-sm ">
+                        <strong class="d-block text-gray-dark">No. <%= flotillas.numero_economico%>
+                        </strong>
+                        <b><i class="fa-thin fa-at"></i></b> <%= flotillas.nombre_propietario%>
+                    </p>
+            </div>
+            <div class="form-check top col-sm-5 float-end d-flex justify-content-between">
+                <p class="text-muted fw-semibold pt-4 lh-1 d-flex justify-content-between"><small><%=flotillas.motivo_baja%></small></p>
+            </div>
+            <!--Boton para abrir el modal-->
+            <div class="col-sm-1 row d-flex justify-content-between">
+              <div class="col-sm-6 align-items-center">
+              <button type="button" id="btnmodal" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" 
+              data-nom="<%= flotillas.numero_economico%>" data-identidad="<%= flotillas._id%>" data-correo="<%= flotillas.numero_serie%>" data-celular="<%= flotillas.numero_permiso%>" 
+              data-tipo="<%= flotillas.tipo_flotilla%>" data-imagen="<%= flotillas.foto_flotilla%>" data-fr="<%=flotillas.nombre_propietario%>" data-fm="<%=fecha_string%>"
+              class="btn border border-white">
+              <small><i class="fa-solid fa-user-plus" style="color: rgba(128, 128, 128, 0.618);"></i></small></button>
+            </div>
+            <div class="col-sm-6">
+              <buttton type="button" onclick="abrirSwal(JSON.parse('<%=JSON.stringify(flotillas._id)%>'));" class="btn" style="border: none; color: rgba(128, 128, 128, 0.789);"><i class="fa-regular fa-trash-can"></i></button>
+              </div>
+            </div>
+        <!--Modulo de JS en SCRIPT-->
+        <script>
+          $(document).on("click", "#btnmodal", function(){
+            var nombre = $(this).data('nom');
+            var id = $(this).data('identidad');
+            var correo = $(this).data('correo');
+            var celular = $(this).data('celular');
+            var tipo = $(this).data('tipo');
+            var foto = $(this).data('imagen');
+            var fecha_r = $(this).data('fr');
+            var despido = $(this).data('despido');
+            var fecha_modificacion = $(this).data('fm');
+            
+            $("#despido").val(despido);
+            $("#id").val(id);
+            $("#nombre").val(nombre);
+            $("#correo").val(correo);
+            $("#celular").val(celular);
+            $("#tipo").val(tipo);
+            $("#fecha_registro").val(fecha_r);
+            $("#foto").val(foto);
+            $("#fecha_modificacion").val(fecha_modificacion);
+            
+            nombre = document.getElementById("nombre").value;
+            document.getElementById('nom').innerHTML = 'Flotilla | No. ' + nombre;
+            document.getElementById('id_editar').value = nombre;
+
+            correo_editar = document.getElementById("correo").value;
+            document.getElementById('correo_editar').value = correo_editar;
+
+
+            fecha_modificacion = document.getElementById("fecha_modificacion").value;
+            document.getElementById('fecha_m').value = fecha_modificacion;
+
+            foto = document.getElementById("foto").value;
+            if(foto.includes("undefined") || foto==null || foto[foto.length-1]=="-"){
+              document.getElementById("imagen").src="http://localhost:3000/flotillas/fondo_full.jpg";
+            } else{
+              document.getElementById("imagen").src="http://localhost:3000/flotillas/"+foto;
+            }
+          })
+          
+          function varo() {
+            document.getElementById('estado').value = document.getElementById('status').value;
+          }
+
+          $(document).ready(function(){
+            $("#exampleModalToggle").on('shown.bs.modal', function(){
+             $(this).find('#exampleFormControlTextarea1').focus();
+            });
+
+            var area = document.getElementById('exampleFormControlTextarea1');
+            area.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('motivo').value = inputText;
+            })           
+            });
+
+            var fecha = document.getElementById('fecha_modificacion');
+            fecha.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('fecha_m').value = inputText;
+            })
+
+            var nombre_value = document.getElementById('nombre');
+            nombre_value.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('nom').value = inputText;
+            })
+
+            function abrirSwal(id){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success mx-2',
+                  cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: '¿Está seguro de eliminarlo?',
+                text: "El registro de la flotilla quedará eliminado.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: 'No, ¡cancelar!',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/panel/administracion/eliminar_flotilla/'+id;
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Operación cancelada',
+                    'error'
+                  )
+                }
+              })
+    }
+        </script>
+        </div>
+        <!--MODAL-->
+        <div class="modal fade " id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-muted" style="font-family: 'Quicksand', sans-serif;" id="nom"></h5>
+                  <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Inicio de formulario-->
+                  <form class="row needs-validation text-black">
+                    <input type="text" id="id_editar" name="id_editar" style="display: none;">
+                    <input type="text" id="correo_editar" name="correo_editar" style="display: none;">
+                    <div class="d-flex justify-content-center">
+                      <input id="foto" style="display: none;">
+                      <img src="http://localhost:3000/usuarios/fondo_full.jpg" id="imagen" style="object-fit: cover;" alt="Navarrete"
+                        width="150" height="150" class="rounded-circle bg-light">
+                      </div>
+                    <div class="col-md-4">
+                      <label for="correo" class="form-label text-muted" style="font-family: 'Quicksand',sans-serif;">Número de serie</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="correo" name="correo">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="celular" class="form-label text-muted" style="font-family: 'Quicksand',sans-serif;">Número de permiso</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="celular">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="tipo" class="form-label text-muted" style="font-family: 'Quicksand',sans-serif;">Tipo de flotilla</label>
+                      <div class="input-group has-validation">
+                        <input type="text" class="form-control fw-bold" disabled readonly id="tipo" aria-describedby="inputGroupPrepend" >
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="fecha_registro" class="form-label text-muted" style="font-family: 'Quicksand',sans-serif;">Nombre de propietario</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="fecha_registro" >
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="fecha_modificacion" class="form-label text-muted" style="font-family: 'Quicksand',sans-serif;">Fecha de hoy</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="fecha_modificacion" name="fecha_modificacion">
+                      
+                    </div>
+                    <div class="col-md-4">
+                        <label for="status" class="form-label text-muted" style="font-family: 'Quicksand',sans-serif;">Estado *</label>
+                        <select class="form-select dropdown-menu-dark form-select-sm" id="status" name="status" onclick="varo();">
+                          <option class="text-black" selected disabled value=""><small>Selecciona una opcion</small></option>
+                          <option class="text-black" value="true">Activar</option>
+                        </select>
+                       
+                      </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label text-black" style="font-family: 'Quicksand',sans-serif;">Comentarios *</label>
+                        <textarea autofocus class="form-control autofocus" id="exampleFormControlTextarea1" rows="2"></textarea>
+                      </div>
+                      </form>
+                      <div>&nbsp;</div>
+                      <form method="post" class="justify-content-lg-end d-flex  col-12 float-end col-3" action="/panel/admnistracion/activar-flotilla" name="formularioid" id="formularioid">
+                          <input type="text" id="id" name="id" style="display: none;">
+                          <input id="nombre" name="nombre" style="display: none;">
+                          <input id="fecha_m" name="fecha_m" style="display: none;">
+                          <input id="motivo" name="motivo" style="display: none;">
+                          <input id="estado" name="estado" style="display: none;">
+                          <button type="submit" class="btn justify-content-lg-end btn-secondary col-3">ACTIVAR</button>
+                    </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        
+        <div class="text-white mt-0 p-0" style="font-size: 8px;">.</div>
+        <% }
+        }); %>
+        </div>
+        <!--Lista de usuarios no activos BAJAS-->
+        </div>
+    </div>
+  </div>
+    
+  <div class="text-light">
+    .
+    </div>
+    </main>
+    </body>
+    <script>
+      window.sr = ScrollReveal();
+    sr.reveal('.top', {
+        duration: 2000,
+        origin: 'top',
+        distance: '-100px'
+    });
+
+    sr.reveal('.bottom', {
+        duration: 2000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+    </script>

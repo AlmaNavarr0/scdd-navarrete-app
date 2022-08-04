@@ -1,0 +1,259 @@
+<% if (puesto =="Administración") {%>
+  <%- include('templates/menuAdministrador.ejs')%>
+<%}else{%>
+  <%- include('templates/menuLogistica.ejs')%>
+<%}%>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+
+<script src="https://cdn.jsdelivr.net/npm/disableautofill/src/jquery.disableAutoFill.min.js"></script>
+  <script src="https://unpkg.com/scrollreveal"></script>
+   <script src="http://localhost:3000/js/wow.min.js"></script>
+  <title>SCDD | Perfil <%=usu.nombre_usuario%></title>
+  </head>
+
+
+<div class="container my-5">
+    <div class="row pb-0 pe-lg-0 align-items-center rounded-3 border shadow-lg formulario" style="background-image: url(http://localhost:3000/imagenes/otro.png);">
+      <div class="col-lg-10 p-lg-5 pt-lg-3" >
+        <div class="col-12 text-black" >
+          <p class=" mb-4 text-center text-muted fw-bold h2 lado" style="font-family: 'Quicksand', sans-serif;"><i class="small text-muted fa-regular fa-address-card"></i> Información de perfil</p>
+          <!--FORMULARIO inicia-->
+            <form class="needs-validation text-black"  id="formulario" method="POST" action="/panel/administracion/modificar_usuario" novalidate="" enctype="multipart/form-data">
+            <div class="lado"> <small class="text-muted lado"> <i class="fa-solid fa-pen-to-square lado"></i> Puede editar su los datos de su perfil, los campos obligatorios son marcados *:</small> </div>
+              <hr class="py-1 lado">
+                <!--Campo de imagenes-->
+                <div class="row mb-5 lado">
+                  <div class="col-sm-6 nombres">
+                    <div class="d-flex justify-content-center">
+                      <% if(usu.foto_usuario.includes("undefined") || (usu.foto_usuario=="") || (usu.foto_usuario[usu.foto_usuario.length-1]=='-' )){
+                         var foto = 'fondo_full.jpg';
+                         var valor = 'No hay foto de perfil, seleccione una. ';
+                        } else {
+                          foto = usu.foto_usuario;
+                          valor = usu.foto_usuario;
+                        }
+                      %>
+                      <img src="http://localhost:3000/usuarios/<%=foto%>" style="object-fit: cover;" alt="Navarrete"
+                        width="150" height="150" class="rounded-circle bg-light">
+                    </div>
+                    <div class="col-sm-12">
+                      <label for="imagen" class="form-label text-black fw-bold h6">Imagen de perfil </label> <span
+                        class="text-muted small">(Actual)</span>
+                      <input type="text" class="form-control fw-bold h6 text-secondary" id="imagen_dos" name="imagen_dos" value="<%=valor%>" readonly>
+                      <input type="text" style="display: none;" id="imagen_nueva_dos" name="imagen_nueva_dos">
+                      <input type="text" style="display: none;" id="_id" name="_id" value="<%=usu._id%>">
+                    </div>
+                  </div>
+                <!--Campo de la otra imagen-->
+                <div class="col-sm-6 nombres">
+                  <div class="d-flex justify-content-center">
+                    <img src="http://localhost:3000/imagenes/fondo_full.jpg" id="img_ava" style="object-fit: cover;"
+                      alt="Navarrete" width="150" height="150" class="rounded-circle bg-light">
+                  </div>
+                      <div class="col-sm-12">
+                        <label for="imagen" class="form-label text-black fw-bold h6">Imagen de perfil </label> <span class="text-muted small">(Nueva)</span>
+                      <input type="file" class="form-control form-control-sm" id="imagen" name="imagen" value="vavs" onchange="vista(event)">
+                      <input type="text" style="display: none;" id="imagen_nueva" name="imagen_nueva">
+                      </div> 
+                </div>
+                </div>
+                <div class="row g-3">
+                  <!--Campo de nombre-->
+                <div class="col-12 lado">
+                  <label for="firstName" class="form-label text-black fw-bold h6">Nombre completo*</label>
+                  <input type="text" class="form-control fw-bold h6 text-secondary" style="text-transform: capitalize;" id="firstName" name="firstName" placeholder="Ej. José Luis" value="<%=usu.nombre_usuario%>" required>
+                  <div class="invalid-feedback">
+                    Por favor, ingrese un nombre.
+                  </div>
+                </div>
+                <!--Campo para el correo electronico-->
+                <div class="col-12 lado">
+                  <label for="username" class="form-label text-black fw-bold h6">Correo electrónico *</label>
+                  <div class="input-group has-validation">
+                    <input type="text" class="form-control fw-bold h6 text-secondary" autocomplete="off" id="username" name="username" placeholder="ejemplo@navarrete.com" value="<%=usu.email_usuario%>" required="">
+                  <div class="invalid-feedback">
+                      Por favor, ingrese un correo electrónico.
+                    </div>
+                  </div>
+                </div>
+                <!--Campos para el numero celular-->
+                <div class="col-sm-6 lado mb-4">
+                  <label for="celular" class="form-label text-black fw-bold h6">Número celular *</label>
+                  <% if(usu.celular_usuario==null){
+                    var celular = 'No disponible, dato nulo.'
+                    var disable = 'disabled';
+                  } else {
+                    celular = usu.celular_usuario;
+                  }
+                  %>
+                  <input type="text" autocomplete="off"  class="form-control fw-bold h6 text-secondary <&=disable&>" id="celular" name="celular" placeholder="456 78 90" required="" value="<%=celular%>" maxlength="13">
+                  <div class="invalid-feedback">
+                    Por favor, ingrese un número celular.
+                  </div>
+                </div>
+                 <!--Campos para el area de trabajo-->
+                <div class="col-sm-6 lado">
+                  <label for="email" class="form-label text-black fw-bold h6" >Área de trabajo </label>
+                  <input type="text" class="form-control fw-bold h6 text-secondary border border-muted" list="area" autocomplete="off" id="email" name="email" value="<%=usu.tipo_usuario%>" required="" placeholder="Conductor de personal">
+                  <datalist id="area">
+                      <option value="Administración"></option>
+                      <option value="Logística"></option>
+                    </datalist>  
+                </div>
+              <!--Apartado para la contraseña-->
+              <div class="col-sm-6 lado mb-4">
+                  <label for="contrasena1" class="form-label text-black fw-bold h6">Contraseña * </label> <i id="span" style="cursor: pointer;" class="fa-solid fa-eye text-secondary float-end"></i>
+                  <input type="text" autocomplete="off" class="form-control fw-bold h6 text-secondary" id="contrasena1" name="contrasena1" title="Mínimo 8 espacios, no se aceptan caracteres especiales." placeholder="Contraseña" value="<%=usu.password_usuario%>" required>
+                  <div class="invalid-feedback">
+                    Por favor, ingrese una contraseña.
+                  </div>
+                </div>
+                <div class="col-sm-6 lado">
+                  <label for="contrasena2" class="form-label text-black fw-bold h6">Verificar contraseña *</label> <i id="spa" style="cursor: pointer;" class="fa-solid fa-eye text-secondary float-end"></i>
+                  <input type="text" autocomplete="off" class="form-control fw-bold h6 text-secondary" id="contrasena2" placeholder="Confirmar contraseña" value="<%=usu.password_usuario%>">
+                  <div class="invalid-feedback">
+                      Por favor, verifique la contraseña.
+                  </div>
+                </div>
+              <!--Area de botones-->
+              <div class="col-12 d-flex justify-content-center lado show" >
+                <div class="alert alert-warning col-ms-5 text-center mb-0 show" id="mensaje_error" role="alert">
+                  <i class="fa-solid fa-triangle-exclamation"></i>
+                  Las contraseñas no coinciden. Intentelo nuevamente.
+                </div>
+                  <div class="enviar col-sm-5" id="botones">
+                      <button class="w-100 btn btn-small enviar_dos"  style="outline: none;" type="submit"><strong>GUARDAR</strong></button>
+                  </div>
+                  <div class="col-sm-0"> &nbsp; &nbsp; </div>
+                  <div class="enviar col-sm-5 align-items-center d-flex justify-content-center">
+                      <button class="w-100 btn btn-small enviar_dos align-items-center" style="outline: none; margin-top: auto; margin-bottom: auto;" type="reset"><strong>CANCELAR</strong></button>
+                  </div>
+              </div>
+              <!--FIN DE FORMULARIO-->
+            </form>
+          </div>
+      </div>
+      </div>
+      <div class="col-lg-2 overflow-hidden shadow-lg lado" style="background-image: linear-gradient(-60deg, #03989E 60%, rgb(85, 110, 175)  100%);">
+          <img class="rounded-lg-3 abajo" src="http://localhost:3000/imagenes/extraazul.png" style="object-fit: cover;" alt="" width="720" >
+      </div>
+    </div>
+  </div>
+  <div class="text-light">
+  .
+  </div>
+  
+<%- include('templates/pie.ejs')%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+    document.querySelector('#span').addEventListener('click', e => {
+        const passwordInput = document.querySelector('#contrasena1');
+        if (e.target.classList.contains('show')) {
+            e.target.classList.remove('show');
+            passwordInput.type = 'text';
+        } else {
+            e.target.classList.add('show');
+            passwordInput.type = 'password';
+        }
+    });
+
+    document.querySelector('#spa').addEventListener('click', e => {
+        const passwordInput = document.querySelector('#contrasena2');
+        if (e.target.classList.contains('show')) {
+            e.target.classList.remove('show');
+            passwordInput.type = 'text';
+        } else {
+            e.target.classList.add('show');
+            passwordInput.type = 'password';
+        }
+    });
+
+    window.sr = ScrollReveal();
+    sr.reveal('.formulario', {
+        duration: 3000,
+        origin: 'right',
+        distance: '-100px'
+    });
+
+    sr.reveal('.lado', {
+        duration: 3000,
+        origin: 'top',
+        distance: '-100px'
+    });
+
+    sr.reveal('.abajo', {
+        duration: 3000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+
+    let vista = (event) => {
+        let leer_img = new FileReader();
+        let id_img = document.getElementById('img_ava');
+        leer_img.onload = () => {
+            if (leer_img.readyState == 2) {
+                id_img.src = leer_img.result
+            }
+        }
+        leer_img.readAsDataURL(event.target.files[0])
+        var imagen = document.getElementById('imagen').value;
+        var imagen_nueva = imagen.slice(12);
+        document.getElementById('imagen_nueva').value = imagen_nueva;
+    }
+
+  </script>
+  <script>
+    $('#formulario').disableAutoFill();
+  </script>
+  <script>
+    $(document).ready(function () {
+    $('#mensaje_error').hide();  
+});
+
+    $("#contrasena2").keyup(function () {
+    var cont = $('#contrasena1').val();
+    var cont2 = $('#contrasena2').val();
+    if (cont == cont2) {
+        $('#mensaje_error').hide();
+        $('#botones').show();
+        $('#cancelar').show();
+    } else {
+        $('#mensaje_error').show();
+        $('#botones').hide();
+    }
+});
+
+$("#contrasena1").keyup(function () {
+    var cont = $('#contrasena1').val();
+    var cont2 = $('#contrasena2').val();
+    if (cont == cont2) {
+        $('#mensaje_error').hide();
+        $('#botones').show();
+    } else {
+        $('#mensaje_error').show();
+        $('#botones').hide();
+    }
+});
+  </script>

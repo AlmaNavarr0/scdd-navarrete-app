@@ -1,0 +1,240 @@
+<%- include('templates/menuLogistica.ejs')%>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="http://localhost:3000/animate.css">
+  <script src="https://unpkg.com/scrollreveal"></script>
+   <script src="http://localhost:3000/js/wow.min.js"></script>
+  <title>SCDD | Panel logística</title>
+    <script>
+      new WOW().init();
+      </script>
+  <style>
+      .nodisponible{
+        background-image: linear-gradient(-60deg, rgb(204, 51, 51) 0%, rgb(139, 55, 36) 100%);
+      }
+
+      .disponible{
+        background-image: linear-gradient(-60deg, rgb(71, 136, 80) 0%, rgb(56, 135, 122) 100%);
+      }
+
+  </style>
+  </head>
+  
+  <%
+      let date=new Date();
+      var dia=date.getDate(); 
+      var mes=date.getMonth(); 
+      var anyo=date.getFullYear; 
+      var actual=new Date(2022, mes, dia).toDateString();
+      var fecha = actual.slice(3);
+  %>
+  
+  <main>
+       
+  <!--Seccion 3. Flotillas-->
+  <section class="fondo2" id="s4">
+    <div class="session3 container mb-5 pt-3">
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <div
+            class="row g-0  rounded cuadro overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <div class="d-flex justify-content-center">
+                <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                    class="mx-2 d-flex rounded-circle align-items-center">
+              </div>
+              <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Listado </small>
+              <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Flotillas disponibles  <i
+                  class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+              <div class="mb-1" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+                <%= fecha%>
+              </div>
+              <% if(flotillas.length==0){
+                var floti = 'No hay flotillas registradas.'
+              } else { floti = 'Unidades disponibles para trabajar:'}
+              %>
+              <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto"><%= floti%>
+              </p>
+              <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+                <%flotillas.forEach((flotillas)=>{%>
+                <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                  style="background-color: rgba(81, 123, 143, 0.199);">
+                  <% if(flotillas.foto_flotilla.includes("undefined") || (flotillas.foto_flotilla=="" || flotillas.foto_flotilla[flotillas.foto_flotilla.length-1]=='-')){ 
+                    var foto_flo='fondo_full.jpg' ; 
+                    } else { foto_flo=flotillas.foto_flotilla; } %>
+                    <a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer; text-decoration: none;"> <img src="http://localhost:3000/flotillas/<%= foto_flo%>" alt="mdo" width="32" height="32"
+                    class="mx-2 d-flex rounded-circle"> </a>
+                  <div class="ms-2 me-auto">
+                    <div class=""> <a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer; text-decoration: none;">  <strong class="text-muted" style="font-weight: 650;"> # <%= flotillas.numero_economico%></strong></a></div>
+                    <small style="font-weight: 500; "> Propiedad <%=flotillas.nombre_propietario%></small>
+                  </div>
+                  <% if(flotillas.status_flotilla==true){var psy = "Activa"; var fondo= 'disponible' }else{psy ="No disponible"; fondo = 'nodisponible'}%>
+                  <span class="badge rounded-pill <%=fondo%>" > <%=psy%> </span>
+                </li>
+                <%});%>
+              </ol>
+              <a href="/panel/administracion/listado-flotilla" class="pt-2 mb-2"
+                style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif; color: teal;">Ver lista
+                completa</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                  dy=".3em">Thumbnail</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div
+            class="row g-0 rounded cuadro overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <div class="d-flex justify-content-center">
+                <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                    class="mx-2 d-flex rounded-circle align-items-center">
+              </div>
+              <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Historial en cambio </small>
+                <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Rol de transporte de personal  <i
+                    class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+              <div class="mb-1" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+                <%= fecha%>
+              </div>
+              <% if(veri.length==0){
+                var verifi = 'No hay historial de ningún cambio, lindo día.'
+              } else { verifi = 'Los historiales recientes, hechos por:'}
+              %>
+              <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto"><%=verifi%>
+              </p>
+              <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+                <%veri.forEach((veri)=>{%>
+                  <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                    style="background-color: rgba(81, 123, 143, 0.199);">
+                    <% if(veri.foto_encargado.includes("undefined") || (veri.foto_encargado=="" || veri.foto_encargado[veri.foto_encargado.length-1]=='-')){ 
+                      var foto_flo='fondo_full.jpg' ; 
+                      } else { foto_flo=veri.foto_encargado; } %>
+                      <a href="/panel/administracion/ver/<%=veri.numero_economico%>" style="cursor: pointer; text-decoration: none;"> <img src="http://localhost:3000/usuarios/<%= foto_flo%>" alt="mdo" width="32" height="32"
+                        class="mx-2 d-flex rounded-circle"> </a>
+                      <div class="ms-2 me-auto">
+                        <div class=""> <a href="/panel/administracion/ver/<%=veri.numero_economico%>" style="cursor: pointer; text-decoration: none;">  <strong class="text-muted" style="font-weight: 650;"> # <%= veri.numero_cambio%></strong></a></div>
+        <small style="font-weight: 500; "> Realizado <%=veri.nombre_encargado%></small>
+                    </div>
+                    <span class="badge rounded-pill disponible"> <%= veri.fecha_emision%></span>
+                  </li>
+                  <%});%>
+              </ol>
+              <a href="/panel/administracion/historial_cambios" class=" pt-2 mb-2"
+                style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif; color: teal;">Ver lista
+                completa</a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--Seccion4. Rutas-->
+  <section class="py-5 parallax" id="s5">
+    <div class="container overflow-hidden">
+      <div class="container-fluid">
+        <h1 class="display-6 text-center text-light" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Rutas fijas en este mes</h1>
+        <div class="table-responsive mb-5 py-4" >
+          <table class="table table-hover text-light">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Número</strong></th>
+                <th scope="col" class="text-center" COLSPAN=2> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Ruta</strong></th>
+                <th scope="col" class="text-center" COLSPAN=3> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Hora de inicio</strong></th>
+              </tr>
+              <tr>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                  style="font-weight: bold; text-transform: uppercase;">Ruta</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Origen</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                      style="font-weight: bold; text-transform: uppercase;">Destino</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                        style="font-weight: bold; text-transform: uppercase;">Turno 1</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                          style="font-weight: bold; text-transform: uppercase;">Turno 2</strong></th>
+                 <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                            style="font-weight: bold; text-transform: uppercase;">Turno 3</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% rutas.forEach((rutas)=>{ %>
+                <tr>
+                  <td class="text-center text-with"><%= rutas.numero_ruta%></td>
+                  <td class="text-center text-with"><%= rutas.origen_ruta%></td>
+                  <td class="text-center text-with"><%= rutas.destino_ruta%></td>
+                  <td class="text-center text-with"><%= rutas.hora_inicio_turno1%></td>
+                  <td class="text-center text-with"><%= rutas.hora_inicio_turno2%></td>
+                  <td class="text-center text-with"><%= rutas.hora_inicio_turno3%></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="text-white mb-5">.</div>
+<%- include('templates/pie.ejs')%>
+<script>
+  
+  window.sr = ScrollReveal();
+  sr.reveal('.session1', {
+    duration: 3000,
+    origin: 'top',
+    distance: '-100px'
+  });
+
+  sr.reveal('.session2', {
+    duration: 3000,
+    origin: 'left',
+    distance: '-100px'
+  });
+  sr.reveal('.session2_1', {
+    duration: 3000,
+    origin: 'right',
+    distance: '-100px'
+  });
+
+  sr.reveal('.session3', {
+    duration: 3000,
+    origin: 'right',
+    distance: '-100px'
+  });
+
+  sr.reveal('.session4', {
+    duration: 3000,
+    origin: 'top',
+    distance: '-100px'
+  });
+
+  sr.reveal('.carta1', {
+    duration: 3000,
+    origin: 'right',
+    distance: '-100px'
+  });
+
+  sr.reveal('.carta2', {
+    duration: 3000,
+    origin: 'top',
+    distance: '-100px'
+  });
+
+  sr.reveal('.carta3', {
+    duration: 3000,
+    origin: 'left',
+    distance: '-100px'
+  });
+</script>

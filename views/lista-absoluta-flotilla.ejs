@@ -1,0 +1,222 @@
+<% if (puesto =="Administración") {%>
+    <%- include('templates/menuAdministrador.ejs')%>
+  <%}else{%>
+    <%- include('templates/menuLogistica.ejs')%>
+  <%}%>
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        
+            <script src="https://unpkg.com/scrollreveal"></script>
+        
+            <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.css">
+            <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+        
+            <!-- Buttons -->
+            <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+            <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
+            <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        
+         <!-- Buttons -->
+        <title>SCDD | Lista completa flotilla </title>
+
+        <style>
+            table.dataTable{
+                border-bottom: 1px solid rgb(201, 201, 201);
+            }
+
+            table.dataTable thead{
+                background-color: #356967;
+                color: azure;
+            }
+
+            .page-item.active .page-link{
+                border: 1px solid white;
+                background-color: #356967;
+                color: azure;
+            }
+
+            .page-link{
+                color: #000;
+            }
+            
+            .dataTables_info{
+                color: rgb(65, 65, 65);
+            }
+
+            .buttons-excel:hover{
+                background-color: #356967;
+                color: #fff;
+            }
+
+            .buttons-excel{
+                border: 1px solid #356967;
+                color: #356967;
+            }
+
+            .dataTables_filter{
+                font-weight: bold;
+            }
+
+            .dataTables_length label{
+              font-family: Arial, sans-serif;
+                font-weight: bold;
+                color: rgb(95, 95, 95);
+            }
+        </style>
+    </head>
+
+    <div class="m-4 p-2 shadow-sm border border-muted" style="border-radius: 9px; background-color: rgba(172, 172, 172, 0.152);">
+        <p class="pt-2 mb-0 text-center text-muted fw-bold h3 lado" id="titulo" style="font-family: 'Quicksand', sans-serif;"><i class="text-secondary fa-solid fa-bars-staggered"></i> Información de flotillas</p>
+            <table id="myTable" class="table table-hover table-sm pt-2" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Número ecónomico</th>
+                        <th>Número de serie</th>
+                        <th>Número de permiso</th>
+                        <th>Número de motor</th>
+                        <th>Tipo de placas</th>
+                        <th>Número de placas</th>
+                        <th>Tipo flotilla</th>
+                        <th>Vigencia en seguro</th>
+                        <th>Vigencia en verificación</th>
+                        <th>Tipo de verificación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% flotillas.forEach((flotillas)=>{ %>
+                    <tr>
+                        <%if(flotillas.status_flotilla==true){var ver='ver'}else{ver='ocultar'}%>
+                        <td> <i class="fa-solid fa-circle-check <%=ver%> mx-2"></i> <%=flotillas.numero_economico%></td>
+                        <td> <%=flotillas.numero_serie%></td>
+                        <td> <%=flotillas.numero_permiso%></td>
+                        <td> <%=flotillas.motor_flotilla%></td>
+                        <td> <%=flotillas.tipo_placas_flotilla%></td>
+                        <td> <%=flotillas.placas_flotilla%></td>
+                        <td> <%=flotillas.tipo_flotilla%></td>
+                        <td> <%=flotillas.dia_seguro%>/<%=flotillas.mes_seguro%>/<%=flotillas.anyo_seguro%></td>
+                        <td> <%=flotillas.dia_verificacion%>/<%=flotillas.mes_verificacion%>/<%=flotillas.anyo_verificacion%></td>
+                        <td> <%=flotillas.tipo_verificacion%></td>
+                    </tr>
+                    <% });%>
+                </tbody>                  
+            </table>
+      </div>
+    
+<%- include('templates/pie.ejs')%>
+     
+    
+     <!-- jquery y bootstrap -->
+     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+     
+     <!-- datatables con bootstrap -->
+     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+    
+     <!-- Para usar los botones -->
+     <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+     
+    
+    
+    <!-- Para los estilos en Excel     -->
+    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+
+<script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+    <script>
+    $(document).ready(function () {
+        $("#myTable").DataTable({
+            "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            dom: '<"wrapper"Bftlip>',
+            buttons:{
+                dom: {
+                    button: {
+                        className: 'btn'
+                    }
+                },
+                buttons: [
+                {
+                    //definimos estilos del boton de excel
+                    extend: "excel",
+                title: 'Flotillas',
+                    text:'<i class="fa-solid fa-file-arrow-down"></i> Excel',
+                    className:'btn',
+    
+                    // 1 - ejemplo básico - uso de templates pre-definidos
+                    //definimos los parametros al exportar a excel
+                    pageStyle: {
+                    sheetPr: {
+                        pageSetUpPr: {
+                            fitToPage: 1            // Fit the printing to the page
+                        } 
+                    },
+                    printOptions: {
+                        horizontalCentered: true,
+                        verticalCentered: true,
+                    },
+                    pageSetup: {
+                        orientation: "landscape",   // Orientacion
+                        paperSize: "9",             // Tamaño del papel (1 = Legal, 9 = A4)
+                        fitToWidth: "1",            // Ajustar al ancho de la página
+                        fitToHeight: "0",           // Ajustar al alto de la página
+                    },
+                    pageMargins: {
+                        left: "0.2",
+                        right: "0.2",
+                        top: "0.4",
+                        bottom: "0.4",
+                        header: "0",
+                        footer: "0",
+                    },
+                    repeatHeading: true,    // Repeat the heading row at the top of each page
+                    repeatCol: 'A:A',       // Repeat column A (for pages wider than a single printed page)
+                },
+            
+                    excelStyles: {                
+                        //template: "header_blue",  // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                        //template:"green_medium" 
+                        
+                        "template": [
+                            "blue_gray_medium",
+                            "header_gray",
+                        ] 
+                        
+                    }, 
+                }, {
+                    extend: "print",
+                    title: 'Flotillas',
+                    text:'<i class="fa-solid fa-print"></i> Imprimir',
+                    className:'btn btn-outline-secondary',
+                }
+                ]            
+            }            
+        });
+    });
+
+    window.sr = ScrollReveal();
+    sr.reveal('.top', {
+        duration: 3000,
+        origin: 'top',
+        distance: '-100px'
+    });
+
+    sr.reveal('.bottom', {
+        duration: 3000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+        </script>
+    
+</head>

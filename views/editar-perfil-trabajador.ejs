@@ -1,0 +1,1454 @@
+<%- include('templates/menuAdministrador.ejs')%>
+
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+        <link rel="stylesheet" href="http://localhost:3000/animate.css">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <title>SCDD | Editar <%=trabajadores.nombre_trabajador%>
+        </title>
+        <style>
+            .nomostrar {
+                display: none;
+            }
+
+            input:-webkit-autofill,
+            input:-webkit-autofill:hover,
+            input:-webkit-autofill:focus,
+            input:-webkit-autofill:active {
+                -webkit-box-shadow: 0 0 0 30px rgb(255, 255, 255) inset !important;
+                -webkit-text-fill-color: rgb(0, 0, 0) !important;
+            }
+        </style>
+    </head>
+    <div id="inicio" class="container pt-4 mb-5">
+        <!-- Modal para licencia -->
+        <div class="modal fade" id="ejemplo1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Licencia de conducir | <%=
+                                trabajadores.nombre_trabajador%>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0 m-0">
+                        <embed src="http://localhost:3000/trabajadores/<%=trabajadores.licencia_vigente%>"
+                            type="application/pdf" width="100%" height="510px" />
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para examen -->
+        <div class="modal fade" id="ejemplo2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Examen médico | <%=
+                                trabajadores.nombre_trabajador%>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0 m-0">
+                        <embed src="http://localhost:3000/trabajadores/<%=trabajadores.examen_vigente%>"
+                            type="application/pdf" width="100%" height="510px" />
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal para tarjeton -->
+        <div class="modal fade" id="ejemplo3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Tarjetón vehicular | <%=
+                                trabajadores.nombre_trabajador%>
+                        </h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-0 m-0">
+                        <embed src="http://localhost:3000/trabajadores/<%=trabajadores.tarjeton_vigente%>"
+                            type="application/pdf" width="100%" height="510px" />
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--INICIO DE FORMULARIO-->
+            <main>
+                <form action="/panel/administracion/editar_trabajador_activo" method="POST" class="needs-validation" 
+                    enctype="multipart/form-data">
+                <!--PANEL COMPLETO DE INFORMACION-->
+                <div class="row g-5">
+                    <!--Menu izquierdo de los links-->
+                    <div class="col-md-5 col-lg-4 order-md-last mb-5 bottom">
+                        <small class="text-muted mb-2"><i class="fa-regular fa-keyboard"></i> Visualización previa de
+                            los datos del formulario:</small>
+                        <div class="mb-2"></div>
+                        <input type="text" readonly id="identidad" name="identidad" value="<%=trabajadores._id%>" style="display: none">
+                        <!--Parte de los datos previos antes de registrar-->
+                        <ul class="list-group mb-3 border border-secondary text-center perfil"
+                            style="box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);">
+                            <li class="d-flex pt-3 mb-3 lh-sm">
+                                <!--Imagen de perfil previa-->
+                                <div class="justify-content-center col-12 d-flex botones">
+                                    <div width="130" height="130" class="caja">
+                                        <% if(trabajadores.foto_trabajador.includes("undefined") || (trabajadores.foto_trabajador=="" || trabajadores.foto_trabajador[trabajadores.foto_trabajador.length-1]=='-')){ 
+                                            var foto='fondo_full.jpg' ; 
+                                            } else { foto=trabajadores.foto_trabajador; } %>
+                                        <img src="http://localhost:3000/trabajadores/<%=foto%>" id="img_ava"
+                                            style="object-fit: cover;" alt="Navarrete" width="120" height="120"
+                                            class="rounded-circle bg-light ">
+                                    </div>
+                                </div>
+                            </li>
+                            <!--Datos basicos del usuario-->
+                            <li class="list-group-item d-flex text-center lh-sm"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center  col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">Nombre completo</small> <br>
+                                    <small class="fw-bold nombre"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);"></small> <small
+                                        class="fw-bold apellidos"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex text-center lh-sm"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center  col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">RFC</small> <br>
+                                    <small class="fw-bold rfc"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);"></small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex text-center lh-sm"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center  col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">CURP</small> <br>
+                                    <small class="fw-bold curp"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);"></small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex text-center"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">Área de trabajo</small> <br>
+                                    <small class="fw-bold area"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex text-center lh-sm"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">Correo electrónico</small> <br>
+                                    <small class="fw-bold correo"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex text-center lh-sm"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">Celular</small> <br>
+                                    <small class="fw-bold celular"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex text-center lh-sm"
+                                style="background-color: rgba(54, 121, 126, 0.344);">
+                                <div class="text-center col-12 pt-1 mb-1">
+                                    <small class="my-0 text-muted ">Dirección</small> <br>
+                                    <small class="fw-bold numero_previo"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                    <small class="fw-bold calle"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                    <small class="fw-bold colonia"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                    <small class="fw-bold muni"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                    <small class="fw-bold estado"
+                                        style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mb-4"></div>
+                        <small class="text-muted mb-3"><i class="text-muted fa-regular fa-file-pdf"></i> Documentos oficiales
+                            disponibles:</small>
+                        <!-- Button trigger modal -->
+                        <div class="mb-2"></div>
+                        <% if(trabajadores.dia_licencia==null && trabajadores.mes_licencia==null &&
+                            trabajadores.anyo_licencia==null && trabajadores.licencia_vigente.length==10){ var
+                            licencia='disabled' ; } else{ licencia='mostrar' ; }%>
+                            <button type="button" class="btn btn-secondary <%= licencia%> col-12" data-bs-toggle="modal"
+                                data-bs-target="#ejemplo1">
+                                Licencia de conducir
+                            </button>
+                            <div class="mb-2"></div>
+                            <% if(trabajadores.dia_examen==null && trabajadores.mes_examen==null &&
+                                trabajadores.anyo_examen==null && trabajadores.examen_vigente.length==10){ var
+                                examen='disabled' ; } else{ examen='mostrar' ; }%>
+                                <button type="button" class="btn btn-secondary <%=examen%> col-12"
+                                    data-bs-toggle="modal" data-bs-target="#ejemplo2">
+                                    Examen médico
+                                </button>
+                                <div class="mb-2"></div>
+                                <% if(trabajadores.dia_tarjeton==null && trabajadores.mes_tarjeton==null &&
+                                    trabajadores.anyo_tarjeton==null && trabajadores.tarjeton_vigente.length==10){ var
+                                    tarjeton='disabled' ; } else{ tarjeton='mostrar' ; }%>
+                                    <button type="button" class="btn btn-secondary <%=tarjeton%> col-12"
+                                        data-bs-toggle="modal" data-bs-target="#ejemplo3">
+                                        Tarjetón vehícular
+                                    </button>
+                                    <div class="mb-2"></div>
+                    </div>
+                    <!--Lado dereccho sobre los campso-->
+                    <div class="col-md-7 col-lg-8 p-5 shadow-lg top"
+                    style="background-image: url(http://localhost:3000/imagenes/otro.png);">
+                        <p class="pt-1 mb-4 text-center text-muted fw-bold h2"
+                        style="font-family: 'Quicksand', sans-serif;"> <i class="small text-secondary fa-solid fa-window-restore"></i> Información de <br>
+                            <%=trabajadores.nombre_trabajador%>
+                        </p>
+                        <!--PARTE DE LOS CAMPOS DE TEXTO-->
+                        <div data-bs-spy="scroll" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                            <small class="text-muted">Si desea modificar algun dato, se ven reflejados en el siguiente
+                                formulario:</small>
+                            <hr>
+                            <!--INICIO DE INFORMACION PERSONAL-->
+                            <p class="pt-1 mb-4 text-start text-black fw-bold h5" id="list-item-1"
+                                style="font-family: 'Raleway', sans-serif;">Información general </p>
+                            <div class="row g-3 mb-5">
+                                <div class="col-sm-12 ">
+                                    <label for="nombre_trabajador" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-user"></i> Nombre
+                                        completo
+                                        *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary"
+                                        style="text-transform: capitalize;" id="nombre_trabajador"
+                                        value="<%=trabajadores.nombre_trabajador%>" name="nombre_trabajador"
+                                        onkeypress="return Solo_Texto(event);" placeholder="Ej. José Luis" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un nombre.
+                                    </div>
+                                </div>
+                                <!--Campo de RFC-->
+                                <div class="col-sm-6 ">
+                                    <label for="rfc" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-address-card"></i> RFC *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary"
+                                        value="<%=trabajadores.rfc_trabajador%>" style="text-transform: uppercase;"
+                                        id="rfc_numero" name="rfc_numero" maxlength="13" placeholder="13 dígitos" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un RFC válido.
+                                    </div>
+                                </div>
+                                <!--Campo de CURP-->
+                                <div class="col-sm-6">
+                                    <label for="curp" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-address-card"></i> CURP *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" id="curp"
+                                        maxlength="18" name="curp" style="text-transform: uppercase;"
+                                        value="<%=trabajadores.curp_trabajador%>" placeholder="18 dígitos" required="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese una CURP válida.
+                                    </div>
+                                </div>
+                                <!--FECHA DE NACIMIENTO-->
+                                <!--Dia de nacimiento-->
+                                <div class="col-sm-4">
+                                    <label for="dia_nacimiento" class="form-label text-black fw-bold h6"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Día de
+                                        nacimiento
+                                        *</label>
+                                    <select class="form-select col-12 dropdown-menu-dark form-select-sm"
+                                        id="dia_nacimiento" name="dia_nacimiento">
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value="<%=trabajadores.dia_nacimiento%>"><small>Selecciona un día</small></option>
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value="<%=trabajadores.dia_nacimiento%>"><small>
+                                                <%=trabajadores.dia_nacimiento%>
+                                            </small></option>
+                                        <script>
+                                            for (var i = 01; i < 31; i++) {
+                                                document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                                <!--Mes de nacimiento-->
+                                <div class="col-sm-4">
+                                    <label for="mes_nacimiento" class="form-label text-black fw-bold h6"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Mes de
+                                        nacimiento
+                                        *</label>
+                                    <select class="form-select dropdown-menu-dark form-select-sm" id="mes_nacimiento"
+                                        name="mes_nacimiento">
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value="<%=trabajadores.mes_nacimiento%>"><small>Selecciona un mes</small></option>
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value="<%=trabajadores.mes_nacimiento%>"><small>
+                                                <%=trabajadores.mes_nacimiento%>
+                                            </small></option>
+                                        <script>
+                                            var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                            for (let i = 0; i < 12; i++) {
+                                                document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                                <!--Año de nacimiento-->
+                                <div class="col-sm-4">
+                                    <label for="anyo_nacimiento" class="form-label text-black fw-bold h6"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Año de
+                                        nacimiento
+                                        *</label>
+                                    <select class="form-select dropdown-menu-dark form-select-sm" id="anyo_nacimiento"
+                                        name="anyo_nacimiento">
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value="<%=trabajadores.anyo_nacimiento%>"><small>Selecciona un
+                                                año</small></option>
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value="<%=trabajadores.anyo_nacimiento%>"><small>
+                                                <%=trabajadores.anyo_nacimiento%>
+                                            </small></option>
+                                        <script>
+                                            var myDate = new Date();
+                                            var year = myDate.getFullYear();
+                                            for (var i = 1970; i < year; i++) {
+                                                document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <!--ÍNICIO DE INFRMACION DE CONTRATO-->
+                            <p class="pt-1 mb-4 text-start text-black fw-bold h5" id="list-item-2"
+                                style="font-family: 'Raleway', sans-serif;">Información de contratación </p>
+                            <div class="row g-3 mb-5">
+                                <!--Puesto de trabajo-->
+                                <div class="col-sm-6 ">
+                                    <label for="puesto" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-brands fa-creative-commons-nd"></i> Área de trabajo
+                                        *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" list="colores"
+                                        value="<%=trabajadores.puesto_trabajador%>"
+                                        onkeypress="return Solo_Texto(event);" style="text-transform: capitalize;"
+                                        id="puesto" name="puesto" placeholder="Conductor de personal" required>
+                                    <datalist id="colores" autocomplete="off">
+                                        <option>Conductor de personal</option>
+                                        <option>Conductor turístico</option>
+                                        <option>Secretaria</option>
+                                        <option>Mécanico</option>
+                                        <option>Velador</option>
+                                        <option>Logística</option>
+                                    </datalist>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un puesto de trabajo.
+                                    </div>
+                                </div>
+                                <!--Campo del salario-->
+                                <div class="col-sm-6">
+                                    <label for="salario" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-credit-card"></i> Salario *</label>
+                                    <input type="number" class="form-control fw-bold h6 text-secondary" id="salario"
+                                        name="salario" style="text-transform: capitalize;" placeholder="$ 000.00"
+                                        value="<%=trabajadores.salario_trabajador%>" required="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un salario.
+                                    </div>
+                                </div>
+                                <!--FECHA DE INICIO DE TRABAJO-->
+                                <!--Dia de inicio-->
+                                <div class="col-sm-4">
+                                    <label for="dia_inicio" class="form-label text-black fw-bold h6"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Día de inicio
+                                        *</label>
+                                    <select class="form-select col-12 dropdown-menu-dark form-select-sm" id="dia_inicio"
+                                        name="dia_inicio">
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value=""><small>Selecciona un día</small></option>
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value=""><small>
+                                                <%= trabajadores.dia_inicio%>
+                                            </small></option>
+                                        <script>
+                                            for (var i = 01; i < 31; i++) {
+                                                document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                                <!--Mes de inicio-->
+                                <div class="col-sm-4">
+                                    <label for="mes_inicio" class="form-label text-black fw-bold h6"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Mes de inicio
+                                        *</label>
+                                    <select class="form-select dropdown-menu-dark form-select-sm" id="mes_inicio"
+                                        name="mes_inicio">
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value=""><small>Selecciona un mes</small></option>
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value=""><small>
+                                                <%= trabajadores.mes_inicio%>
+                                            </small></option>
+                                        <script>
+                                            var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                            for (let i = 0; i < 12; i++) {
+                                                document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                                <!--Anño de inicio-->
+                                <div class="col-sm-4">
+                                    <label for="anyo_inicio" class="form-label text-black fw-bold h6"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Año de inicio
+                                        *</label>
+                                    <select class="form-select dropdown-menu-dark form-select-sm" id="anyo_inicio"
+                                        name="anyo_inicio">
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value=""><small>Selecciona un
+                                                año</small></option>
+                                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                                            disabled value=""><small>
+                                                <%= trabajadores.anyo_inicio%>
+                                            </small></option>
+                                        <script>
+                                            var myDate = new Date();
+                                            var year = myDate.getFullYear();
+                                            for (var i = 1970; i < year; i++) {
+                                                document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                            }
+                                        </script>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <!--INICIO DE CONTACTOS-->
+                            <p class="pt-1 mb-4 text-start text-black fw-bold h5" id="list-item-3"
+                                style="font-family: 'Raleway', sans-serif;">Contacto </p>
+                            <div class="row g-3 mb-3">
+                                <!--Numero de casa-->
+                                <div class="col-sm-4 ">
+                                    <label for="numero_casa" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-hashtag"></i> No. de casa
+                                        *</label>
+                                    <input type="number" class="form-control fw-bold h6 text-secondary"
+                                        style="text-transform: uppercase;" id="numero_casa" name="numero_casa"
+                                        value="<%= trabajadores.numero_direccion%>" placeholder="#15" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un número de casa.
+                                    </div>
+                                </div>
+                                <!--Campo de calle-->
+                                <div class="col-sm-4">
+                                    <label for="calle" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-map"></i> Calle *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" id="calle"
+                                        name="calle" style="text-transform: capitalize;" placeholder="Ej. Av. Principal"
+                                        value="<%= trabajadores.calle_direccion%>"
+                                        onkeypress="return Solo_Texto(event);" required="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un nombre de calle.
+                                    </div>
+                                </div>
+                                <!--Colonia-->
+                                <div class="col-sm-4">
+                                    <label for="colonia" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-map"></i> Colonia *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" id="colonia"
+                                        name="colonia" style="text-transform: capitalize;" placeholder="Ej. Centro"
+                                        value="<%= trabajadores.colonia_direccion%>"
+                                        onkeypress="return Solo_Texto(event);" required="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un nombre de colonia.
+                                    </div>
+                                </div>
+                                <!--Municipio-->
+                                <div class="col-sm-6">
+                                    <label for="municipio" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-map"></i> Municipio *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" id="municipio"
+                                        name="municipio" style="text-transform: capitalize;" placeholder="Ej. Amealco"
+                                        value="<%= trabajadores.municio_direccion%>" list="municipios"
+                                        onkeypress="return Solo_Texto(event);" required="">
+                                    <datalist id="municipios">
+                                        <option>Tequisquiapan</option>
+                                        <option>San Juan del Río</option>
+                                        <option>Querétaro</option>
+                                        <option>Amealco</option>
+                                    </datalist>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un municipio.
+                                    </div>
+                                </div>
+                                <!--Estado-->
+                                <div class="col-sm-6">
+                                    <label for="estado" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-map"></i> Estado *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" id="estado"
+                                        name="estado" style="text-transform: capitalize;" placeholder="Ej. Querétaro"
+                                        value="<%= trabajadores.estado_direccion%>" list="estados"
+                                        onkeypress="return Solo_Texto(event);" required="">
+                                    <datalist id="estados">
+                                        <option>Ciudad de México</option>
+                                        <option>Guanajuato</option>
+                                        <option>Nuevo León</option>
+                                        <option>Querétaro</option>
+                                    </datalist>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un estado.
+                                    </div>
+                                </div>
+                                <!--Correo electronico-->
+                                <div class="col-sm-6">
+                                    <label for="correo" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-solid fa-at"></i> Correo electrónico
+                                        *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary" id="correo"
+                                        value="<%= trabajadores.email_trabajador%>" name="correo"
+                                        placeholder="ejemplo@navarrete.com" required="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese una dirección de correo válida.
+                                    </div>
+                                </div>
+                                <!--Celular-->
+                                <div class="col-sm-6">
+                                    <label for="celular" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-solid fa-voicemail"></i> Celular *</label>
+                                    <input type="tel" class="form-control form-control-sm text-secondary" id="celular"
+                                        name="celular" style="text-transform: capitalize;" placeholder="4271234567"
+                                        value="<%= trabajadores.telefono_trabajador%>"
+                                        onkeypress="return event.charCode>=48 && event.charCode<=57" required="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un número celular.
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <!--INICIO DE INFORMACION BENEFICIARIOS-->
+                            <p class="pt-3 mb-4 text-start text-black fw-bold h5" id="list-item-4"
+                                style="font-family: 'Raleway', sans-serif;">Beneficiarios</p>
+                            <div class="row g-3 mb-4">
+                                <!--Beneficiario 1-->
+                                <div class="col-sm-8 ">
+                                    <label for="nombre_bene" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-user"></i> Nombre completo 1
+                                        *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary"
+                                        onkeypress="return Solo_Texto(event);" style="text-transform: capitalize;"
+                                        value="<%= trabajadores.nombre_beneficiario_principal%>" id="nombre_bene"
+                                        name="nombre_bene" placeholder="Ej. José Luis" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un nombre.
+                                    </div>
+                                </div>
+                                <!--Numero celular-->
+                                <div class="col-sm-4 ">
+                                    <label for="celular_bene" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-solid fa-voicemail"></i> Celular 1
+                                        *</label>
+                                    <input type="tel" class="form-control form-control-sm h6 text-secondary"
+                                        style="text-transform: uppercase;" id="celular_bene" name="celular_bene"
+                                        value="<%= trabajadores.telefono_beneficiario_principal%>"
+                                        onkeypress="return event.charCode>=48 && event.charCode<=57"
+                                        placeholder="4271234567" required>
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un número celular.
+                                    </div>
+                                </div>
+                                <!--Campo de ´nombre beneficiario 2-->
+                                <div class="col-sm-8">
+                                    <label for="nombre_bene_dos" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-user"></i> Nombre
+                                        completo 2 *</label>
+                                    <input type="text" class="form-control fw-bold h6 text-secondary"
+                                        id="nombre_bene_dos" onkeypress="return Solo_Texto(event);"
+                                        name="nombre_bene_dos" style="text-transform: capitalize;"
+                                        value="<%= trabajadores.nombre_beneficiario_secundario%>"
+                                        placeholder="Ej. José Luis">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un nombre.
+                                    </div>
+                                </div>
+                                <!--Campo de ´celular dos-->
+                                <div class="col-sm-4">
+                                    <label for="celular_bene_dos" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-solid fa-voicemail"></i> Celular
+                                        2*</label>
+                                    <input type="tel" class="form-control form-control-sm h6 text-secondary"
+                                        id="celular_bene_dos"
+                                        onkeypress="return event.charCode>=48 && event.charCode<=57"
+                                        value="<%= trabajadores.telefono_beneficiario_secundario%>"
+                                        name="celular_bene_dos" style="text-transform: capitalize;"
+                                        placeholder="4271234567" value="">
+                                    <div class="invalid-feedback">
+                                        Por favor, ingrese un número celular.
+                                    </div>
+                                </div>
+                                <!--Inicar un porcentaje de beneficiario-->
+
+                            </div>
+                            <hr>
+
+                            <!--INICIO DE CONTRARTISTA-->
+                            <p class="pt-1 mb-4 text-start text-black fw-bold h5" id="list-item-5"
+                                style="font-family: 'Raleway', sans-serif;">Contratista </p>
+                            <div class="row g-3 mb-4">
+                                <div class="col-sm-12">
+                                    <label for="contratista" class="form-label text-black fw-bold h6">Selecciona un
+                                        nombre *</label>
+                                    <select class="form-select dropdown-menu-dark form-select-sm" id="contratista"
+                                        name="contratista">
+                                        <option class="text-secondary" selected disabled
+                                            value="Sistema de control de datos"><small
+                                                class="text-muted">Selecciona un nombre</small></option>
+                                        <option value="Nalleli Navarrete Flores">Nalleli Navarrete Flores</option>
+                                        <option value="Alma Delia Navarro">Alma Delia Navarro</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <hr>
+
+                            <!--ÍNICIO DE INFRMACION DE DOCUMENTOS-->
+                            <p class="pt-2 mb-4 text-start text-black fw-bold h5" id="list-item-6"
+                                style="font-family: 'Raleway', sans-serif;">Documentos </p>
+                            <div class="btn-group col-12" role="group" aria-label="Basic outlined example">
+                                <button type="button"
+                                    class="btn border border-secondary btn-outline-secondary fw-bold shadow-sm"
+                                    data-bs-toggle="modal" data-bs-target="#staticBackdrop">Imagen de perfil</button>
+                                <button type="button"
+                                    class="btn border border-secondary btn-outline-secondary fw-bold shadow-sm"
+                                    data-bs-toggle="modal" data-bs-target="#licencia">Licencia</button>
+                                <button type="button"
+                                    class="btn border border-secondary btn-outline-secondary fw-bold shadow-sm"
+                                    data-bs-toggle="modal" data-bs-target="#examen">Examen</button>
+                                <button type="button"
+                                    class="btn border border-secondary btn-outline-secondary fw-bold shadow-sm"
+                                    data-bs-toggle="modal" data-bs-target="#tarjeton">Tarjeton</button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 d-flex justify-content-center pt-5">
+                            <div class="enviar col-sm-4">
+                                <button class="w-100 btn btn-small enviar_dos" style="outline: none; border:none;"
+                                    type="submit"><strong>GUARDAR CAMBIOS</strong></button>
+                            </div>
+                            <div class="col-sm-0"> &nbsp; &nbsp; </div>
+                            <div class="enviar col-sm-4">
+                                <button class="w-100 btn btn-small enviar_dos" style="outline: none; border:none;" id="contrato" name="contrato"
+                                    type="submit"><strong>GENERAR CONTRATO</strong></button>
+                            </div>
+                            <div class="col-sm-0"> &nbsp; &nbsp; </div>
+                            <div class="col-sm-3">
+                                <button class="w-100 btn btn-small btn-secondary" style="outline: none;"
+                                    type="reset"><strong>CANCELAR</strong></button>
+                            </div>
+                        </div>
+                        <div class="pt-5"></div>
+                        <div class="btn border border-secondary float-end">
+                            <a href="#inicio" title="Regresa al inicio del formulario"><i
+                                    class="fa-solid fa-hand-point-up text-secondary"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <!--Modal para la imagen-->
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Selecciona una imagen de
+                                    presentación</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row d-flex col-sm-12">
+                                    <div class="col-sm-6 nombres">
+                                        <div class="d-flex justify-content-center">
+                                            <% if(trabajadores.foto_trabajador.includes("undefined") ||
+                                                (trabajadores.foto_trabajador=="") || (trabajadores.foto_trabajador[trabajadores.foto_trabajador.length-1]=='-')){ var foto='fondo_full.jpg' ; var fo_s='No hay foto registrada.' } else
+                                                { foto=trabajadores.foto_trabajador; fo_s=trabajadores.foto_trabajador; } %>
+                                                <img src="http://localhost:3000/trabajadores/<%=foto%>"
+                                                    style="object-fit: cover;" alt="Navarrete" width="150" height="150"
+                                                    class="rounded-circle bg-light">
+                                        </div>
+                                        <div class="col-sm-12 pt-4">
+                                            <label for="imagen" class="form-label text-black fw-bold h6">Imagen de
+                                                perfil </label> <span class="text-muted small">(Actual)</span>
+                                            <input type="text" class="form-control fw-bold h6 text-secondary"
+                                                id="imagen_dos" name="imagen_dos"
+                                                value="<%=fo_s%>" readonly>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 nombres">
+                                        <div class="d-flex justify-content-center">
+                                            <img src="http://localhost:3000/trabajadores/fondo_full.jpg" id="img_dos"
+                                                style="object-fit: cover;" alt="Navarrete" width="150" height="150"
+                                                class="rounded-circle bg-light">
+                                        </div>
+                                        <div class="col-12 pt-4">
+                                            <label for="imagen" class="form-label text-black fw-bold h6">Imagen de
+                                                perfil </label> <span class="text-muted small">(Opcional)</span>
+                                            <input type="file" class="form-control form-control-sm" accept="image/*"
+                                                id="imagen" name="imagen" value="vavs" onchange="vista(event)">
+                                            <input type="text" style="display: none; color: #000;" id="imagen_nueva"
+                                                name="imagen_nueva">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Modal para licencia-->
+                <!-- Modal -->
+                <div class="modal fade" id="licencia" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de
+                                    licencia</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+
+                            <div class="modal-body d-flex justify-content-center">
+                                <div class="col-sm-5 mx-5">
+                                    <% if(trabajadores.dia_licencia==null && trabajadores.mes_licencia==null &&
+                                        trabajadores.anyo_licencia==null && trabajadores.licencia_vigente.length==10){
+                                        var licencia='nomostrar' ; } else{ licencia='mostrar' ; }%>
+                                        <div class="col-sm-12 pt-2 mb-4 <%=licencia%>">
+                                            <label for="imagen" class="form-label text-black fw-bold h6">Archivo de
+                                                licencia </label> <span class="text-muted small">(Actual)</span>
+                                            <input type="text" class="form-control fw-bold h6 text-secondary"
+                                                id="licencia_actual" name="licencia_actual"
+                                                value="<%=trabajadores.licencia_vigente%>" readonly>
+                                        </div>
+                                        <label for="imagen" class="form-label text-black fw-bold h6">Archivo de
+                                            licencia </label> <span class="text-muted small">(Nueva opcional)</span>
+                                        <input type="file" class="form-control form-control-sm" id="pdffFile"
+                                            accept=".pdf" name="pdffFile" onchange="pasarLicencia(event)">
+                                        <input type="text" class="form-control form-control-sm" style="display: none;"
+                                            id="nueva_licencia" name="nueva_licencia">
+                                        <div class="pt-4"></div>
+                                        <label for="dia_licencia" class="form-label text-black fw-bold h6">Dia de
+                                            vigencia</label>
+                                        <select class="form-select col-12 dropdown-menu-dark form-select-sm"
+                                            id="dia_licencia" name="dia_licencia">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un día</small></option>
+                                            <option class="text-secondary <%=licencia%>"
+                                                style="font-family: sans-serif;" selected disabled value=""><small>
+                                                    <%= trabajadores.dia_licencia%>
+                                                </small></option>
+                                            <script>
+                                                for (var i = 01; i < 31; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                        <div class="pt-4"></div>
+                                        <label for="mes_licencia" class="form-label text-black fw-bold h6">Mes de
+                                            vigencia </label>
+                                        <select class="form-select dropdown-menu-dark form-select-sm" id="mes_licencia"
+                                            name="mes_licencia">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un mes</small></option>
+                                            <option class="text-secondary <%=licencia%>"
+                                                style="font-family: sans-serif;" selected disabled value=""><small>
+                                                    <%= trabajadores.mes_licencia%>
+                                                </small></option>
+                                            <script>
+                                                var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                                for (let i = 0; i < 12; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                        <div class="pt-4"></div>
+                                        <label for="anyo_licencia" class="form-label text-black fw-bold h6">Año de
+                                            vigencia</label>
+                                        <select class="form-select dropdown-menu-dark form-select-sm" id="anyo_licencia"
+                                            name="anyo_licencia">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un
+                                                    año</small></option>
+                                            <option class="text-secondary <%=licencia%>"
+                                                style="font-family: sans-serif;" selected disabled value=""><small>
+                                                    <%= trabajadores.anyo_licencia%>
+                                                </small></option>
+                                            <script>
+                                                var myDate = new Date();
+                                                var year = myDate.getFullYear();
+                                                for (var i = 2022; i < year + 10; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                </div>
+                                <% if(trabajadores.dia_licencia==null && trabajadores.mes_licencia==null &&
+                                    trabajadores.anyo_licencia==null && trabajadores.licencia_vigente.length==10){ var
+                                    src_licencia='' ; var he_licencia='300' ; } else{
+                                    src_licencia='http://localhost:3000/trabajadores/trabajadores.licencia_vigente' ;
+                                    he_licencia='400' ; }%>
+                                    <div class="col-sm-6">
+                                        <embed id="vistaPrevia" src="<%=src_licencia%>" type="application/pdf"
+                                            class="col-11 bg-secondary" height="<%=he_licencia%>">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="reset" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal" onclick="limpiar();">Cancelar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Modal para la examen-->
+                <div class="modal fade" id="examen" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de examen
+                                    médico</h5>
+                                <button type="reset" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body d-flex justify-content-center">
+                                <div class="col-sm-5 mx-5">
+                                    <% if(trabajadores.dia_examen==null && trabajadores.mes_examen==null &&
+                                        trabajadores.anyo_examen==null && trabajadores.examen_vigente.length==10){ var
+                                        examen='nomostrar' ; } else{ examen='mostrar' ; }%>
+                                        <div class="col-sm-12 pt-2 mb-4 <%=examen%>">
+                                            <label for="imagen" class="form-label text-black fw-bold h6">Archivo de
+                                                examen médico </label> <span class="text-muted small">(Actual)</span>
+                                            <input type="text" id="examen_actual" name="examen_actual" class="form-control fw-bold h6 text-secondary"
+                                                value="<%=trabajadores.examen_vigente%>" readonly>
+                                        </div>
+                                        <label for="pdffFile2" class="form-label text-black fw-bold h6">Archivo de
+                                            examen médico </label> <span class="text-muted small">(Nuevo
+                                            opcional)</span>
+                                        <input type="file" class="form-control form-control-sm" id="pdffFile2"
+                                            accept=".pdf" name="pdffFile2" onchange="pasarExamen(event)">
+                                        <input type="text" class="form-control form-control-sm" style="display: none;"
+                                            id="nueva_licencia2" name="nueva_licencia2">
+                                        <div class="pt-4"></div>
+                                        <label for="dia_examen" class="form-label text-black fw-bold h6">Dia de
+                                            vigencia</label>
+                                        <select class="form-select col-12 dropdown-menu-dark form-select-sm"
+                                            id="dia_examen" name="dia_examen">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un día</small></option>
+                                            <option class="text-secondary <%=examen%>" style="font-family: sans-serif;"
+                                                selected disabled value=""><small>
+                                                    <%= trabajadores.dia_examen%>
+                                                </small></option>
+                                            <script>
+                                                for (var i = 01; i < 31; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                        <div class="pt-4"></div>
+                                        <label for="mes_examen" class="form-label text-black fw-bold h6">Mes de
+                                            vigencia </label>
+                                        <select class="form-select dropdown-menu-dark form-select-sm" id="mes_examen"
+                                            name="mes_examen">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un mes</small></option>
+                                            <option class="text-secondary <%=examen%>" style="font-family: sans-serif;"
+                                                selected disabled value=""><small>
+                                                    <%= trabajadores.mes_examen%>
+                                                </small></option>
+                                            <script>
+                                                var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                                for (let i = 0; i < 12; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                        <div class="pt-4"></div>
+                                        <label for="anyo_examen" class="form-label text-black fw-bold h6">Año de
+                                            vigencia</label>
+                                        <select class="form-select dropdown-menu-dark form-select-sm" id="anyo_examen"
+                                            name="anyo_examen">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un
+                                                    año</small></option>
+                                            <option class="text-secondary <%=examen%>" style="font-family: sans-serif;"
+                                                selected disabled value=""><small>
+                                                    <%= trabajadores.anyo_examen%>
+                                                </small></option>
+                                            <script>
+                                                var myDate = new Date();
+                                                var year = myDate.getFullYear();
+                                                for (var i = 2022; i < year + 10; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                </div>
+                                <% if(trabajadores.dia_examen==null && trabajadores.mes_examen==null &&
+                                    trabajadores.anyo_examen==null && trabajadores.examen_vigente.length==10){ var
+                                    src_examen='' ; var he_examen='300' ; } else{
+                                    src_examen='http://localhost:3000/trabajadores/trabajadores.examen_vigente' ;
+                                    he_examen='400' ; }%>
+                                    <div class="col-sm-6">
+                                        <embed id="vistaPrevia2" src="<%=src_examen%>" type="application/pdf"
+                                            class="col-11 bg-secondary" height="<%=he_examen%>">
+                                    </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="reset" class="btn btn-outline-secondary"
+                                    data-bs-dismiss="modal" onclick="limpiarExamen()">Cancelar</button>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Aceptar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Modal para la tarejeton-->
+                <div class="modal fade" id="tarjeton" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de
+                                    tarjetón vehicular</h5>
+                                <button type="reset" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <% if(trabajadores.dia_tarjeton==null && trabajadores.mes_tarjeton==null &&
+                                trabajadores.anyo_tarjeton==null && trabajadores.tarjeton_vigente.length==10){ var
+                                tarjeton='nomostrar' ; } else{ tarjeton='mostrar' ; }%>
+                                <div class="modal-body d-flex justify-content-center">
+                                    <div class="col-sm-5 mx-5">
+                                        <div class="col-sm-12 pt-2 mb-4 <%=tarjeton%>">
+                                            <label for="imagen" class="form-label text-black fw-bold h6">Archivo de
+                                                tarjetón vehicular </label> <span
+                                                class="text-muted small">(Actual)</span>
+                                            <input type="text" id="tarjeton_actual" name="trajeton_actual" class="form-control fw-bold h6 text-secondary"
+                                                value="<%=trabajadores.tarjeton_vigente%>" readonly>
+                                        </div>
+                                        <label for="pdffFile2" class="form-label text-black fw-bold h6">Archivo de
+                                            tarjetón vehicular </label> <span class="text-muted small">(Nuevo
+                                            opcional)</span>
+                                        <input type="file" class="form-control form-control-sm" accept=".pdf"
+                                            id="pdffFile3" name="pdffFile3" onchange="pasarTarjeton(event)">
+                                        <input type="text" class="form-control form-control-sm" style="display: none;"
+                                            id="nueva_licencia3" name="nueva_licencia3">
+                                        <div class="pt-4"></div>
+                                        <label for="dia_tarjeton" class="form-label text-black fw-bold h6">Dia de
+                                            vigencia</label>
+                                        <select class="form-select col-12 dropdown-menu-dark form-select-sm"
+                                            id="dia_tarjeton" name="dia_tarjeton">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un día</small></option>
+                                            <option class="text-secondary <%=tarjeton%>"
+                                                style="font-family: sans-serif;" selected disabled value=""><small>
+                                                    <%= trabajadores.dia_trajeton%>
+                                                </small></option>
+                                            <script>
+                                                for (var i = 01; i < 31; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                        <div class="pt-4"></div>
+                                        <label for="mes_tarjeton" class="form-label text-black fw-bold h6">Mes de
+                                            vigencia </label>
+                                        <select class="form-select dropdown-menu-dark form-select-sm" id="mes_tarjeton"
+                                            name="mes_tarjeton">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un mes</small></option>
+                                            <option class="text-secondary <%=tarjeton%>"
+                                                style="font-family: sans-serif;" selected disabled value=""><small>
+                                                    <%= trabajadores.mes_trajeton%>
+                                                </small></option>
+                                            <script>
+                                                var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                                for (let i = 0; i < 12; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                        <div class="pt-4"></div>
+                                        <label for="anyo_tarjeton" class="form-label text-black fw-bold h6">Año de
+                                            vigencia</label>
+                                        <select class="form-select dropdown-menu-dark form-select-sm" id="anyo_tarjeton"
+                                            name="anyo_tarjeton">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un
+                                                    año</small></option>
+                                            <option class="text-secondary <%=tarjeton%>"
+                                                style="font-family: sans-serif;" selected disabled value=""><small>
+                                                    <%= trabajadores.anyo_trajeton%>
+                                                </small></option>
+                                            <script>
+                                                var myDate = new Date();
+                                                var year = myDate.getFullYear();
+                                                for (var i = 2022; i < year + 10; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                                    </div>
+                                    <% if(trabajadores.dia_tarjeton==null && trabajadores.mes_tarjeton==null &&
+                                        trabajadores.anyo_tarjeton==null && trabajadores.tarjeton_vigente.length==10){
+                                        var src='' ; var he='300' } else{
+                                        src='http://localhost:3000/trabajadores/trabajadores.tarjeton_vigente' ;
+                                        he='400' ; }%>
+                                        <div class="col-sm-6">
+                                            <embed id="vistaPrevia3" src="<%=src%>" type="application/pdf"
+                                                class="col-11 bg-secondary" height="<%=he%>">
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="reset" class="btn btn-outline-secondary"
+                                        data-bs-dismiss="modal" onclick="limpiarTarjeton()">Cancelar</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Aceptar</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>    
+             </form>
+            </main>
+    </div>
+
+    <div class="text-white">.</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <%- include('templates/pie.ejs')%>
+    <script>
+            $(document).ready(function () {
+                $('#mensaje_error').hide();
+            });
+
+
+            $("#porcentaje_uno").keyup(function () {
+                var cont = $('#porcentaje_uno').val();
+                var cont2 = $('#porcentaje_dos').val();
+                var suma = Number(cont) + Number(cont2);
+                if (suma == 100) {
+                    $('#mensaje_error').hide();
+                } else {
+                    $('#mensaje_error').show();
+                }
+            });
+
+
+            $("#porcentaje_dos").keyup(function () {
+                var cont = $('#porcentaje_uno').val();
+                var cont2 = $('#porcentaje_dos').val();
+                var suma = Number(cont) + Number(cont2);
+                console.log(suma);
+                if (suma == 100) {
+                    $('#mensaje_error').hide();
+                } else {
+                    $('#mensaje_error').show();
+                }
+            });
+
+            let pasarLicencia = (event) => {
+                var licencia = document.getElementById('pdffFile').value;
+                var licencia_nueva = licencia.slice(12);
+                document.getElementById('nueva_licencia').value = licencia_nueva;
+            }
+
+            let pasarExamen = (event) => {
+                var licencia = document.getElementById('pdffFile2').value;
+                var licencia_nueva = licencia.slice(12);
+                document.getElementById('nueva_licencia2').value = licencia_nueva;
+
+                let pdffFile = document.querySelector('#pdffFile2').files[0];
+                let pdffFileURL = URL.createObjectURL(pdffFile) + "#toolbar=0";
+
+                document.querySelector('#vistaPrevia2').setAttribute('src', pdffFileURL);
+            }
+
+            let pasarTarjeton = (event) => {
+                var licencia = document.getElementById('pdffFile3').value;
+                var licencia_nueva = licencia.slice(12);
+                document.getElementById('nueva_licencia3').value = licencia_nueva;
+                let pdffFile = document.querySelector('#pdffFile3').files[0];
+                let pdffFileURL = URL.createObjectURL(pdffFile) + "#toolbar=0";
+
+                document.querySelector('#vistaPrevia3').setAttribute('src', pdffFileURL);
+            }
+
+            function limpiar(){
+            var actual = document.getElementById('licencia_actual').value;
+            var url_previo = 'http://localhost:3000/trabajadores/'+actual;
+            document.querySelector('#vistaPrevia').setAttribute('src', url_previo);
+            }
+
+            function limpiarExamen(){
+            var actual = document.getElementById('examen_actual').value;
+            var url_previo = 'http://localhost:3000/trabajadores/'+actual;
+            document.querySelector('#vistaPrevia2').setAttribute('src', url_previo);
+            }
+
+            function limpiarTarjeton(){
+            var actual = document.getElementById('tarjeton_actual').value;
+            var url_previo = 'http://localhost:3000/trabajadores/'+actual;
+            document.querySelector('#vistaPrevia3').setAttribute('src', url_previo);
+            }
+
+            function admin() {
+                if (document.getElementById("s6").classList.contains("nomostrar")) {
+                    document.getElementById("s6").classList.remove("nomostrar");
+                    document.getElementById("s6").classList.add("mostrar");
+                    document.getElementById("s7").classList.add("nomostrar");
+                    window.location.href = '#inicio';
+                }
+            }
+
+            function before() {
+                if (document.getElementById("s7").classList.contains("nomostrar")) {
+                    document.getElementById("s7").classList.remove("nomostrar");
+                    document.getElementById("s7").classList.add("mostrar");
+                    document.getElementById("s6").classList.add("nomostrar");
+                    window.location.href = '#inicio';
+                }
+            }
+
+            let vista = (event) => {
+                let leer_img = new FileReader();
+                let id_img = document.getElementById('img_ava');
+                let id_img2 = document.getElementById('img_dos');
+                leer_img.onload = () => {
+                    if (leer_img.readyState == 2) {
+                        id_img.src = leer_img.result
+                        id_img2.src = leer_img.result
+                    }
+                }
+                leer_img.readAsDataURL(event.target.files[0])
+                var imagen = document.getElementById('imagen').value;
+                var imagen_nueva = imagen.slice(12);
+                document.getElementById('imagen_nueva').value = imagen_nueva;
+            }
+
+            document.querySelector('#pdffFile').addEventListener('change', () => {
+
+                let pdffFile = document.querySelector('#pdffFile').files[0];
+                let pdffFileURL = URL.createObjectURL(pdffFile) + "#toolbar=0";
+                document.querySelector('#vistaPrevia').setAttribute('src', pdffFileURL);
+            })
+
+            var nombre = document.getElementById('nombre_trabajador').value;
+            document.querySelector('.nombre').innerHTML = nombre.toUpperCase();
+
+            var nombre_previo = document.getElementById('nombre_trabajador');
+            nombre_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.nombre').innerHTML = inputText.toUpperCase();
+            })
+
+            var rfc = document.getElementById('rfc_numero').value;
+            document.querySelector('.rfc').innerHTML = rfc.toUpperCase();
+
+            var rfc_previo = document.getElementById('rfc_numero');
+            rfc_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.rfc').innerHTML = inputText.toUpperCase();
+            })
+
+            var curp = document.getElementById('curp').value;
+            document.querySelector('.curp').innerHTML = curp.toUpperCase();
+
+            var curp_previo = document.getElementById('curp');
+            curp_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.curp').innerHTML = inputText.toUpperCase();
+            })
+
+            var correo = document.getElementById('correo').value;
+            document.querySelector('.correo').innerHTML = correo;
+
+            var correo_previo = document.getElementById('correo');
+            correo_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.correo').innerHTML = inputText;
+            })
+
+            var celular = document.getElementById('celular').value;
+            document.querySelector('.celular').innerHTML = celular.toUpperCase();
+
+            var celular_previo = document.getElementById('celular');
+            celular_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.celular').innerHTML = inputText.toUpperCase();
+            })
+
+            var puesto = document.getElementById('puesto').value;
+            document.querySelector('.area').innerHTML = puesto.toUpperCase();
+
+            var area_previa = document.getElementById('puesto');
+            area_previa.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.area').innerHTML = inputText.toUpperCase();
+            })
+
+            var calle = document.getElementById('calle').value;
+            document.querySelector('.calle').innerHTML = calle.toUpperCase();
+
+            var calle_previo = document.getElementById('calle');
+            calle_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.calle').innerHTML = inputText.toUpperCase();
+            })
+
+            var colonia = document.getElementById('colonia').value;
+            document.querySelector('.colonia').innerHTML = colonia.toUpperCase();
+
+            var colonia_previa = document.getElementById('colonia');
+            colonia_previa.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.colonia').innerHTML = inputText.toUpperCase();
+            })
+
+            var municipio = document.getElementById('municipio').value;
+            document.querySelector('.muni').innerHTML = municipio.toUpperCase();
+
+            var muni_previo = document.getElementById('municipio');
+            muni_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.muni').innerHTML = inputText.toUpperCase();
+            })
+
+            var estado = document.getElementById('estado').value;
+            document.querySelector('.estado').innerHTML = estado.toUpperCase();
+
+            var estado_previo = document.getElementById('estado');
+            estado_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.estado').innerHTML = inputText.toUpperCase();
+            })
+
+            var numero_previo = document.getElementById('numero_casa').value;
+            document.querySelector('.numero_previo').innerHTML = numero_previo.toUpperCase();
+
+            var e_previo = document.getElementById('numero_casa');
+            e_previo.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.querySelector('.numero_previo').innerHTML = inputText.toUpperCase();
+            })
+
+            var contratista = document.getElementById('contratista');
+            contratista.addEventListener('change', (event) => {
+                var inputText = event.path[0].value;
+                console.log(inputText);
+            })
+
+            function Solo_Texto(e) {
+                var code;
+                if (!e) var e = window.event;
+                if (e.keyCode) code = e.keyCode;
+                else if (e.which) code = e.which;
+                var character = String.fromCharCode(code);
+                var AllowRegex = /^[\ba-zA-Z\s-]$/;
+                if (AllowRegex.test(character)) return true;
+                return false;
+            }
+
+            (() => {
+                'use strict'
+
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                const forms = document.querySelectorAll('.needs-validation')
+
+                // Loop over them and prevent submission
+                Array.from(forms).forEach(form => {
+                    form.addEventListener('submit', event => {
+                        if (!form.checkValidity()) {
+                            event.preventDefault()
+                            event.stopPropagation()
+                        }
+
+                        form.classList.add('was-validated')
+                    }, false)
+                })
+            })()
+    </script>
+
+    <script>
+            window.sr = ScrollReveal();
+            sr.reveal('.top', {
+                duration: 3000,
+                origin: 'top',
+                distance: '-100px'
+            });
+
+            sr.reveal('.bottom', {
+                duration: 3000,
+                origin: 'bottom',
+                distance: '-100px'
+            });
+
+            function loadImage(url) {
+                return new Promise(resolve => {
+                    const xhr = new XMLHttpRequest();
+                    xhr.open('GET', url, true);
+                    xhr.responseType = "blob";
+                    xhr.onload = function (e) {
+                        const reader = new FileReader();
+                        reader.onload = function (event) {
+                            const res = event.target.result;
+                            resolve(res);
+                        }
+                        const file = this.response;
+                        reader.readAsDataURL(file);
+                    }
+                    xhr.send();
+                });
+            }
+
+            const boton_contrato = document.querySelector("#contrato");
+
+            boton_contrato.addEventListener('click', (e) => {
+                e.preventDefault();
+                nombre = document.getElementById("nombre_trabajador").value;
+                dia = document.getElementById("dia_nacimiento").value;
+                mes = document.getElementById("mes_nacimiento").value;
+                anyo = document.getElementById("anyo_nacimiento").value;
+                correo = document.getElementById("correo").value;
+                cel = document.getElementById("celular").value;
+                puesto = document.getElementById("puesto").value;
+                salario = document.getElementById("salario").value;
+                diai = document.getElementById("dia_inicio").value;
+                mesi = document.getElementById("mes_inicio").value;
+                anyoi = document.getElementById("anyo_inicio").value;
+                nu = document.getElementById("numero_casa").value;
+                calle = document.getElementById("calle").value;
+                colonia = document.getElementById("colonia").value;
+                municipio = document.getElementById("municipio").value;
+                estado = document.getElementById("estado").value;
+                nombreb = document.getElementById("nombre_bene").value;
+                celb = document.getElementById("celular_bene").value;
+                nombrebdos = document.getElementById("nombre_bene_dos").value;
+                celbdos = document.getElementById("celular_bene_dos").value;
+                rfc = document.getElementById("rfc_numero").value;
+                curp = document.getElementById("curp").value;
+                contratista = document.getElementById("contratista").value;
+
+                var nombre_completo = nombre.toUpperCase();
+                var fecha_nacimiento = dia + " de " + mes + ", " + anyo;
+
+                let date = new Date();
+                var fecha_actual = date.toDateString().slice(4);
+                var hora = date.getHours() + ':' + date.getMinutes() + ' hrs.';
+
+                var nombre_completo_b = nombreb;
+                var nombre_completo_b_dos = nombrebdos;
+                var direccion = municipio + ", " + estado;
+                generaPDF(nombre_completo, fecha_actual, hora, contratista.toUpperCase(), fecha_nacimiento.toUpperCase(), rfc.toUpperCase(), curp.toUpperCase(), colonia.toUpperCase(), calle.toUpperCase(), nu, direccion.toUpperCase(), puesto.toUpperCase(), salario, nombre_completo_b.toUpperCase(), nombre_completo_b_dos.toUpperCase());
+            })
+
+
+            async function generaPDF(nombre_completo, fecha_actual, hora, contratista, fecha_nacimiento, rfc, curp, colonia, calle, nu, direccion, puesto, salario, nombre_completo_b, nombre_completo_b_dos) {
+                const image1 = await loadImage('http://localhost:3000/imagenes/0001.jpg');
+                const image2 = await loadImage('http://localhost:3000/imagenes/0002.jpg');
+                const image3 = await loadImage('http://localhost:3000/imagenes/0003.jpg');
+                const image4 = await loadImage('http://localhost:3000/imagenes/0004.jpg');
+                const image5 = await loadImage('http://localhost:3000/imagenes/0005.jpg');
+
+
+                const pdf = new jsPDF('p', 'pt', 'letter');
+                pdf.addImage(image1, 'JPG', 0, 0, 600, 800);
+                pdf.setFontSize(10);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(fecha_actual, 430, 30);
+                pdf.text(hora, 485, 30);
+                pdf.setFontSize(13);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(nombre_completo, 240, 97.5);
+                pdf.text(contratista, 240, 128);
+                pdf.setFontSize(12);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(contratista, 360, 142);
+                pdf.text(nombre_completo, 30, 355);
+                pdf.text(fecha_nacimiento, 145, 445.9);
+                pdf.text(rfc, 75, 462);
+                pdf.text(curp, 75, 478);
+                pdf.text(colonia, 75, 524);
+                pdf.text(nu, 75, 539.5);
+                pdf.text(calle, 320, 524);
+                pdf.text(direccion, 320, 539.5);
+                pdf.setFontSize(8);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(contratista, 378, 773);
+                pdf.addPage();
+                pdf.addImage(image2, 'JPG', 0, 0, 600, 800);
+                pdf.setFontSize(10);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(fecha_actual, 430, 30);
+                pdf.text(hora, 485, 30);
+                pdf.setFontSize(12);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(puesto, 300, 366);
+                pdf.text(puesto, 165, 505);
+                pdf.setFontSize(8);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(contratista, 378, 773);
+                pdf.addPage();
+                pdf.addImage(image3, 'JPG', 0, 0, 600, 800);
+                pdf.setFontSize(10);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(fecha_actual, 430, 30);
+                pdf.text(hora, 485, 30);
+                pdf.setFontSize(12);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(nombre_completo, 220, 480);
+                pdf.setFontSize(8);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(contratista, 378, 773);
+                pdf.addPage();
+                pdf.addImage(image4, 'JPG', 0, 0, 600, 800);
+                pdf.setFontSize(10);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(fecha_actual, 430, 30);
+                pdf.text(hora, 485, 30);
+                pdf.setFontSize(12);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(salario, 40, 110);
+                pdf.setFontSize(8);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(contratista, 378, 773);
+                pdf.addPage();
+                pdf.addImage(image5, 'JPG', 0, 0, 600, 800);
+                pdf.setFontSize(10);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(fecha_actual, 430, 30);
+                pdf.text(hora, 485, 30);
+                pdf.setFontSize(12);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(nombre_completo_b, 75, 260);
+                pdf.text(nombre_completo_b_dos, 75, 277.2);
+                pdf.text(correo, 275, 325);
+                pdf.text(fecha_actual, 190, 540);
+                pdf.setFontSize(10);
+                pdf.setFontStyle('bold');
+                pdf.setTextColor(148, 148, 148);
+                pdf.text(contratista, 79, 642);
+                pdf.text(nombre_completo, 328, 642);
+                pdf.setFontSize(8);
+                pdf.setFontStyle('normal');
+                pdf.setTextColor(46, 46, 46);
+                pdf.text(contratista, 378, 773);
+
+                pdf.save("Contrato emitido nuevamente " + nombre_completo);
+            }
+    </script>

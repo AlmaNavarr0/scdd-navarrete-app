@@ -1,0 +1,214 @@
+<%- include('templates/menuAdministrador.ejs')%>
+<head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        
+            <script src="https://unpkg.com/scrollreveal"></script>
+        
+            <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.css">
+            <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+        
+            <!-- Buttons -->
+            <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+            <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
+            <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+            <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+        
+         <!-- Buttons -->
+        <title>SCDD | Cumpleaños </title>
+
+        <style>
+            table.dataTable{
+                border-bottom: 1px solid rgb(201, 201, 201);
+            }
+
+            table.dataTable thead{
+                background-color: #356967;
+                color: azure;
+            }
+
+            .page-item.active .page-link{
+                border: 1px solid white;
+                background-color: #356967;
+                color: azure;
+            }
+
+            .page-link{
+                color: #000;
+            }
+            
+            .dataTables_info{
+                color: rgb(65, 65, 65);
+            }
+
+            .buttons-excel:hover{
+                background-color: #356967;
+                color: #fff;
+            }
+
+            .buttons-excel{
+                border: 1px solid #356967;
+                color: #356967;
+            }
+
+            .dataTables_filter{
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+    <div class="container my-5">
+        <div class="row pb-0 pe-lg-0  rounded-3 border shadow-lg top">
+          <div class="col-lg-10 p-lg-4 pt-0 mt-0 ">
+          <p class="pt-4 mb-4 text-center fw-bold h3 lado text-secondary" style="font-family: 'Quicksand', sans-serif;"><i class="fa-solid fa-cake-candles"></i> Listado de cumpleaños</p>
+            <table id="myTable" class="table table-hover table-sm pt-3" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Correo electrónico</th>
+                        <th>Área de trabajo</th>
+                        <th>Edad</th>
+                        <th>Cumpleaños</th>
+                        <th>Felicitar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% trabajadores.forEach((trabajador)=>{%>
+                    <tr>
+                        <td><%=trabajador.nombre_trabajador%></td>
+                        <td class="small"><%=trabajador.email_trabajador%></td>
+                        <td class="small"><%=trabajador.puesto_trabajador%></td>
+                        <%var myDate = new Date();
+                        var year = myDate.getFullYear();
+                        
+                        var edad = year - trabajador.anyo_nacimiento%>
+                        <td class="small"><%=edad%> años</td>
+                        <td class="small"><%=trabajador.dia_nacimiento%> de <%=trabajador.mes_nacimiento%></td>
+                        <td class="align-middle text-center"><a href="/panel/administracion/felicitar/<%=trabajador.email_trabajador%>" style="border:none;" class="btn text-secondary"><i class="fa-solid fa-paper-plane"></i></a></td>
+                    </tr>
+                    <% }); %>
+                </tbody>                  
+            </table>
+          </div>
+          <div class="col-lg-2 overflow-hidden shadow-lg top" style="background-image: linear-gradient(-60deg, #03989E 60%, rgb(85, 110, 175)  100%);">
+            <img class="rounded-lg-3 abajo" src="http://localhost:3000/imagenes/extraazul.png" style="object-fit: cover;" alt="" width="510" >
+        </div>
+        </div>
+      </div>
+    
+<%- include('templates/pie.ejs')%>
+     
+    
+     <!-- jquery y bootstrap -->
+     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+     
+     <!-- datatables con bootstrap -->
+     <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+     <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+    
+     <!-- Para usar los botones -->
+     <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+    
+    
+    <!-- Para los estilos en Excel     -->
+    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+<script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+
+    <script>
+    $(document).ready(function () {
+        $("#myTable").DataTable({
+            "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+            },
+            dom: 'Bfrtilp',
+            buttons:{
+                dom: {
+                    button: {
+                        className: 'btn'
+                    }
+                },
+                buttons: [
+                {
+                    //definimos estilos del boton de excel
+                    extend: "excel",
+                title: 'Fechas',
+                    text:'<i class="fa-solid fa-file-arrow-down"></i> Excel',
+                    className:'btn',
+    
+                    // 1 - ejemplo básico - uso de templates pre-definidos
+                    //definimos los parametros al exportar a excel
+                    pageStyle: {
+                    sheetPr: {
+                        pageSetUpPr: {
+                            fitToPage: 1            // Fit the printing to the page
+                        } 
+                    },
+                    printOptions: {
+                        horizontalCentered: true,
+                        verticalCentered: true,
+                    },
+                    pageSetup: {
+                        orientation: "landscape",   // Orientacion
+                        paperSize: "9",             // Tamaño del papel (1 = Legal, 9 = A4)
+                        fitToWidth: "1",            // Ajustar al ancho de la página
+                        fitToHeight: "0",           // Ajustar al alto de la página
+                    },
+                    pageMargins: {
+                        left: "0.2",
+                        right: "0.2",
+                        top: "0.4",
+                        bottom: "0.4",
+                        header: "0",
+                        footer: "0",
+                    },
+                    repeatHeading: true,    // Repeat the heading row at the top of each page
+                    repeatCol: 'A:A',       // Repeat column A (for pages wider than a single printed page)
+                },
+            
+                    excelStyles: {                
+                        //template: "header_blue",  // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                        //template:"green_medium" 
+                        
+                        "template": [
+                            "blue_gray_medium",
+                            "header_gray",
+                        ] 
+                        
+                    }, 
+                },
+			{
+				extend: "print",
+                title: 'Fechas',
+                    text:'<i class="fa-solid fa-file-pdf"></i> Imprimir',
+                    className:'btn btn-outline-secondary',
+			}
+                ]            
+            }            
+        });
+    });
+
+    window.sr = ScrollReveal();
+    sr.reveal('.top', {
+        duration: 3000,
+        origin: 'top',
+        distance: '-100px'
+    });
+
+    sr.reveal('.bottom', {
+        duration: 3000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+        </script>
+    
+</head>

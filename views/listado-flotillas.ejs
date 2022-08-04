@@ -1,0 +1,422 @@
+<% if (puesto =="Administración") {%>
+  <%- include('templates/menuAdministrador.ejs')%>
+<%}else{%>
+  <%- include('templates/menuLogistica.ejs')%>
+<%}%>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+<link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+ <script src="http://localhost:3000/js/wow.min.js"></script>
+<title>SCDD | Flotillas disponibles</title>
+<style>
+.custom-tooltip {
+    --bs-tooltip-bg: rgb(170, 45, 36);
+}
+.custom-tooltip-success {
+  --bs-tooltip-bg: rgb(58, 158, 161);
+}
+
+.tooltip-inner {
+    white-space: pre-wrap;
+}
+.nomostrar{
+    display:none;
+}
+</style>
+</head>
+<%
+    let date=new Date();
+    var dia=date.getDate(); 
+    var mes=date.getMonth()+1; 
+    var anyo=date.getFullYear(); 
+
+    var mes_string = '';
+    if(mes==1){mes_string = 'Enero'} if(mes==5){mes_string = 'Mayo'} if(mes==9){mes_string = 'Septiembre'}
+    if(mes==2){mes_string = 'Febrero'} if(mes==6){mes_string = 'Junio'} if(mes==10){mes_string = 'Octubre'}
+    if(mes==3){mes_string = 'Marzo'} if(mes==7){mes_string = 'Julio'} if(mes==11){mes_string = 'Noviembre'}
+    if(mes==4){mes_string = 'Abril'} if(mes==8){mes_string = 'Agosto'} if(mes==12){mes_string = 'Diciembre'}
+
+    var fecha_string = date.toDateString().slice(4);
+    var fecha_actual = new Date(anyo, mes,dia).toISOString().split('T')[0]; 
+%>
+<body class="">
+    <main class="p-5 pt-3 mb-5">
+      <!--Parte del submenu-->
+      <div class="d-flex align-items-center p-3 row my-1 text-white rounded shadow-sm bottom" style="background-image: url(http://localhost:3000/imagenes/otro.png); background-position: bottom left;">
+        <div class="col-sm-9">
+          <h1 class="h6 mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> <i class="fa-solid fa-circle-check ver"></i> Listado de flotillas disponibles</h1>
+          <small class="mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> &nbsp; &nbsp; <%=mes_string%> <%=anyo%></small>
+        </div>
+        <div class="col-sm-3">
+        <form action="/panel/administracion/filtro-flotillas" method="POST" name="formulariobuscar" id="formulariobuscar">
+          <div class="btn-group dropdown-menu-dark float-end col-12 bottom">
+            <select class="form-select col-12 dropdown-menu-dark border border-secondary form-select-sm" style="background-color: transparent;" id="dia_inicio"
+            name="dia_inicio" onChange="document.formulariobuscar.submit();">
+            <option class="text-secondary" style="font-family: sans-serif;" selected
+                disabled value=""><small>Seleccione un tipo de flotilla</small></option>
+                <option>Personal</option>
+                <option>Turísmo</option>
+                <option>Doble uso</option>
+                <option>Utilitario</option>
+        </select>
+          </div>
+        </div>
+          </div>
+        </form>
+      </div>
+      <!--Lista de usuarios activos-->
+      <div class="d-flex align-items-center p-0 row my-3">
+        <% if(flotillas.length==0){
+          var mostrar = ' ';
+          var verf = 'nomostrar';
+        } else { mostrar= 'nomostrar'; verf = ' ';}%>
+        <div class="d-flex justify-content-lg-start mb-1">
+          <div class="col-sm-4"></div>
+          <div class="text-center p-0 lh-1 small fw-normal bottom text-muted <%=verf%> col-sm-1">Núm. serie</div>
+          <div class="text-center p-0 lh-1 small fw-normal bottom text-muted <%=verf%> col-sm-1">Núm. permiso</div>
+          <div class="text-center p-0 lh-1 small fw-normal bottom text-muted <%=verf%> col-sm-1">Tipo placa</div>
+          <div class="text-center p-0 lh-1 small fw-normal bottom text-muted <%=verf%> col-sm-1">Núm. placa</div>
+          <div class="text-center p-0 lh-1 small fw-normal bottom text-muted <%=verf%> col-sm-3">Vigencia en documentos</div>
+        </div>
+        <strong class="text-center text-muted top mt-5 <%=mostrar%>"><i class="small text-secondary fa-solid fa-triangle-exclamation"></i> No hay flotillas registradas hasta este momento. O ver lista de bajas. </strong>
+        <% flotillas.forEach((flotillas)=>{ 
+          if(flotillas.status_flotilla==true) {%>
+        <div class="d-flex align-items-center ms-0 pe-0 row top border border-muted shadow-sm">
+            <div class="d-flex text-muted pt-3 col-sm-4 float-start">
+                <% if(flotillas.foto_flotilla.includes("undefined") || (flotillas.foto_flotilla=="") || (flotillas.foto_flotilla[flotillas.foto_flotilla.length-1]=="-")){ 
+                    var foto='fondo_full.jpg' ; 
+                    } else { foto=flotillas.foto_flotilla; } %>
+                    <a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer;"><img src="http://localhost:3000/flotillas/<%=foto%>" title="<%= flotillas.numero_economico%>" style="object-fit: cover;" alt="mdo" width="32" height="32"
+                      class="mx-2 d-flex rounded-circle mx-3"></a>
+                    <p class="pb-3 mb-0 small lh-sm ">
+                        <strong class="d-block text-gray-dark">
+                            <a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer; text-decoration: none; color:rgb(88, 88, 88)"> No. <%= flotillas.numero_economico%> </a>
+                        </strong>
+                        <b><a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer; text-decoration: none; color:rgb(88, 88, 88)"><i class="fa-thin fa-at"></i></b><%= flotillas.nombre_propietario%></a>
+                    </p>
+            </div>
+            <div class="top col-sm-1 text-center">
+              <p class="text-muted fw-semibold pt-4"><small><%=flotillas.numero_serie%></small></p>
+          </div>
+          <div class="top col-sm-1 text-center">
+            <p class="text-muted fw-semibold pt-4"><small><%=flotillas.numero_permiso%></small></p>
+        </div>
+            <div class="top col-sm-1 text-center">
+                <p class="text-muted fw-semibold pt-4"><small><%=flotillas.tipo_placas_flotilla%></small></p>
+            </div>
+            <div class="top col-sm-1 text-center">
+              <p class="text-muted fw-semibold pt-4"><small><%=flotillas.placas_flotilla%></small></p>
+            </div>
+            <div class="top col-sm-3 text-center p-3">
+                <div class="btn-group-sm " role="group">
+                    <% if(flotillas.dia_seguro==null && flotillas.mes_seguro==null && flotillas.anyo_seguro==null && flotillas.seguro_flotilla.length==10){
+                        var licencia = 'disabled bg-white border-white text-white';
+                    } else{
+                        licencia = 'mostrar';
+                    }
+                    var mes_number = '';
+                    if(flotillas.mes_seguro=='Enero'){mes_number = '01'} if(flotillas.mes_seguro=='Mayo'){mes_number = '05'} if(flotillas.mes_seguro=='Septiembre'){mes_number = '09'}
+                    if(flotillas.mes_seguro=='Febrero'){mes_number = '02'} if(flotillas.mes_seguro=='Junio'){mes_number = '06'} if(flotillas.mes_seguro=='Octubre'){mes_number = '10'}
+                    if(flotillas.mes_seguro=='Marzo'){mes_number = '03'} if(flotillas.mes_seguro=='Julio'){mes_number = '07'} if(flotillas.mes_seguro=='Noviembre'){mes_number = '11'}
+                    if(flotillas.mes_seguro=='Abril'){mes_number = '04'} if(flotillas.mes_seguro=='Agosto'){mes_number = '08'} if(flotillas.mes_seguro=='Diciembre'){mes_number = '12'}
+                    
+                    var fecha_seguro = flotillas.anyo_seguro+'-'+mes_number+'-'+flotillas.dia_seguro;
+                    var fecha_rango = new Date(anyo, mes+1, dia).toISOString().split('T')[0];
+
+                    if(fecha_seguro<=fecha_rango){
+                      var color = 'danger';
+                      var tooltip = 'custom-tooltip';
+                    } else {
+                      color = 'success'
+                      tooltip = 'custom-tooltip-success';
+                    }
+                    %>
+                    <button data-bs-toggle="modal" id="btnmodal_seguro" data-bs-target="#modal_seguro" data-nom="<%= flotillas.numero_economico%>" data-pdf="<%= flotillas.seguro_flotilla%>" type="button" class="btn btn-<%=color%> <%=licencia%>" ><i data-bs-toggle="tooltip" data-bs-placement="top"
+                      data-bs-custom-class="<%= tooltip%>" title="Vigencia de seguro: 
+<%= flotillas.dia_seguro%> de <%=flotillas.mes_seguro%>, <%=flotillas.anyo_seguro%>" class="fa-solid fa-download"></i> Seguro</button>
+                    
+                    <% if(flotillas.dia_verificacion==null && flotillas.mes_verificacion==null && flotillas.anyo_verificacion==null && flotillas.verificacion_flotilla.length==10){
+                        var verificacion = 'disabled bg-white border-white text-white';
+                    } else{
+                        verificacion = 'mostrar';
+                    }
+                    
+                    var mes_verificacion = '';
+                    if(flotillas.mes_verificacion=='Enero'){mes_verificacion = '01'} if(flotillas.mes_verificacion=='Mayo'){mes_verificacion = '05'} if(flotillas.mes_verificacion=='Septiembre'){mes_verificacion = '09'}
+                    if(flotillas.mes_verificacion=='Febrero'){mes_verificacion = '02'} if(flotillas.mes_verificacion=='Junio'){mes_verificacion = '06'} if(flotillas.mes_verificacion=='Octubre'){mes_verificacion = '10'}
+                    if(flotillas.mes_verificacion=='Marzo'){mes_verificacion = '03'} if(flotillas.mes_verificacion=='Julio'){mes_verificacion = '07'} if(flotillas.mes_verificacion=='Noviembre'){mes_verificacion = '11'}
+                    if(flotillas.mes_verificacion=='Abril'){mes_verificacion = '04'} if(flotillas.mes_verificacion=='Agosto'){mes_verificacion = '08'} if(flotillas.mes_verificacion=='Diciembre'){mes_verificacion = '12'}
+                    
+                    var fecha_verificacion = flotillas.anyo_verificacion+'-'+mes_verificacion+'-'+flotillas.dia_verificacion;
+                    var fecha_rango = new Date(anyo, mes+1, dia).toISOString().split('T')[0];
+
+                    if(fecha_verificacion<=fecha_rango){
+                      var color_verificacion = 'danger';
+                      var tooltip_verificacion = 'custom-tooltip';
+                    } else {
+                      color_verificacion = 'success'
+                      tooltip_verificacion = 'custom-tooltip-success';
+                    }
+                    %>
+                    <button data-bs-toggle="modal" id="btnmodal_verificacion" data-bs-target="#modal_verificacion" data-nom="<%= flotillas.numero_economico%>" data-pdf="<%= flotillas.verificacion_flotilla%>" type="button" class="btn btn-<%=color_verificacion%> <%=verificacion%>">
+                      <i data-bs-toggle="tooltip" data-bs-placement="top"
+                      data-bs-custom-class="<%=tooltip_verificacion%>" title="Vigencia de verificación: 
+<%= flotillas.dia_verificacion%> de <%=flotillas.mes_verificacion%>, <%=flotillas.anyo_verificacion%>" class="fa-solid fa-download"></i>Verificación</button>
+            </div>
+            </div>
+            <!--Boton para abrir el modal-->
+            <div class="form-check col-sm-1 float-end">
+              <button type="button" id="btnmodal" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" 
+              data-nom="<%= flotillas.numero_economico%>" data-identidad="<%= flotillas._id%>" data-correo="<%= flotillas.numero_serie%>" data-celular="<%= flotillas.numero_permiso%>" 
+              data-tipo="<%= flotillas.tipo_flotilla%>" data-imagen="<%= flotillas.foto_flotilla%>" data-fr="<%=flotillas.nombre_propietario%>" data-fm="<%=fecha_string%>"
+              class="btn border border-white">
+              <small><i class="fa-solid fa-user-minus" style="color: rgba(128, 128, 128, 0.618);"></i></small></button>
+            </div>
+        </div>
+        <div class="text-white mt-0 p-0" style="font-size: 8px;">.</div>
+        <!--Modulo de JS en SCRIPT-->
+        <script>
+          $(document).on("click", "#btnmodal", function(){
+            var nombre = $(this).data('nom');
+            var id = $(this).data('identidad');
+            var correo = $(this).data('correo');
+            var celular = $(this).data('celular');
+            var tipo = $(this).data('tipo');
+            var foto = $(this).data('imagen');
+            var fecha_r = $(this).data('fr');
+            var despido = $(this).data('despido');
+            var fecha_modificacion = $(this).data('fm');
+            
+            $("#despido").val(despido);
+            $("#id").val(id);
+            $("#nombre").val(nombre);
+            $("#correo").val(correo);
+            $("#celular").val(celular);
+            $("#tipo").val(tipo);
+            $("#fecha_registro").val(fecha_r);
+            $("#foto").val(foto);
+            $("#fecha_modificacion").val(fecha_modificacion);
+            
+            nombre = document.getElementById("nombre").value;
+            document.getElementById('nom').innerHTML = 'Información | Flotilla No.' + nombre;
+            document.getElementById('id_editar').value = nombre;
+
+            correo_editar = document.getElementById("correo").value;
+            document.getElementById('correo_editar').value = correo_editar;
+
+
+            fecha_modificacion = document.getElementById("fecha_modificacion").value;
+            document.getElementById('fecha_m').value = fecha_modificacion;
+
+            foto = document.getElementById("foto").value;
+            if(foto.includes("undefined") || foto==null || foto[foto.length-1]=="-"){
+              document.getElementById("imagen").src="http://localhost:3000/flotillas/fondo_full.jpg";
+            } else{
+              document.getElementById("imagen").src="http://localhost:3000/flotillas/"+foto;
+            }
+          })
+          
+          function varo() {
+            document.getElementById('estado').value = document.getElementById('status').value;
+          }
+
+          $(document).ready(function(){
+            $("#exampleModalToggle").on('shown.bs.modal', function(){
+             $(this).find('#exampleFormControlTextarea1').focus();
+            });
+
+            var area = document.getElementById('exampleFormControlTextarea1');
+            area.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('motivo').value = inputText;
+            })           
+            });
+
+            var fecha = document.getElementById('fecha_modificacion');
+            fecha.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('fecha_m').value = inputText;
+            })
+
+            var nombre_value = document.getElementById('nombre');
+            nombre_value.addEventListener('keyup', (event) => {
+                var inputText = event.path[0].value;
+                document.getElementById('nom').value = inputText;
+            })
+
+        </script>
+        <!--MODAL-->
+        <div class="modal fade " id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title text-muted" style="font-family: 'Quicksand', sans-serif;" id="nom"></h5>
+                  <button type="reset" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!--Inicio de formulario-->
+                  <form class="row needs-validation text-black" method="POST" action="/panel/administracion/editar_flotilla">
+                    <input type="text" id="id_editar" name="id_editar" style="display: none;">
+                    <input type="text" id="correo_editar" name="correo_editar" style="display: none;">
+                    <div class="d-flex justify-content-center">
+                      <input id="foto" style="display: none;">
+                      <img src="http://localhost:3000/usuarios/fondo_full.jpg" id="imagen" style="object-fit: cover;" alt="Navarrete"
+                        width="150" height="150" class="rounded-circle bg-light">
+                      </div>
+                    <div class="col-md-4">
+                      <label for="correo" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Número de serie</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="correo" name="correo">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="celular" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Número de permiso</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="celular">
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="tipo" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Tipo de flotilla</label>
+                      <div class="input-group has-validation">
+                        <input type="text" class="form-control fw-bold" disabled readonly id="tipo" aria-describedby="inputGroupPrepend" >
+                        
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <label for="fecha_registro" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Nombre de propietario</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="fecha_registro" >
+                      
+                    </div>
+                    <div class="col-md-4">
+                      <label for="fecha_modificacion" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Fecha de hoy</label>
+                      <input type="text" class="form-control fw-bold" disabled readonly id="fecha_modificacion" name="fecha_modificacion">
+                      
+                    </div>
+                    <div class="col-md-4">
+                        <label for="status" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Estado *</label>
+                        <select class="form-select dropdown-menu-dark form-select-sm" id="status" name="status" onclick="varo();">
+                          <option class="text-black" selected disabled value=""><small>Selecciona una opcion</small></option>
+                          <option class="text-black" value="false">Baja</option>
+                        </select>
+                       
+                      </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label text-black" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;">Motivo de baja*</label>
+                        <textarea autofocus class="form-control autofocus" id="exampleFormControlTextarea1" rows="2"></textarea>
+                      </div>
+                    <div class="col-12 d-flex pt-3"> 
+                      <button class="btn float-end justify-content-lg-start btn-outline-primary col-3" type="submit">VER MÁS</button>
+                      </form>
+                      <div>&nbsp;</div>
+                      <form method="post" class="justify-content-lg-end d-flex  col-9 float-start col-3" action="/panel/administracion/modificar_flotilla" name="formularioid" id="formularioid">
+                          <input type="text" id="id" name="id" style="display: none;">
+                          <input id="nombre" name="nombre" style="display: none;">
+                          <input id="fecha_m" name="fecha_m" style="display: none;">
+                          <input id="motivo" name="motivo" style="display: none;">
+                          <input id="estado" name="estado" style="display: none;">
+                          <button type="submit" class="btn justify-content-lg-end btn-secondary col-4">BAJA</button>
+                    </form>
+                    </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <% }
+        }); %>
+        </div>
+        <!--Lista de usuarios no activos BAJAS-->
+        </div>
+    </div>
+  </div>
+  <script>
+    $(document).on("click", "#btnmodal_seguro", function () {
+      var nombre = $(this).data('nom');
+      var pdf = $(this).data('pdf');
+      $("#nombre_modal").val(nombre);
+      $("#pdf").val(pdf);
+
+      nombre = document.getElementById("nombre_modal").value;
+      document.getElementById('nommodal').innerHTML = 'Seguro | Flotilla #' + nombre;
+      pdf_tarjeton = document.getElementById("pdf").value;
+      document.querySelector('#ver_pdf').setAttribute('src', 'http://localhost:3000/flotillas/' + pdf_tarjeton);
+
+    })
+  </script>
+  <div class="modal fade " id="modal_seguro" aria-hidden="true" aria-labelledby="nom" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nommodal">
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0 m-0">
+          <input type="text" id="nombre_modal" name="nombre_modal" style="display: none;">
+          <input type="text" id="pdf" name="pdf" style="display: none;">
+          <embed id="ver_pdf" type="application/pdf" width="100%" height="510px" />
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $(document).on("click", "#btnmodal_verificacion", function () {
+      var nombre = $(this).data('nom');
+      var pdf = $(this).data('pdf');
+      $("#nombre_veri").val(nombre);
+      $("#pdf_veri").val(pdf);
+
+      nombre = document.getElementById("nombre_veri").value;
+      document.getElementById('nommodalveri').innerHTML = 'Verificación vehícular | Flotilla #' + nombre;
+      pdf_veri = document.getElementById("pdf_veri").value;
+      document.querySelector('#ver_pdf_veri').setAttribute('src', 'http://localhost:3000/flotillas/' + pdf_veri);
+
+    })
+  </script>
+  <div class="modal fade " id="modal_verificacion" aria-hidden="true" aria-labelledby="nom" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="nommodalveri">
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-0 m-0">
+          <input type="text" id="nombre_veri" name="nombre_veri" style="display: none;">
+          <input type="text" id="pdf_veri" name="pdf_veri" style="display: none;">
+          <embed id="ver_pdf_veri" type="application/pdf" width="100%" height="510px" />
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="text-light">
+    .
+    </div>
+    </main>
+    </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
+    <script>
+      window.sr = ScrollReveal();
+    sr.reveal('.top', {
+        duration: 2000,
+        origin: 'top',
+        distance: '-100px'
+    });
+
+    sr.reveal('.bottom', {
+        duration: 2000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+    </script>

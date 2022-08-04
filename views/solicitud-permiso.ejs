@@ -1,0 +1,385 @@
+<%- include('templates/menuAdministrador.ejs')%>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.css">
+        <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+    
+        <!-- Buttons -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
+        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+        <script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    
+     <!-- Buttons -->
+    <title>SCDD | Permiso </title>
+
+    <style>
+        table.dataTable{
+            border-bottom: 1px solid rgb(201, 201, 201);
+        }
+
+        table.dataTable thead{
+            background-color: #356967;
+            color: azure;
+        }
+
+        .page-item.active .page-link{
+            border: 1px solid white;
+            background-color: #356967;
+            color: azure;
+        }
+
+        .page-link{
+            color: #000;
+        }
+        
+        .dataTables_info{
+            color: rgb(65, 65, 65);
+        }
+
+        .buttons-excel:hover{
+            background-color: #356967;
+            color: #fff;
+        }
+
+        .buttons-excel{
+            border: 1px solid #356967;
+            color: #356967;
+        }
+
+        label {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 5px;
+}
+
+    </style>
+</head>
+<div id="registro" class="text-white">.</div>
+<div class="mx-5 shadow border border-muted top" style="border-radius: 9px; background-color: rgba(172, 172, 172, 0.152);">
+    <p class="pt-4 mb-4 text-center text-muted fw-bold h2" style="font-family: 'Quicksand', sans-serif;"><i class="fa-solid fa-clock-rotate-left text-secondary"></i> Historial de permisos</p>
+    <div class="row mx-2 d-flex justify-content-between p-0" style="background-color: transparent">
+        <div class="my-1 card text-center  pt-4 col-sm-3" style="border: none; background-color: transparent">
+            <div class="card-header mx-3 border border-secondary">
+                <strong class="text-secondary fw-bold" style="font-family: 'Quicksand', sans-serif;"> <i class="fa-solid fa-magnifying-glass"></i> Buscar:</strong>
+              </div>
+            <div class="card-body col-12 px-0">
+                <nav class="navbar col-12 px-3">
+                    <div class="container-fluid p-0">
+                        <input class="form-control col-12 fw-bold border border-secondary pt-0" id="buscarData" type="text" placeholder="Buscar" aria-label="Search">
+                    </div>
+                  </nav>
+            </div>
+          </div>
+          <div class="col-sm-9 px-5 ps-3 mb-4">
+            <table id="myTable" class="table table-bordered table-hover border border-success" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center col-sm-4">Nombre completo</th>
+                        <th class="text-center col-sm-4">Descripción</th>
+                        <th class="text-center">Fecha</th>
+                        <th class="text-center">Horas</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% trabajadores.forEach((trabajadores)=>{ %>
+                    <tr>
+                        <td class="small text-muted fw-bold"><%= trabajadores.nombre_trabajador%> <br> <small class="text-muted"><%= trabajadores.email_trabajador%></small></td>
+                        <td class="small text-muted fw-semibold"><%= trabajadores.desc_permiso%></td>
+                        <td class="small text-muted fw-semibold"><%= trabajadores.fecha_permiso%></td>
+                        <td class="small text-muted fw-semibold"><%= trabajadores.horas_permiso%></td>
+                        <td class="align-middle">
+                        <button onclick="abrirSwal(JSON.parse('<%=JSON.stringify(trabajadores._id)%>'))" type="button" class="btn" style="background: transparent; border: none; color: rgba(128, 128, 128, 0.789);"><i class="fa-regular fa-trash-can"></i></button>
+                    </td>
+                    </tr>
+                    <% }); %>
+                </tbody>                  
+            </table>
+            <script>
+                function abrirSwal(id){
+                const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success mx-2',
+                  cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: '¿Está seguro de eliminarlo?',
+                text: "El registro de permiso quedará eliminado.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: 'No, ¡cancelar!',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/panel/administracion/eliminar_permiso/'+id;
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Operación cancelada',
+                    'error'
+                  )
+                }
+              })
+                  }
+            </script>
+          </div>
+    </div>
+  </div>
+  <div class="mx-5 mt-5 border border-muted shadow-lg bottom"  style="background-image: url(http://localhost:3000/imagenes/otro.png);">
+    <div class="p-5">
+        <p class="pt-4 mb-4 text-center text-muted fw-bold h2" style="font-family: 'Quicksand', sans-serif;"><i class="small text-econdary fa-regular fa-keyboard text-muted"></i> Solicitud de días de permiso</p>
+        <!--FORMULARIO inicia-->
+          <form class="needs-validation text-black mb-5 nombres" method="POST" action="/panel/administracion/registrar_permiso">
+            <small class="text-black fw-bold" style="font-family: 'Raleway', sans-serif; color: #000">LLene el siguiente formulario, los campos obligatorios son marcados *:</small>
+            <hr class="py-1">
+            <div class="row g-3 p-3">
+                <!--Campo de nombre-->
+                <div class="col-sm-6 ">
+                    <label for="nombre_trabajador" class="form-label fw-bold text-black h6" style="font-family: 'Raleway', sans-serif; color: #000"><i class="small text-secondary fa-regular fa-user"></i> Nombre *</label>
+                    <input type="text" list="area" autocomplete="off" class="form-control fw-bold h6 text-secondary" style="text-transform: capitalize;" id="nombre_trabajador" name="nombre_trabajador" placeholder="Ej. José Luis" value="" required>
+                    <datalist id="area">
+                        <% permiso.forEach((trabajadores)=>{ %>
+                          <option value="<%=trabajadores.nombre_trabajador%>"></option>
+                        <% });%>
+                      </datalist>
+                    <div class="invalid-feedback">
+                      Por favor, ingrese un nombre.
+                    </div>
+                  </div>
+                  <div class="col-sm-6 ">
+                    <label for="email_trabajador" class="form-label fw-bold text-black h6" style="font-family: 'Raleway', sans-serif; color: #000"><i class="small text-secondary fa-solid fa-at"></i> Correo electrónico *</label>
+                    <input type="text" list="areas" autocomplete="off" class="form-control fw-bold h6 text-secondary" id="email_trabajador" name="email_trabajador" placeholder="navarrete@gmail.com" value="" required>
+                    <datalist id="areas">
+                        <% permiso.forEach((trabajadores)=>{ %>
+                          <option value="<%=trabajadores.email_trabajador%>"></option>
+                        <% });%>
+                      </datalist>
+                    <div class="invalid-feedback">
+                      Por favor, ingrese un nombre.
+                    </div>
+                  </div>
+                  <div class="col-sm-12">
+                    <label for="dia_permiso" class="form-label fw-bold text-black h6" style="font-family: 'Raleway', sans-serif; color: #000"><i class="small text-secondary fw-light fa-regular fa-calendar"></i> Fecha y horas de permiso *</label>
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-sm-3">
+                            <select class="form-select dropdown-menu-dark form-select-sm"
+                        id="dia_permiso" name="dia_permiso">
+                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                            disabled value=""><small>Selecciona un día</small></option>
+                        <script>
+                            for (var i = 01; i < 31; i++) {
+                                document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                            }
+                        </script>
+                    </select>
+                        </div>
+                        <div class="col-sm-3">
+                        <select class="form-select dropdown-menu-dark form-select-sm" id="mes_permiso"
+                                            name="mes_permiso">
+                                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                                disabled value=""><small>Selecciona un mes</small></option>
+                                            <script>
+                                                var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                                                for (let i = 0; i < 12; i++) {
+                                                    document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                                                }
+                                            </script>
+                                        </select>
+                        </div>
+                        <div class="col-sm-3">
+                            <select class="form-select dropdown-menu-dark form-select-sm" id="anyo_permiso"
+                            name="anyo_permiso">
+                            <option class="text-secondary" style="font-family: sans-serif;" selected
+                                disabled value=""><small>Selecciona un
+                                    año</small></option>
+                            <script>
+                                var myDate = new Date();
+                                var year = myDate.getFullYear();
+                                for (var i = year; i < year+3; i++) {
+                                    document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                                }
+                            </script>
+                        </select>
+                      </div>
+                      <div class="col-sm-3">
+                        <select class="form-select dropdown-menu-dark form-select-sm" id="horas_permiso"
+                        name="horas_permiso">
+                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                            disabled value=""><small>Selecciona un rango de horas
+                                </small></option>
+                                <option>Menos de 1 hora</option>
+                                <option>1 a 3 horas </option>
+                                <option>4 a 7 horas </option>
+                                <option>Todo el día </option>
+                     
+                    </select>
+                  </div>
+                    </div>
+                    </div>
+                    
+                    <div class="col-sm-12">
+                        <label for="exampleFormControlTextarea1" class="form-label fw-bold text-black h6" style="font-family: 'Raleway', sans-serif; color: #000"><i class="small text-secondary fa-regular fa-comment-dots"></i> Descripción *</label>
+                        <textarea class="form-control autofocus" id="exampleFormControlTextarea1" name="exampleFormControlTextarea1" rows="3"></textarea>
+                      </div>
+                  </div>
+                  <div class="pt-4 pe-3 justify-content-lg-end d-flex">
+                    <div class="enviar col-sm-3">
+                        <button class="w-100 btn btn-small enviar_dos" style="outline: none; border: none;" type="submit"><strong>REGISTRAR</strong></button>
+                    </div>
+                  </div>
+            </div>
+          </form>
+    </div>
+    <div class="text-white mb-5">.</div>
+    
+
+  
+<%- include('templates/pie.ejs')%>
+     
+    
+<!-- jquery y bootstrap -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+
+<!-- datatables con bootstrap -->
+<script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+
+<!-- Para usar los botones -->
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+
+
+<!-- Para los estilos en Excel     -->
+<script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+<script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+<script>
+     window.sr = ScrollReveal();
+    sr.reveal('.top', {
+        duration: 2000,
+        origin: 'top',
+        distance: '-100px'
+    });
+
+    sr.reveal('.bottom', {
+        duration: 2000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+
+$(document).ready(function () {
+   var table = $("#myTable").DataTable({
+       "language": {
+       "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+       },
+       dom: 'tlipB',
+       buttons:{
+           dom: {
+               button: {
+                   className: 'btn'
+               }
+           },
+           buttons: [
+           {
+               //definimos estilos del boton de excel
+               extend: "excel",
+           title: 'Historial',
+               text:'<i class="fa-solid fa-file-arrow-down"></i> Excel',
+               className:'btn',
+
+               // 1 - ejemplo básico - uso de templates pre-definidos
+               //definimos los parametros al exportar a excel
+               pageStyle: {
+               sheetPr: {
+                   pageSetUpPr: {
+                       fitToPage: 1            // Fit the printing to the page
+                   } 
+               },
+               printOptions: {
+                   horizontalCentered: true,
+                   verticalCentered: true,
+               },
+               pageSetup: {
+                   orientation: "landscape",   // Orientacion
+                   paperSize: "9",             // Tamaño del papel (1 = Legal, 9 = A4)
+                   fitToWidth: "1",            // Ajustar al ancho de la página
+                   fitToHeight: "0",           // Ajustar al alto de la página
+               },
+               pageMargins: {
+                   left: "0.2",
+                   right: "0.2",
+                   top: "0.4",
+                   bottom: "0.4",
+                   header: "0",
+                   footer: "0",
+               },
+               repeatHeading: true,    // Repeat the heading row at the top of each page
+               repeatCol: 'A:A',       // Repeat column A (for pages wider than a single printed page)
+           },
+       
+               excelStyles: {                
+                   //template: "header_blue",  // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                   //template:"green_medium" 
+                   
+                   "template": [
+                       "blue_gray_medium",
+                       "header_gray",
+                   ] 
+                   
+               }, 
+           },
+       {
+           extend: "print",
+           title: 'Historial',
+               text:'<i class="fa-solid fa-file-pdf"></i> Imprimir',
+               className:'btn btn-outline-secondary',
+       }
+           ]            
+       }            
+   });
+
+   $('#buscarData').on( 'keyup', function () {
+    table.search( this.value ).draw();
+} );
+});
+
+window.sr = ScrollReveal();
+sr.reveal('.top', {
+   duration: 3000,
+   origin: 'top',
+   distance: '-100px'
+});
+
+sr.reveal('.bottom', {
+   duration: 3000,
+   origin: 'bottom',
+   distance: '-100px'
+});
+   </script>
+
+</head>

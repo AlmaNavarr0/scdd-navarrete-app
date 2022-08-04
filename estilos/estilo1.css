@@ -1,0 +1,552 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Raleway:wght@100&display=swap');
+
+*{
+  margin:0;
+  padding: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  scroll-behavior: smooth;
+  user-select: none;
+  font-family: 'Quicksand', sans-serif;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+  scroll-behavior: smooth;
+  border-radius: 50px;
+  background-color: rgb(224, 230, 230);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgba(68, 122, 122, 0.946);
+  border-radius: 50px;
+  scroll-behavior: smooth;
+}
+
+html {
+  height:100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin:0;
+}
+
+.bg {
+  animation:slide 3s ease-in-out infinite alternate;
+  background-image: linear-gradient(-60deg, rgb(97, 51, 204) 50%, rgb(36, 124, 139) 50%);
+  bottom:0;
+  left:-50%;
+  opacity:.5;
+  position:fixed;
+  right:-50%;
+  top:0;
+  z-index:-2;
+}
+
+.bg2 {
+  animation-direction:alternate-reverse;
+  animation-duration:4s;
+}
+
+.bg3 {
+  animation-duration:5s;
+}
+
+.content {
+  background-color:rgba(255,255,255,.8);
+  border-radius:.25em;
+  box-shadow:0 0 .25em rgba(0,0,0,.25);
+  box-sizing:border-box;
+  left:50%;
+  padding:10vmin;
+  position:fixed;
+  text-align:center;
+  top:50%;
+  transform:translate(-50%, -50%);
+}
+
+h1 {
+  font-family:monospace;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700");
+.hero {
+  position: relative;
+  z-index: -1;
+  height: 88.5vh;
+  overflow: hidden;
+  margin-top: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.cube {
+  position: absolute;
+  top: 80vh;
+  left: 45vw;
+  width: 10px;
+  height: 10px;
+  border: solid 1px #520e4e;
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+  -webkit-transform: scale(0) rotate(0deg) translate(-50%, -50%);
+          transform: scale(0) rotate(0deg) translate(-50%, -50%);
+  -webkit-animation: cube 12s ease-in forwards infinite;
+          animation: cube 12s ease-in forwards infinite;
+}
+.cube:nth-child(2n) {
+  border-color: #1d464d;
+}
+
+.cube:nth-child(3) {
+  -webkit-animation-delay: 4s;
+          animation-delay: 4s;
+  left: 75vw;
+  top: 50vh;
+}
+.cube:nth-child(4) {
+  -webkit-animation-delay: 6s;
+          animation-delay: 6s;
+  left: 90vw;
+  top: 10vh;
+}
+.cube:nth-child(5) {
+  -webkit-animation-delay: 8s;
+          animation-delay: 8s;
+  left: 10vw;
+  top: 85vh;
+}
+.cube:nth-child(6) {
+  -webkit-animation-delay: 10s;
+          animation-delay: 10s;
+  left: 50vw;
+  top: 10vh;
+}
+
+@-webkit-keyframes cube {
+  from {
+    -webkit-transform: scale(0) rotate(0deg) translate(-50%, -50%);
+            transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(20) rotate(960deg) translate(-50%, -50%);
+            transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes cube {
+  from {
+    -webkit-transform: scale(0) rotate(0deg) translate(-50%, -50%);
+            transform: scale(0) rotate(0deg) translate(-50%, -50%);
+    opacity: 1;
+  }
+  to {
+    -webkit-transform: scale(20) rotate(960deg) translate(-50%, -50%);
+            transform: scale(20) rotate(960deg) translate(-50%, -50%);
+    opacity: 0;
+  }
+}
+
+@keyframes slide {
+  0% {
+    transform:translateX(-25%);
+  }
+  100% {
+    transform:translateX(25%);
+  }
+}
+
+.logo{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.iniciar-sesion{
+    color: white;
+  font-family: 'Raleway', sans-serif;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 80%;
+  position: absolute;
+  font-family: 'Raleway', sans-serif;
+  place-content: center;
+  width: calc(100% - 40px);
+}
+
+@media (max-width: 767px) {
+  .page {
+    height: auto;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+}
+.contenedor {
+  display: flex;
+  height: 400px;
+  margin: 0px auto;
+  font-family: 'Raleway', sans-serif;
+  width: 940px;
+}
+@media (max-width: 767px) {
+  .contenedor {
+    flex-direction: column;
+    justify-content: center;
+    height: 630px;
+    width:450px;
+  }
+}
+.left {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  filter: drop-shadow(0px 0px 140px 16px rgba(0, 0, 0, 0.22));
+  position: relative;
+  font-family: 'Raleway', sans-serif;
+  padding: 40px 0px 0px 20px;
+  width: 50%;
+}
+@media (max-width: 767px) {
+  .left {
+    height: 100%;
+    width: 100%;
+    max-height: 270px;
+  }
+
+  .eula{
+    display: none;
+  }
+}
+.login {
+  margin: 50px 40px 40px;
+}
+
+.right {
+  margin-top: 20px;
+  background: rgba(158, 184, 190, 0.6);
+  filter: drop-shadow(45px 45px 140px 16px rgb(0, 0, 0));
+  color: #f1f1f2;
+  position: relative;
+  font-family: 'Raleway', sans-serif;
+  padding: 20px 60px;
+  width: 50%;
+}
+@media (max-width: 767px) {
+  .right {
+    flex-shrink: 0;
+    height: 100%;
+    width: 100%;
+    max-height: 350px;
+  }
+}
+svg {
+  position: absolute;
+  width: 350px;
+}
+path {
+  width: 190px;
+  fill: none;
+  stroke: url(#linearGradient);
+  stroke-width: 5;
+  stroke-dasharray: 240 1386;
+}
+.form {
+  margin: 60px 45px;
+  position: absolute;
+  font-family: 'Quicksand', sans-serif;
+}
+
+label {
+  display: block;
+  font-size: 15px;
+  height: 16px;
+  margin-top: 20px;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 5px;
+}
+
+input[type="email"], [type="text"], [type="password"], [type="number"] {
+  background: transparent;
+  border-width: thin;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: lighter;
+  height: 30px;
+  font-family: 'Raleway', sans-serif;
+  line-height: 30px;
+  outline: none !important;
+  width: 100%;
+}
+
+input::-moz-focus-inner {
+  border: 0;
+}
+
+#submit {
+    margin-top: 42px;
+    transition: color 300ms;
+    background: linear-gradient(#117785, #84118f);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    border: 0;
+    
+    font-size: 20px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    outline: none;
+    width: 95%;
+}
+
+#submit:focus {
+  color: #f2f2f2;
+}
+#submit:active {
+  color: #d0d0d2;
+}
+
+/*PARTE DEL MENU, lo anterior es de puro login y restauracion de cuenta*/
+.menu {
+  background-image: linear-gradient(-60deg, rgb(85, 110, 175) 40%, rgb(36, 124, 139) 60%);
+}
+
+.cuadro{
+  border-left: 1px solid rgba(0, 128, 128, 0.583); 
+  border-bottom: 1px solid rgba(0, 128, 128, 0.583); 
+  border-top: 1px solid rgba(117, 119, 119, 0.583); 
+  border-right: 1px solid rgba(117, 119, 119, 0.583);  
+  box-shadow: -10px 10px rgba(0, 128, 128, 0.179);
+}
+
+.logo {
+  position: absolute;
+  width: 90;
+  z-index: 1;
+  margin-left: 3%;
+}
+
+.logo:hover img {
+  filter: none;
+}
+
+.logo img {
+  width: 100%;
+  filter: drop-shadow(0 2px 5px rgba(88, 87, 87, 0.9));
+}
+
+.ubicacion {
+  position: absolute;
+  width: 94%;
+  justify-content: right; 
+  z-index: 1;
+  margin-left: 4.5%;
+  text-align: right;
+  color: #fff;
+}
+
+.buscar{
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  font-weight: bold;
+  background-color: rgba(255, 255, 255, 0.563);
+  color: rgba(54, 89, 117, 0.9);
+}
+
+.nombre{
+  background-color: rgba(204, 36, 36, 0.563);
+}
+
+button[disabled=disabled],
+button:disabled {
+    opacity: 0.6;
+}
+
+button[disabled=disabled]:hover,
+button:disabled:hover {
+    opacity: 0.5;
+}
+
+.parallax{
+  background: #fff fixed no-repeat 50% 50%;
+  background-size: cover;
+}
+
+#s1{
+  background: #fff;
+}
+
+#s2{
+  background-image: url('https://scdd-navarrete-app.herokuapp.com/imagenes/fondoazul.png');
+  transition: 2s linear;
+}
+
+section{
+  transition: 2s ease;
+}
+
+section:hover{
+  transform: translate(0,10px);
+  transition: 2s ease;
+}
+
+#s5{
+  background-image: url('https://scdd-navarrete-app.herokuapp.com/imagenes/fondoazul.png');
+}
+
+#s6{
+  background-image: url('https://scdd-navarrete-app.herokuapp.com/imagenes/azul_blanco.png');
+}
+
+#s7{
+  background-image: url('https://scdd-navarrete-app.herokuapp.com/imagenes/azul_blanco.png');
+}
+
+
+.caja{
+  max-width: 250px;
+  padding: 1rem;
+  position: relative;
+  border-radius: 50%;
+  background: linear-gradient(to right, rgb(64, 145, 141), rgb(121, 62, 121));
+  padding: 3px;
+}
+
+.enviar:hover{
+    background: rgb(64, 145, 141);
+}
+
+.enviar{
+  background: linear-gradient(to right, rgb(64, 145, 141), rgb(121, 62, 121));
+  color: #fff;
+  font-family: 'Arial Narrow', Arial, sans-serif;
+  font-weight: bold;
+  -webkit-transition: background-color 1s linear;
+  transition: background-color 1s linear;
+}
+
+.btn:hover{
+    -webkit-transition: background-color 1s linear;
+  transition: background-color 1s linear;
+}
+.enviar_dos strong{
+  outline: none;
+  border:none;
+  color:rgb(255, 255, 255);
+}
+
+.enviar_dos:hover strong{
+  outline: none;
+  border:none;
+  color:rgb(255, 255, 255)
+}
+
+.enviar_dos:hover{
+  outline: none;
+  border:none;
+  color:rgb(148, 148, 148)
+}
+
+.ver{
+  color: rgb(67, 163, 115);
+}
+
+.ocultar{
+  color: rgb(163, 67, 67);
+}
+
+.mostrar{
+  display:block;
+}
+
+.nomostrar{
+  display:none;
+}
+
+.descargar:hover{
+  background-color: #356967;
+  color: #fff;
+}
+
+.descargar{
+  border: 1px solid #356967;
+  color: #356967
+}
+
+.myaccordion {
+  max-width: 500px;
+  margin: 10px auto;
+  box-shadow: 0 0 1px rgba(0,0,0,0.1);
+}
+
+.myaccordion .card,
+.myaccordion .card:last-child .card-header {
+  border: 1px solid rgb(218, 218, 218);
+}
+
+.myaccordion .card-header {
+  border-bottom-color: #EDEFF0;
+  background: rgba(128, 128, 128, 0.09);
+}
+
+.myaccordion .fa-stack {
+  font-size: 12px;
+}
+
+.myaccordion .btn {
+  width: 100%;
+  color: #356967;
+  padding: 0;
+}
+
+.myaccordion .btn-link{
+  text-decoration: none;
+}
+
+.myaccordion .btn-link:hover,
+.myaccordion .btn-link:focus {
+  text-decoration: none;
+  color: #4d575c;
+}
+
+.myaccordion li + li {
+  margin-top: 10px;
+}
+
+@media print {
+  
+  .show{
+    display: none;
+  }
+
+  table{
+    border-bottom: 1px solid rgb(201, 201, 201);
+}
+
+table thead{
+    background-color: #356967;
+    color: azure;
+}
+
+@page { padding: 10%; }
+
+@page {size: landscape}
+@page {size: A4 landscape}
+
+@page{ -webkit-print-color-adjust: exact; }
+
+}

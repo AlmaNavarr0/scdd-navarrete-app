@@ -1,0 +1,532 @@
+<%- include('templates/menuAdministrador.ejs')%>
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/scrollreveal"></script>
+ <script src="http://localhost:3000/js/wow.min.js"></script>
+<title>SCDD | Panel administración</title>
+   <script>
+    new WOW().init();
+    </script>
+
+</head>
+<%
+    let date=new Date();
+    var dia=date.getDate(); 
+    var mes=date.getMonth(); 
+    var anyo=date.getFullYear; 
+    var actual=new Date(2022, mes, dia).toDateString();
+    var fecha = actual.slice(3);
+%>
+
+<main>
+  <!--Seccion 2. Trabajadores-->
+  <section class="py-4 section parallax mb-3" id="s1">
+    <div class="session2 container mb-3">
+      <div class="row">
+          <div class="col-md-6">
+            <div class="row g-0 rounded overflow-hidden flex-md-row mb-2 position-relative cuadro">
+              <div class="col p-4 d-flex flex-column position-static">
+                <div class="d-flex justify-content-center">
+                  <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                      class="mx-2 d-flex rounded-circle align-items-center">
+                </div>
+                <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-calendar-check"></i> Cumpleaños</small>
+                <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Próximos cumpleaños <i
+                  class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+                <div class="mb-2" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+                  <%= fecha%>
+                </div>
+                <% if(trabajadores.length==0){
+                  var feli = 'No hay cumpleaños próximos, tenga lindo día.'
+                } else { feli = '¡Los cumpleaños más próximos!, felicitar a:'}
+                %>
+                <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="card-text mb-auto"> <%=feli%></p>
+                <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+                  <%trabajadores.forEach((trabajadores)=>{%>
+                  <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                    style="background-color: rgba(81, 123, 143, 0.199);">
+                    <% if(trabajadores.foto_trabajador.includes("undefined") || (trabajadores.foto_trabajador=="" || trabajadores.foto_trabajador[trabajadores.foto_trabajador.length-1]=='-')){ 
+                      var foto='fondo_full.jpg' ; 
+                      } else { foto=trabajadores.foto_trabajador; } %>
+                      <a href="/panel/administracion/ir/<%=trabajadores.email_trabajador%>" style="cursor: pointer;" > <img src="http://localhost:3000/trabajadores/<%= foto%>" alt="mdo" width="32" height="32"
+                      class="mx-2 d-flex rounded-circle"> </a>
+                    <div class="ms-2 me-auto">
+                      <div class=""> <a href="/panel/administracion/ir/<%=trabajadores.email_trabajador%>" style="cursor: pointer; text-decoration: none;" > <strong class="text-muted" style="font-weight: 650; "> <%= trabajadores.nombre_trabajador%></strong> </a></div>
+                      <small style="font-weight: 500; "><%= trabajadores.dia_nacimiento%> de <%= trabajadores.mes_nacimiento%></small>
+                    </div>
+                    <% 
+                    let date=new Date();
+                    var anyo=date.getFullYear();  
+                    var edad = anyo - trabajadores.anyo_nacimiento %>
+                    <span class="badge rounded-pill"
+                      style="background-image: linear-gradient(-60deg, rgb(97, 51, 204) 0%, rgb(36, 124, 139) 100%);"><%=edad%>
+                      años</span>
+                  </li>
+                  <%
+                });%>
+                </ol>
+                <a href="/panel/administracion/cumpleanyo-trabajadores" class="pt-0"
+                  style="font-weight: bold; color: teal; text-decoration: none; font-family: 'Raleway', sans-serif;">Ver lista
+                  completa</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div
+              class="row g-0 rounded overflow-hidden flex-md-row mb-4 position-relative cuadro">
+              <div class="col p-4 d-flex flex-column position-static">
+                <div class="d-flex justify-content-center">
+                  <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                      class="mx-2 d-flex rounded-circle align-items-center">
+                </div>
+                <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Próximas vigencias </small>
+                <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Vigencias en licencias  <i
+                    class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+                <div class="mb-2" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+                  <%= fecha%>
+                </div>
+                <% if(tra.length==0){
+                  var lice = 'No hay vigencias próximas, genial, lindo día.'
+                } else { lice = 'Las siguientes licencias vencen pronto, recordar a:'}
+                %>
+                <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto"> <%=lice%>
+                </p>
+                <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+                  <%tra.forEach((tra)=>{%>
+                  <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                    style="background-color: rgba(81, 123, 143, 0.199);">
+                    <% if(tra.foto_trabajador.includes("undefined") || (tra.foto_trabajador=="" || tra.foto_trabajador[tra.foto_trabajador.length-1]=='-')){ 
+                      var foto_li='fondo_full.jpg' ; 
+                      } else { foto_li=tra.foto_trabajador; } %>
+                      <a href="/panel/administracion/ir/<%=tra.email_trabajador%>" style="cursor: pointer;" > <img src="http://localhost:3000/trabajadores/<%= foto_li%>" style="object-fit: cover;" alt="mdo" width="32" height="32"
+                        class="mx-2 d-flex rounded-circle"> </a>
+                      <div class="ms-2 me-auto">
+                        <div class=""> <a href="/panel/administracion/ir/<%=tra.email_trabajador%>" style="cursor: pointer; text-decoration: none;" > <strong class="text-muted" style="font-weight: 650; "> <%= tra.nombre_trabajador%></strong> </a></div>
+                   
+                      <small style="font-weight: 500; "><%= tra.dia_licencia%> de <%=tra.mes_licencia%>, <%=tra.anyo_licencia%> </small>
+                    </div>
+                    <span class="badge rounded-pill"
+                      style="background-image: linear-gradient(-60deg, rgb(204, 51, 51) 0%, rgb(139, 55, 36) 100%);"><%= tra.dia_licencia%> / <%= tra.mes_licencia%> / <%= tra.anyo_licencia%></span>
+                  </li>
+                  <%});%>
+                </ol>
+                <a href="/panel/administracion/listado-trabajadores" class="pt-0"
+                  style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif;color: teal;">Ver lista
+                  completa</a>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+  </section>
+
+  <!--Seccion 2.1. Otros trabajadores-->
+  <section class="fondo2 section parallax" id="s2">
+    <div class="session2_1 container py-5 move-up">
+      <h1 class="display-6 text-center mb-4 text-light" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Más vigencias en trabajadores</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div
+          class="row g-0 6 bg-light border rounded border-secondary overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <div class="d-flex justify-content-center">
+              <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                  class="mx-2 d-flex rounded-circle align-items-center" style="border: 2px solid rgba(25, 94, 94, 0.275);">
+            </div>
+            <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Próximas vigencias </small>
+                <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Vigencias en examen médico  <i
+                    class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+            <div class="mb-1" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+              <%= fecha%>
+            </div>
+            <% if(examen.length==0){
+              var exa_feli = 'No hay vigencias próximas, genial, lindo día.'
+            } else { exa_feli = 'Los siguiente exámenes estan por vencen pronto, recordar a:'}
+            %>
+            <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto pt-2"> <%= exa_feli%>
+            </p>
+            <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+              <%examen.forEach((examen)=>{%>
+              <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                style="background-color: rgba(81, 123, 143, 0.199);">
+                <% if(examen.foto_trabajador.includes("undefined") || (examen.foto_trabajador=="" || examen.foto_trabajador[examen.foto_trabajador.length-1]=='-')){ 
+                  var foto_exa='fondo_full.jpg' ; 
+                  } else { foto_exa=examen.foto_trabajador; } %>
+                  <a href="/panel/administracion/ir/<%=examen.email_trabajador%>" style="cursor: pointer;"><img src="http://localhost:3000/trabajadores/<%=foto_exa%>" alt="mdo" width="32" height="32"
+                  class="mx-2 d-flex rounded-circle">  </a>
+                <div class="ms-2 me-auto">
+                  <div class=""> <a href="/panel/administracion/ir/<%=examen.email_trabajador%>" style="cursor: pointer; text-decoration: none;"> <strong style="font-weight: 650" class="text-muted"> <%=examen.nombre_trabajador%></strong></a>
+                  </div>
+                  <small style="font-weight: 500; "><%=examen.dia_examen%> de <%=examen.mes_examen%>, <%= examen.anyo_examen%></small>
+                </div>
+                <span class="badge rounded-pill"
+                  style="background-image: linear-gradient(-60deg, rgb(204, 51, 51) 0%, rgb(139, 55, 36) 100%);"><%= examen.dia_examen%> / <%= examen.mes_examen%> / <%= examen.anyo_examen%></span>
+              </li>
+              <%});%>
+            </ol>
+            <a href="/panel/administracion/listado-trabajadores" class=" pt-0"
+              style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif; color: teal">Ver lista
+              completa</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div
+          class="row g-0 bg-light border rounded border-secondary overflow-hidden flex-md-row shadow-sm h-md-250 position-relative">
+          <div class="col p-4 d-flex flex-column position-static">
+            <div class="d-flex justify-content-center">
+              <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                  class="mx-2 d-flex rounded-circle align-items-center" style="border: 2px solid rgba(25, 94, 94, 0.275);">
+            </div>
+            <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Próximas vigencias </small>
+                <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Vigencias en tarjetón vehícular  <i
+                    class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+            <div class="mb-1" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+              <%= fecha%>
+            </div>
+            <% if(tarjeton.length==0){
+              var tar_feli = 'No hay vigencias próximas, genial, lindo día.'
+            } else { tar_feli = 'Los siguiente tarjetones vehículares estan por vencer pronto:'}
+            %>
+            <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto pt-2"> <%= tar_feli%>
+            </p>
+            <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+              <%tarjeton.forEach((tarjeton)=>{%>
+              <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                style="background-color: rgba(81, 123, 143, 0.199);">
+                <% if(tarjeton.foto_trabajador.includes("undefined") || (tarjeton.foto_trabajador=="" || tarjeton.foto_trabajador[tarjeton.foto_trabajador.length-1]=='-')){ 
+                  var foto_tar='fondo_full.jpg' ; 
+                  } else { foto_tar=tarjeton.foto_trabajador; } %>
+                  <a href="/panel/administracion/ir/<%=tarjeton.email_trabajador%>" style="cursor: pointer;"> <img src="http://localhost:3000/trabajadores/<%= foto_tar%>" alt="mdo" width="32" height="32"
+                  class="mx-2 d-flex rounded-circle"> </a>
+                <div class="ms-2 me-auto">
+                  <div class=""> <a href="/panel/administracion/ir/<%=tarjeton.email_trabajador%>" style="cursor: pointer; text-decoration: none;"> <strong style="font-weight: 650" class="text-muted"> <%= tarjeton.nombre_trabajador%></strong></a></div>
+                  <small style="font-weight: 500; "><%= tarjeton.dia_tarjeton%> de <%= tarjeton.mes_tarjeton%>, <%= tarjeton.anyo_tarjeton%> </small>
+                </div>
+                <span class="badge rounded-pill"
+                  style="background-image: linear-gradient(-60deg, rgb(204, 51, 51) 0%, rgb(139, 55, 36) 100%);"><%= tarjeton.dia_tarjeton%> / <%= tarjeton.mes_tarjeton%> / <%= tarjeton.anyo_tarjeton%></span>
+              </li>
+              <%});%>
+            </ol>
+            <a href="/panel/administracion/listado-trabajadores" class="pt-0"
+              style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif; color: teal;">Ver lista
+              completa</a>
+          </div>
+          <div class="col-auto d-none d-lg-block">
+            <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img"
+              aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <title>Placeholder</title>
+              <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                dy=".3em">Thumbnail</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+  </section>
+
+    <!--Seccion 1. Imagenes de mision, vision, etc..-->
+    <section class="session1 container pt-5" id="s3">
+      <div class="px-1 py-0 mb-5" id="custom-cards">
+        <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-3">
+          <div class="col carta1">
+            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-4 shadow-lg"
+              style="background-image: url('http://localhost:3000/imagenes/extra.jpg');">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <h2 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Se tiene que viajar para aprender. </h2>
+                <figcaption class="blockquote-footer fw-bold" style="color: rgb(255, 255, 255);">
+                  Mark Twain
+                </figcaption>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="http://localhost:3000/imagenes/favicon_oficial.png" style="object-fit: cover;"
+                      alt="Navarrete" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em">
+                      <use xlink:href="#geo-fill"></use>
+                    </svg>
+                    <small>Loma Linda</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em">
+                      <use xlink:href="#calendar3"></use>
+                    </svg>
+                    <small>Navarrete</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col carta2">
+            <div class="card card-cover h-100 overflow-hidden text-white rounded-4 shadow-lg"
+              style="background-color: darkcyan;">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <h2 class="pt-4 mt-5 mb-4 display-7 lh-1 text-black fw-bold">Deja de preocuparte por baches en carretera y
+                  celebra el viaje.</h2>
+                <figcaption class="blockquote-footer fw-bold" style="color: rgb(0, 0, 0);">
+                  Fitzhugh Mullan
+                </figcaption>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="http://localhost:3000/imagenes/favicon_oficial.png" style="object-fit: cover;"
+                      alt="Navarrete" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <i class="fa-solid fa-earth-africa"></i> &nbsp;
+                    <small> Loma Linda</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <i class="fa-solid fa-calendar-days"></i> &nbsp;
+                    <small>Navarrete</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col carta3">
+            <div class="card card-cover h-100 overflow-hidden text-white bg-dark rounded-4 shadow-lg"
+              style="background-image: url('http://localhost:3000/imagenes/imagenfullcamion.jpg'); background-position: top;">
+              <div class="d-flex flex-column h-100 p-5 pb-3 text-shadow-1">
+                <h2 class="pt-2 mt-5 mb-4 display-7  lh-1 fw-bold">Una vez al año, ve a algún lugar en el que nunca hayas
+                  estado.</h2>
+                <figcaption class="blockquote-footer fw-bold" style="color: rgb(255, 255, 255);">
+                  Dalai Lama
+                </figcaption>
+                <ul class="d-flex list-unstyled mt-auto">
+                  <li class="me-auto">
+                    <img src="http://localhost:3000/imagenes/favicon_oficial.png" style="object-fit: cover;"
+                      alt="Navarrete" width="32" height="32" class="rounded-circle border border-white">
+                  </li>
+                  <li class="d-flex align-items-center me-3">
+                    <svg class="bi me-2" width="1em" height="1em">
+                      <use xlink:href="#geo-fill"></use>
+                    </svg>
+                    <small>Loma Linda</small>
+                  </li>
+                  <li class="d-flex align-items-center">
+                    <svg class="bi me-2" width="1em" height="1em">
+                      <use xlink:href="#calendar3"></use>
+                    </svg>
+                    <small>Navarrete</small>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  
+  <!--Seccion 3. Flotillas-->
+  <section class="fondo2" id="s4">
+    <div class="session3 container mb-5">
+      <h1 class="display-6 text-center mb-3 text-secondary" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Vigencias en flotillas</h1>
+      <div class="row mb-2">
+        <div class="col-md-6">
+          <div
+            class="row g-0  rounded cuadro overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <div class="d-flex justify-content-center">
+                <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                    class="mx-2 d-flex rounded-circle align-items-center">
+              </div>
+              <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Próximas vigencias </small>
+              <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Vigencias en seguro  <i
+                  class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+              <div class="mb-1" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+                <%= fecha%>
+              </div>
+              <% if(flotillas.length==0){
+                var floti = 'No hay vigencias próximas, genial, lindo día.'
+              } else { floti = 'Los siguiente seguros estan por vencer pronto, recordar a:'}
+              %>
+              <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto"><%= floti%>
+              </p>
+              <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+                <%flotillas.forEach((flotillas)=>{%>
+                <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                  style="background-color: rgba(81, 123, 143, 0.199);">
+                  <% if(flotillas.foto_flotilla.includes("undefined") || (flotillas.foto_flotilla=="" || flotillas.foto_flotilla[flotillas.foto_flotilla.length-1]=='-')){ 
+                    var foto_flo='fondo_full.jpg' ; 
+                    } else { foto_flo=flotillas.foto_flotilla; } %>
+                    <a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer; text-decoration: none;"> <img src="http://localhost:3000/flotillas/<%= foto_flo%>" alt="mdo" width="32" height="32"
+                    class="mx-2 d-flex rounded-circle"> </a>
+                  <div class="ms-2 me-auto">
+                    <div class=""> <a href="/panel/administracion/ver/<%=flotillas.numero_economico%>" style="cursor: pointer; text-decoration: none;">  <strong class="text-muted" style="font-weight: 650;"> # <%= flotillas.numero_economico%></strong></a></div>
+                    <small style="font-weight: 500; "> Propiedad <%=flotillas.nombre_propietario%></small>
+                  </div>
+                  <span class="badge rounded-pill"
+                    style="background-image: linear-gradient(-60deg, rgb(204, 51, 51) 0%, rgb(139, 55, 36) 100%);"> <%= flotillas.dia_seguro%> / <%= flotillas.mes_seguro%> / <%= flotillas.anyo_seguro%> </span>
+                </li>
+                <%});%>
+              </ol>
+              <a href="/panel/administracion/listado-flotilla" class="pt-2 mb-2"
+                style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif; color: teal;">Ver lista
+                completa</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+              <svg class="bd-placeholder-img" width="200" height="250" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                <title>Placeholder</title>
+                <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                  dy=".3em">Thumbnail</text>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div
+            class="row g-0 rounded cuadro overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+              <div class="d-flex justify-content-center">
+                <img src="http://localhost:3000/imagenes/calendario.gif" alt="mdo" width="180" height="180"
+                    class="mx-2 d-flex rounded-circle align-items-center">
+              </div>
+              <small class="d-inline-block mb-2 text-secondary fw-bold"><i class="small text-light text-muted fa-regular fa-clock"></i> Próximas vigencias </small>
+                <h3 class="fw-semibold" style="font-family: 'Quicksand', sans-serif; color: rgb(15, 85, 85);">Vigencias en verificación  <i
+                    class="float-end fa-solid fa-thumbtack" style="color: rgb(15, 85, 85);"></i></h3>
+              <div class="mb-1" style="font-weight: bolder; font-family: 'Raleway', sans-serif;">
+                <%= fecha%>
+              </div>
+              <% if(veri.length==0){
+                var verifi = 'No hay vigencias próximas, genial, lindo día.'
+              } else { verifi = 'Las siguiente verificaciones estan por vencer pronto, recordar a:'}
+              %>
+              <p style="font-weight: bold; font-family: 'Raleway', sans-serif;" class="mb-auto"><%=verifi%>
+              </p>
+              <ol class="list-group list-group-numbered my-2 mb-2" style="font-weight: bold;">
+                <%veri.forEach((veri)=>{%>
+                  <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+                    style="background-color: rgba(81, 123, 143, 0.199);">
+                    <% if(veri.foto_flotilla.includes("undefined") || (veri.foto_flotilla=="" || veri.foto_flotilla[veri.foto_flotilla.length-1]=='-')){ 
+                      var foto_flo='fondo_full.jpg' ; 
+                      } else { foto_flo=veri.foto_flotilla; } %>
+                      <a href="/panel/administracion/ver/<%=veri.numero_economico%>" style="cursor: pointer; text-decoration: none;"> <img src="http://localhost:3000/flotillas/<%= foto_flo%>" alt="mdo" width="32" height="32"
+                        class="mx-2 d-flex rounded-circle"> </a>
+                      <div class="ms-2 me-auto">
+                        <div class=""> <a href="/panel/administracion/ver/<%=veri.numero_economico%>" style="cursor: pointer; text-decoration: none;">  <strong class="text-muted" style="font-weight: 650;"> # <%= veri.numero_economico%></strong></a></div>
+        <small style="font-weight: 500; "> Propiedad <%=veri.nombre_propietario%></small>
+                    </div>
+                    <span class="badge rounded-pill"
+                      style="background-image: linear-gradient(-60deg, rgb(204, 51, 51) 0%, rgb(139, 55, 36) 100%);"> <%= veri.dia_verificacion%> / <%= veri.mes_verificacion%> / <%= veri.anyo_verificacion%></span>
+                  </li>
+                  <%});%>
+              </ol>
+              <a href="/panel/administracion/listado-flotilla" class=" pt-2 mb-2"
+                style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif; color: teal;">Ver lista
+                completa</a>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!--Seccion4. Rutas-->
+  <section class="py-5 parallax" id="s5">
+    <div class="container overflow-hidden">
+      <div class="container-fluid">
+        <h1 class="display-6 text-center text-light" style="font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Rutas fijas en este mes</h1>
+        <div class="table-responsive mb-5 py-4" >
+          <table class="table table-hover text-light">
+            <thead>
+              <tr>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Número</strong></th>
+                <th scope="col" class="text-center" COLSPAN=2> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Ruta</strong></th>
+                <th scope="col" class="text-center" COLSPAN=3> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Hora de inicio</strong></th>
+              </tr>
+              <tr>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                  style="font-weight: bold; text-transform: uppercase;">Ruta</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                    style="font-weight: bold; text-transform: uppercase;">Origen</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                      style="font-weight: bold; text-transform: uppercase;">Destino</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                        style="font-weight: bold; text-transform: uppercase;">Turno 1</strong></th>
+                <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                          style="font-weight: bold; text-transform: uppercase;">Turno 2</strong></th>
+                 <th scope="col" class="text-center"> <strong class="fw-bold text-center"
+                            style="font-weight: bold; text-transform: uppercase;">Turno 3</strong></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% rutas.forEach((rutas)=>{ %>
+                <tr>
+                  <td class="text-center text-with"><%= rutas.numero_ruta%></td>
+                  <td class="text-center text-with"><%= rutas.origen_ruta%></td>
+                  <td class="text-center text-with"><%= rutas.destino_ruta%></td>
+                  <td class="text-center text-with"><%= rutas.hora_inicio_turno1%></td>
+                  <td class="text-center text-with"><%= rutas.hora_inicio_turno2%></td>
+                  <td class="text-center text-with"><%= rutas.hora_inicio_turno3%></td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<div class="text-white mb-5">.</div>
+<%- include('templates/pie.ejs')%>
+<script>
+  
+  window.sr = ScrollReveal();
+  sr.reveal('.session1', {
+    duration: 3000,
+    origin: 'top',
+    distance: '-100px'
+  });
+
+  sr.reveal('.session2', {
+    duration: 3000,
+    origin: 'left',
+    distance: '-100px'
+  });
+  sr.reveal('.session2_1', {
+    duration: 3000,
+    origin: 'right',
+    distance: '-100px'
+  });
+
+  sr.reveal('.session3', {
+    duration: 3000,
+    origin: 'right',
+    distance: '-100px'
+  });
+
+  sr.reveal('.session4', {
+    duration: 3000,
+    origin: 'top',
+    distance: '-100px'
+  });
+
+  sr.reveal('.carta1', {
+    duration: 3000,
+    origin: 'right',
+    distance: '-100px'
+  });
+
+  sr.reveal('.carta2', {
+    duration: 3000,
+    origin: 'top',
+    distance: '-100px'
+  });
+
+  sr.reveal('.carta3', {
+    duration: 3000,
+    origin: 'left',
+    distance: '-100px'
+  });
+</script>

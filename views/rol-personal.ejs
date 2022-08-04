@@ -1,0 +1,1404 @@
+<% if (puesto =="Administración") {%>
+    <%- include('templates/menuAdministrador.ejs')%>
+  <%}else{%>
+    <%- include('templates/menuLogistica.ejs')%>
+  <%}%>
+<title>SCDD | Rol de transporte de personal </title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel='stylesheet' type='text/css' href='http://localhost:3000/estilo1.css' media="all">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+
+<!-- Buttons -->
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+<style>
+            table.dataTable{
+                border-bottom: 1px solid rgb(201, 201, 201);
+            }
+
+            table.dataTable thead{
+                background-color: #356967;
+                color: azure;
+            }
+
+            .page-item.active .page-link{
+                border: 1px solid white;
+                background-color: #356967;
+                color: azure;
+            }
+
+            .page-link{
+                color: #000;
+            }
+            
+            .dataTables_info{
+                color: rgb(65, 65, 65);
+            }
+
+            .buttons-excel:hover{
+                background-color: #356967;
+                color: #fff;
+            }
+            
+</style>
+
+<div id="body" class="m-5 p-2 mt-3 border border-muted shadow bottom white"  style="border-radius: 9px;">
+    <p class="pt-4 mb-0 text-center text-muted fw-bold h3 lado" id="titulo" style="font-family: 'Quicksand', sans-serif;">
+        <i class="fa-regular fa-address-book text-secondary"></i>  Rol de transporte de personal</p>
+        <form>
+        <div class="row d-flex pt-4 p-3">
+                 <!--Dia de inicio-->
+                 <div class="col-sm-2">
+                    <label for="dia_inicio" class="form-label text-black fw-bold h6"> <i class="small text-muted fa-solid fa-hashtag"></i> Cambio
+                        *</label>
+                    <select class="form-select col-12 dropdown-menu-dark form-select-sm" id="dia_inicio"
+                        name="dia_inicio">
+                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                            disabled ><small>Selecciona el número</small></option>
+                        <script>
+                            for (var i = 01; i <= 12; i++) {
+                                document.write('<option style="font-family: sans-serif;" value=" Cambio ' + i + '"> Cambio ' + i + '</option>');
+                            }
+                        </script>
+                    </select>
+                </div>
+                 <div class="col-sm-2">
+                    <label for="dia_inicio" class="form-label text-black fw-bold h6"> <i class="small text-muted fa-regular fa-calendar"></i> Día de inicio
+                        *</label>
+                    <select class="form-select col-12 dropdown-menu-dark form-select-sm" id="dia_inicio"
+                        name="dia_inicio">
+                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                            disabled value=""><small>Selecciona un día</small></option>
+                        <script>
+                            for (var i = 01; i < 31; i++) {
+                                document.write('<option style="font-family: sans-serif;" value="' + i + '">' + i + '</option>');
+                            }
+                        </script>
+                    </select>
+                </div>
+                <!--Mes de inicio-->
+                <div class="col-sm-2">
+                    <label for="mes_inicio" class="form-label text-black fw-bold h6"> <i class="small text-muted fa-regular fa-calendar"></i> Mes de inicio
+                        *</label>
+                    <select class="form-select dropdown-menu-dark form-select-sm" id="mes_inicio"
+                        name="mes_inicio">
+                        <option class="text-secondary" style="font-family: sans-serif;" selected
+                            disabled value=""><small>Selecciona un mes</small></option>
+                        <script>
+                            var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+                            for (let i = 0; i < 12; i++) {
+                                document.write('<option style="font-family: sans-serif;" value="' + meses[i] + '">' + meses[i] + '</option>');
+                            }
+                        </script>
+                    </select>
+                </div>
+                <!--Anño de inicio-->
+                <div class="col-sm-2">
+                    <label for="anyo_inicio" class="form-label text-black fw-bold h6"> <i class="small text-muted fa-regular fa-calendar"></i> Año de inicio
+                        *</label>
+                    <input id="anyo" name="anyo" class="form-control fw-bold form-control-sm" style="font-family: 'Raleway',sans-serif;" readonly>
+                </div>
+                <div class="col-sm-4">
+                    <label for="anyo_inicio" class="form-label text-black fw-bold h6"> <i class="small text-muted fa-regular fa-circle-user"></i> Elaboración
+                        *</label>
+                    <input class="form-control fw-bold  form-control-sm" value="<%= usuario%>" style="font-family: 'Raleway',sans-serif;" readonly>
+                </div>
+                
+            </form>
+            <div class="pt-4" id="cuerpo">
+                <datalist id="flotillas">
+                    <% flotillas.forEach((flotillas)=>{ %>
+                        <option value="Unidad # <%=flotillas.numero_economico%>"> De <%=flotillas.tipo_flotilla%> </option>
+                    <% }); %>
+                </datalist>
+
+                <datalist id="trabajadores">
+                    <% trabajadores.forEach((trabajadores)=>{ 
+                        if(trabajadores.status_trabajador==true){%>
+                        <option value="<%=trabajadores.nombre_trabajador%>"> De <%=trabajadores.puesto_trabajador%> </option>
+                    <% }}); %>
+                </datalist>
+
+                
+
+                <datalist id="rutas">
+                    <% rutas.forEach((rutas)=>{ %>
+                        <option> <%=rutas.numero_ruta%> </option>
+                    <% }); %>
+                </datalist>
+
+                <datalist id="destinos">
+                    <% rutas.forEach((rutas)=>{ %>
+                        <option> <%=rutas.origen_ruta%> </option>
+                        <option> <%=rutas.destino_ruta%> </option>
+                    <% }); %>
+                </datalist>
+
+                <datalist id="mk">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta MK"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="arroyo">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 01"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="aculco">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 02"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="concha">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 03"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="santa">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 04"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="zothe">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 05"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="hui">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 07"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="jonaca">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 08"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="ana">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 09"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="teco">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 10"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="lira">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 13"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="danu">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 17"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="metates">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 18"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="acambay">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 19"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="chapa">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 21"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="temas">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 22"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <datalist id="soy">
+                    <% rutas.forEach((rutas)=>{ 
+                        if(rutas.numero_ruta=="Ruta 23"){%>
+                        <option> Turno 1° <small>(<%=rutas.hora_inicio_turno1%> hrs)</small> </option>
+                        <option> Turno 2° <small>(<%=rutas.hora_inicio_turno2%> hrs)</small> </option>
+                        <option> Turno 3° <small>(<%=rutas.hora_inicio_turno3%> hrs)</small> </option>
+                    <% }}); %>
+                </datalist>
+
+                <div id="imp1">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta1" onchange="ocultarContenido('tablaruta1', 'chbruta1')" checked>
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.1</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta1')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta1');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla1">
+                            <table id="tablaruta1" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <thead>
+                                  <tr>
+                                    <th class="text-center small text-light" scope="col">Ruta</th>
+                                    <th class="text-center small text-light" scope="col">Turno</th>
+                                    <th class="text-center small text-light" scope="col">Horario</th>
+                                    <th class="text-center small text-light" scope="col" colspan="2">Ruta</th>
+                                    <th class="text-center small text-light" scope="col"> Unidad </th>
+                                    <th class="text-center small text-light" scope="col"> Operador </th>
+                                    <th class="small text-light"> </th>
+                                </thead>
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 1</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno1" name="turno1" oninput="onclickhandler(this, turno1, turno2)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno2" name="turno2" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Arroyo Zarco</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 1</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="arroyo" id="turno3" oninput="onclickhandler(this, turno3, turno4)"  name="turno3" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno4" name="turno4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">Arroyo Zarco</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 1</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="arroyo" id="turno5" oninput="onclickhandler(this, turno5, turno6)" name="turno5" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno6" name="turno6" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">Arroyo Zarco</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 1</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno7" name="turno7" oninput="onclickhandler(this, turno7, turno8)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno8" name="turno8" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">Arroyo Zarco</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="show col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp2">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta2" onchange="ocultarContenido('tablaruta2', 'chbruta2')" checked>
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.2</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta2')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta2');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla2">
+                            <table id="tablaruta2" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="aculco" id="turno10" name="turno10" oninput="onclickhandler(this, turno10, turno20)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno20" name="turno20" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >Aculco/San Joaquín</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno30" oninput="onclickhandler(this, turno30, turno40)"  name="turno30" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno40" name="turno40" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Aculco/San Joaquín</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="aculco" id="turno50" oninput="onclickhandler(this, turno50, turno60)" name="turno50" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno60" name="turno60" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">Aculco/San Joaquín</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno70" name="turno70" oninput="onclickhandler(this, turno70, turno80)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno80" name="turno80" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">Aculco/San Joaquín</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="aculco" id="turno90" name="turno90" oninput="onclickhandler(this, turno90, turno100)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno100" name="turno100" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">Aculco/San Joaquín</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno110" name="turno110" oninput="onclickhandler(this, turno110, turno120)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno120" name="turno120" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">Aculco/San Joaquín</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp3">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta3" onchange="ocultarContenido('tablaruta3', 'chbruta3')" >
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.3</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta3')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta3');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla3">
+                            <table id="tablaruta3" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 3</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="concha" id="turno01" name="turno01" oninput="onclickhandler(this, turno01, turno02)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno02" name="turno02" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >La concepción/San Lucas</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 3</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno03" oninput="onclickhandler(this, turno03, turno04)"  name="turno03" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno04" name="turno04" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">La concepción/San Lucas</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 3</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno05" oninput="onclickhandler(this, turno05, turno06)" name="turno05" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno06" name="turno06" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">La concepción/San Lucas</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 3</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="concha" id="turno07" name="turno07" oninput="onclickhandler(this, turno07, turno08)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno08" name="turno08" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">La concepción/San Lucas</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp4">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta4" onchange="ocultarContenido('tablaruta4', 'chbruta4')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.4</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta4')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta4');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla4">
+                            <table id="tablaruta4" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="santa" id="turno011" name="turno011" oninput="onclickhandler(this, turno011, turno022)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno022" name="turno022" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >Santa María</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno033" oninput="onclickhandler(this, turno033, turno044)"  name="turno033" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno044" name="turno044" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Santa María</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="santa" id="turno055" oninput="onclickhandler(this, turno055, turno066)" name="turno055" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno066" name="turno066" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">Santa María</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno077" name="turno077" oninput="onclickhandler(this, turno077, turno088)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno088" name="turno088" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">Santa María</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="santa" id="turno099" oninput="onclickhandler(this, turno099, turno101)" name="turno099" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno101" name="turno101" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small">Santa María</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno122" name="turno122" oninput="onclickhandler(this, turno122, turno133)" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno133" name="turno133" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small col-sm-12">MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small col-sm-12">Santa María</strong></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp5">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta5" onchange="ocultarContenido('tablaruta5', 'chbruta5')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.5</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta5')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta5');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla5">
+                            <table id="tablaruta5" style="display:none;" style="display: none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 5</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="zothe" id="turno0111" name="turno0111" oninput="onclickhandler(this, turno0111, turno0222)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno0222" name="turno0222" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >Zothe</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Tlaxcalilla</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp6">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta6" onchange="ocultarContenido('tablaruta6', 'chbruta6')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.7</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta6')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta6');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla6">
+                            <table id="tablaruta6" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 7</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno01111" name="turno01111" oninput="onclickhandler(this, turno01111, turno02222)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno02222" name="turno02222" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Huichapan</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 7</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="hui" id="turno011111" name="turno011111" oninput="onclickhandler(this, turno011111, turno022222)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno022222" name="turno022222" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >Huichapan</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp7">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta7" onchange="ocultarContenido('tablaruta7', 'chbruta7')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.8</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta7')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta7');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                       <div id="tabla7">
+                        <table id="tablaruta7" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <tbody id="tblbody small">
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 8</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnojona" name="turnojona" oninput="onclickhandler(this, turnojona, turnojona1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnojona1" name="turnojona1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">Jonacapa/Huichapan</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 8</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="jonaca" id="turnojonaca3" name="turnojonaca3" oninput="onclickhandler(this, turnojonaca3, turnojonaca4)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnojonaca4" name="turnojonaca4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >Jonacapa/Huichapan</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                        <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                        <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </div>
+                </div>
+                <div id="imp8">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta8" onchange="ocultarContenido('tablaruta8', 'chbruta8')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.9</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta8')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta8');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                        <div id="tabla8">
+                            <table id="tablaruta8" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                                <tbody id="tblbody small">
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 9</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="ana" id="turnoana" name="turnoana" oninput="onclickhandler(this, turnoana, turnoana1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoana1" name="turnoana1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >Santa Ana/Polotitlan</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 9</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnoana3" name="turnoana3" oninput="onclickhandler(this, turnoana3, turnoana4)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoana4" name="turnoana4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Santa Ana/Polotitlan</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 9</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnoana5" name="turnoana5" oninput="onclickhandler(this, turnoana5, turnoana6)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoana6" name="turnoana6" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >MK</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">Santa Ana/Polotitlan</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 9</strong> </th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="ana" id="turnoana7" name="turnoana7" oninput="onclickhandler(this, turnoana7, turnoana8)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoana8" name="turnoana8" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <strong class="small" >Santa Ana/Polotitlan</strong></td>
+                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                </div>
+                <div id="imp9">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta9" onchange="ocultarContenido('tablaruta9', 'chbruta9')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.10</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta9')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta9');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                       <div id="tabla9">
+                        <table id="tablaruta9" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <tbody id="tblbody small">
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 10</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="teco" id="turnoteco" name="turnoteco" oninput="onclickhandler(this, turnoteco, turnoteco1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoteco1" name="turnoteco1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >Tecozautla</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 10</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnoteca2" name="turnoteca2" oninput="onclickhandler(this, turnoteca2, turnoteca4)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoteca4" name="turnoteca4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">Tecozautla</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                        <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                        <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </div>
+                </div>
+                <div id="imp10">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta10" onchange="ocultarContenido('tablaruta10', 'chbruta10')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.13</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta10')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta10');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                       <div id="tabla10">
+                        <table id="tablaruta10" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <tbody id="tblbody small">
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 13</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="lira" id="turnolira" name="turnolira" oninput="onclickhandler(this, turnolira, turnolira1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnolira1" name="turnolira1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >La Lira/Pedro Escobedo</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 13</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnolira2" name="turnolira2" oninput="onclickhandler(this, turnolira2, turnolira3)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnolira3" name="turnolira3" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">La Lira/Pedro Escobedo</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                        <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                        <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </div>
+                </div>
+                <div id="imp11">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta11" onchange="ocultarContenido('tablaruta11', 'chbruta11')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.19</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta11')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta11');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                       <div id="tabla11">
+                        <table id="tablaruta11" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <tbody id="tblbody small">
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 19</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnoaca" name="turnoaca" oninput="onclickhandler(this, turnoaca, turnoaca1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoaca1" name="turnoaca1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">Acambay/Pueblo Nuevo</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 19</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="acambay" id="turnoaca2" name="turnoaca2" oninput="onclickhandler(this, turnoaca2, turnoaca3)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoaca3" name="turnoaca3" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >Acambay/Pueblo Nuevo</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 19</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="acambay" id="turnoaca4" name="turnoaca4" oninput="onclickhandler(this, turnoaca4, turnoaca5)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoaca5" name="turnoaca5" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >Acambay/Pueblo Nuevo</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 19</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnoaca6" name="turnoaca6" oninput="onclickhandler(this, turnoaca6, turnoaca7)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnoaca7" name="turnoaca7" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">Acambay/Pueblo Nuevo</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                        <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                        <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </div>
+                </div>
+                <div id="imp12">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta12" onchange="ocultarContenido('tablaruta12', 'chbruta12')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.21</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta12')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta12');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                       <div id="tabla12">
+                        <table id="tablaruta12" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <tbody id="tblbody small">
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 21</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnochapa" name="turnochapa" oninput="onclickhandler(this, turnochapa, turnochapa1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnochapa1" name="turnochapa1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">San Bartolo/Chapatongo</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 21</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="chapa" id="turnochapa2" name="turnochapa2" oninput="onclickhandler(this, turnochapa2, turnochapa3)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnochapa3" name="turnochapa3" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >San Bartolo/Chapatongo</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 21</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnochapa4" name="turnochapa4" oninput="onclickhandler(this, turnochapa4, turnochapa5)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnochapa5" name="turnochapa5" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">San Bartolo/Chapatongo</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 21</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="chapa" id="turnochapa6" name="turnochapa6" oninput="onclickhandler(this, turnochapa6, turnochapa7)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnochapa7" name="turnochapa7" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >San Bartolo/Chapatongo</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                        <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                        <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </div>
+                </div>
+                <div id="imp13">
+                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                        <div class="col-sm-8">
+                            <div class="form-check form-switch row ms-1">
+                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta13" onchange="ocultarContenido('tablaruta13', 'chbruta13')">
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.22</label>
+                              </div>
+                        </div>
+                        <div class="col-sm-4 row ">
+                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta13')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta13');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                        </div>
+                       </div>
+                       <div id="tabla13">
+                        <table id="tablaruta13" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <tbody id="tblbody small">
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 22</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="temas" id="turnotemas" name="turnotemas" oninput="onclickhandler(this, turnotemas, turnotemas1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnotemas1" name="turnotemas1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >Acazuchitlan</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">MK</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 22</strong> </th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turnotemas2" name="turnotemas2" oninput="onclickhandler(this, turnotemas2, turnotemas3)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnotemas3" name="turnotemas3" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <strong class="small" >MK</strong></td>
+                                        <td class="col-sm-2"> <strong class="small">Acazuchitlan</strong></td>
+                                        <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small text-muted fw-semibold" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                        <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                        <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                        <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                        <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                        <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                        <td class="d-flex justify-content-center">
+                                        <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       </div>
+                </div>
+            </div>
+
+            <div class="show row d-flex justify-content-between">
+                <div class="col-sm-6 pt-3">
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+                          <li class="page-item">
+                            <a class="page-link text-success fw-semibold" href="#" aria-label="Anterior">
+                              <span aria-hidden="true">&laquo;</span>
+                            </a>
+                          </li>
+                          <li class="page-item"><a class="page-link text-muted fw-semibold" href="#">1</a></li>
+                          <li class="page-item"><a class="page-link text-muted fw-semibold" href="#">2</a></li>
+                          <li class="page-item"><a class="page-link text-muted fw-semibold" href="#">3</a></li>
+                          <li class="page-item"><a class="page-link text-muted fw-semibold" href="#">4</a></li>
+                          <li class="page-item"><a class="page-link text-muted fw-semibold" href="#">5</a></li>
+                          <li class="page-item">
+                            <a class="page-link text-success fw-semibold" href="#" aria-label="Siguiente">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                          </li>
+                        </ul>
+                      </nav>
+                </div>
+                <div class="d-flex float-end justify-content-between p-0">
+                    <div class="col-sm-12 float-end justify-content-end d-flex">
+                        <div class="col-sm-6 me-3">
+                            <div class="enviar col-sm-4 float-end d-flex justify-content-end">
+                            <button class="w-100 btn btn-small enviar_dos" style="outline: none; border: none;" type="button" id="contrato" name="contrato"><strong>Guardar</strong></button>
+                            </div>
+                        </div>
+                    <button type="button" class="btn btn-outline-secondary col-sm-2 float-end me-5 gris" onclick="javascript:imprim2();"><i class="fa-solid fa-print"></i> Imprimir</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('templates/pie.ejs')%>
+    <script>
+    function imprim2(){
+        var mywindow = window.open('', 'PRINT', 'height=400,width=600');
+        mywindow.document.write('<html><head>');
+        mywindow.document.write('<style>.tabla{width:100%;border-collapse:collapse;margin:16px 0 16px 0;}.tabla th{border:1px solid #ddd;padding:2px;color:#fff;text-align:center;font-size:12px;font-family: sans-serif;}.tabla td{font-weight: lighter;font-family: sans-serif;border:1px solid #ddd;text-align:center;padding:1px;}.tabla button{display: none} .tabla td strong{color: gray;font-weight: lighter;font-size:12px;} ::placeholder { color: transparent; }</style>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write(document.getElementById('tabla1').innerHTML);
+        
+        mywindow.document.write('</body></html>');
+        mywindow.document.close(); // necesario para IE >= 10
+        mywindow.focus(); // necesario para IE >= 10
+        mywindow.print();
+        mywindow.close();
+        return true;}
+    </script>  
+<script>
+    $(document).ready(function(){
+        var fecha = new Date();
+        var anyo = fecha.getFullYear();
+
+        document.getElementById('anyo').value=anyo;
+    })
+
+    function onclickhandler(e, antes, input) {
+    var texto = e.value;
+    antes.value = e.value.substring(0, 8);
+    input.value = texto.substring(10, 19);
+    }
+
+    $(document).on('click', '.borrar', function(event) {
+  event.preventDefault();
+  $(this).closest('tr').remove();
+});
+
+    function agregarFila(tabla){
+    document.getElementById(tabla).insertRow(-1).innerHTML = `<tr>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <input  list="rutas" class="col-sm-12 small" style="border: none; outline: none; background: transparent; text-align: center;" placeholder="Ruta"></th>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
+                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un origen"></td>
+                                            <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
+                                            <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td class="d-flex justify-content-center">
+                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            </td>
+                                    </tr>`;
+    }
+
+    function borrar(tabla){ 
+        var table = document.getElementById(tabla);
+    var rowCount = table.rows.length;
+    if(rowCount <= 1)
+        alert('No se puede eliminar el encabezado');
+    else
+        table.deleteRow(rowCount-1);
+    }
+
+    function borrarTabla(tabla){
+        var table = document.getElementById(tabla);
+        table.remove();
+    }
+
+    function ocultarContenido(div, ele) {
+        element = document.getElementById(div);
+        check = document.getElementById(ele);
+        if (check.checked) {
+            element.style.display='block';
+            check.classList.add("bg-success");
+        }
+        else {
+            element.style.display='none';
+            check.classList.remove("bg-success");
+            check.classList.add("bg-muted");
+        }
+    }
+
+    
+</script>
+
+  <!-- jquery y bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+  
+  <!-- datatables con bootstrap -->
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+ 
+  <!-- Para usar los botones -->
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  
+ 
+ 
+ <!-- Para los estilos en Excel     -->
+ <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+
+<script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+ <script>
+
+ $(document).ready(function () {
+     $("#tablaruta1").DataTable({
+         "language": {
+         "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+         },
+         dom: '<"wrapper"t>',
+         buttons:{
+             dom: {
+                 button: {
+                     className: 'btn'
+                 }
+             },
+             buttons: [ {
+                 extend: "print",
+                 title: 'Trabajadores',
+                 text:'<i class="fa-solid fa-print"></i> Imprimir',
+                 className:'btn btn-outline-secondary mt-3',
+             }
+             ]            
+         }            
+     });
+ });
+</script>

@@ -1,0 +1,39 @@
+const mongoose=require('mongoose');
+const usuarioSchema = new mongoose.Schema({
+        foto_usuario:{
+            type:String,
+        },
+        nombre_usuario:{
+            type:String,
+            required:true,
+        },
+        email_usuario:{
+            type:String,
+            required:true,
+            unique:true,
+        },
+        celular_usuario:{
+            type:String,
+            required:true,
+            unique:true,
+        },
+        tipo_usuario:{
+            type:String,
+            required:true
+        },
+        password_usuario:{
+            type:String,
+            required:true
+        },
+        fecha_registro_usuario:{
+            type:String
+        },
+        fecha_baja_usuario:{
+            type:String
+        },
+        status_usuario:{
+            type:Boolean,
+            required:true
+        },
+});
+module.exports = mongoose.model('usuarios', usuarioSchema);

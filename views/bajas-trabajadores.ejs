@@ -1,0 +1,367 @@
+<% if (puesto =="Administración") {%>
+    <%- include('templates/menuAdministrador.ejs')%>
+  <%}else{%>
+    <%- include('templates/menuLogistica.ejs')%>
+  <%}%>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+            integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="stylesheet" href="http://localhost:3000/animate.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <script src="http://localhost:3000/js/wow.min.js"></script>
+        <link rel="stylesheet" href="http://localhost:3000/animate.css">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <title>SCDD | Trabajadores disponibles</title>
+        <style>
+            .custom-tooltip {
+                --bs-tooltip-bg: rgb(170, 45, 36);
+            }
+
+            .custom-tooltip-warning {
+                --bs-tooltip-bg: rgb(170, 161, 36);
+            }
+
+            .custom-tooltip-success {
+                --bs-tooltip-bg: rgb(58, 158, 161);
+            }
+
+            .nomostrar {
+                display: none;
+            }
+        </style>
+    </head>
+    <% let date=new Date(); var dia=date.getDate(); var mes=date.getMonth()+1; var anyo=date.getFullYear(); var
+        mes_string='' ; if(mes==1){mes_string='Enero' } if(mes==5){mes_string='Mayo' }
+        if(mes==9){mes_string='Septiembre' } if(mes==2){mes_string='Febrero' } if(mes==6){mes_string='Junio' }
+        if(mes==10){mes_string='Octubre' } if(mes==3){mes_string='Marzo' } if(mes==7){mes_string='Julio' }
+        if(mes==11){mes_string='Noviembre' } if(mes==4){mes_string='Abril' } if(mes==8){mes_string='Agosto' }
+        if(mes==12){mes_string='Diciembre' } var fecha_string=date.toDateString().slice(4); %>
+
+        <body class="">
+            <main class="p-5 pt-3 mb-5">
+                <!--Parte del submenu-->
+                <div class="d-flex align-items-center p-3 row my-1 text-white rounded shadow-sm bottom"
+                style="background-image: url(http://localhost:3000/imagenes/otro.png); background-position: bottom left;">
+                    <div class="col-sm-9">
+                        <h1 class="h6 mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> 
+                            <i class="fa-solid fa-circle-xmark ocultar"></i> Listado de trabajadores no disponibles</h1>
+                        <small class="mb-0 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;"> &nbsp; &nbsp; 
+                            <%=mes_string%> <%=anyo%></small>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <form action="/panel/administracion/filtro-trabajores-bajas" method="POST" name="formulariobuscar"
+                            id="formulariobuscar">
+                            <div class="btn-group dropdown-menu-dark float-end col-12 bottom">
+                                <select
+                                    class="form-select col-12 dropdown-menu-dark border border-secondary form-select-sm"
+                                    style="background-color: transparent;" id="dia_inicio" name="dia_inicio"
+                                    onChange="document.formulariobuscar.submit();">
+                                    <option class="text-secondary" style="font-family: sans-serif;" selected disabled
+                                        value=""><small>Seleccione un área de trabajo</small></option>
+                                    <option>Conductor de personal</option>
+                                    <option>Conductor turístico</option>
+                                    <option>Secretaria</option>
+                                    <option>Mécanico</option>
+                                    <option>Velador</option>
+                                    <option>Logística</option>
+                                </select>
+                            </div>
+                    </div>
+                </div>
+                </form>
+                </div>
+                <!--Lista de usuarios inactivos-->
+                <div class="d-flex align-items-center p-0 row my-3">
+                    <% if(trabajadores.length==0){
+                        var mostrar = ' ';
+                        var verb = 'nomostrar';
+                      } else { mostrar= 'nomostrar'; verb = ' ';}%>
+                    <div class="d-flex justify-content-lg-start mb-1">
+                        <div class="col-sm-5"></div>
+                        <div class="text-center p-0 lh-1 small fw-normal <%=verb%> bottom text-muted col-sm-2">Fecha de baja</div>
+                        <div class="text-center p-0 lh-1 small fw-normal <%=verb%> bottom text-muted col-sm-4">Motivo y veces de baja</div>
+                        <div class="col-sm-1"></div>
+                      </div>
+                      <strong class="text-center text-muted top mt-5 <%=mostrar%>"><i class="small text-secondary fa-solid fa-triangle-exclamation"></i>  No hay trabajadores dadas de baja. Ver lista de trabajadores activos. </strong>
+                    <% trabajadores.forEach((trabajadores)=>{
+                        if(trabajadores.status_trabajador==false) {%>
+                        <div class="d-flex align-items-center ms-0 pe-0 row top border border-muted shadow-sm">
+                            <div class="d-flex text-muted pt-3 col-sm-5 float-start">
+                                <% if(trabajadores.foto_trabajador.includes("undefined") || (trabajadores.foto_trabajador=="" || trabajadores.foto_trabajador[trabajadores.foto_trabajador.length-1]=='-')){ 
+                                    var foto='fondo_full.jpg' ; 
+                                    } else { foto=trabajadores.foto_trabajador; } %>
+                                    <img src="http://localhost:3000/trabajadores/<%=foto%>"
+                                        title="<%= trabajadores.nombre_trabajador%>" alt="mdo" width="32" height="32"
+                                        class="mx-2 d-flex rounded-circle mx-3">
+                                    <p class="pb-3 mb-0 small lh-sm ">
+                                        <strong class="d-block text-gray-dark">
+                                            <%= trabajadores.nombre_trabajador%>
+                                        </strong>
+                                        <b><i class="fa-thin fa-at"></i></b>
+                                        <%= trabajadores.email_trabajador%>
+                                    </p>
+                            </div>
+                            <div class="top col-sm-2 p-0">
+                                <p class="text-muted fw-semibold mx-5 px-3 pt-4"><small>
+                                        <%=trabajadores.fecha_despido%>
+                                    </small></p>
+                            </div>
+                            <div class="form-check top col-sm-4">
+                                <small class="text-muted fw-semibold lh-1 mx-4 justify-content-between d-flex"
+                                    style="text-align: justify;">
+                                    <%= trabajadores.motivo_despido%>
+                                </small>
+                            </div>
+                            <!--Boton para abrir el modal-->
+                            <!--Boton para abrir el modal-->
+                            <div class="col-sm-1 row d-flex justify-content-between">
+                                <div class="col-sm-6 align-items-center">
+                                    <button type="button" id="btnmodal2" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalToggle2"
+                                    data-nom="<%= trabajadores.nombre_trabajador%>"
+                                    data-identidad="<%= trabajadores._id%>"
+                                    data-correo="<%= trabajadores.email_trabajador%>"
+                                    data-celular="<%= trabajadores.telefono_trabajador%>"
+                                    data-despido="<%= trabajadores.motivo_despido%>"
+                                    data-tipo="<%= trabajadores.puesto_trabajador%>"
+                                    data-imagen="<%= trabajadores.foto_trabajador%>"
+                                    data-fr="<%=trabajadores.mes_inicio%> <%=trabajadores.dia_inicio%> <%=trabajadores.anyo_inicio%>"
+                                    data-fm="<%=fecha_string%>" class="btn border border-white">
+                                    <small><i class="fa-solid fa-user-plus"
+                                            style="color: rgba(128, 128, 128, 0.618);"></i></small></button>
+                                </div>
+                                            <div class="col-sm-6">
+                                                <button type="button" onclick="abrirSwal(JSON.parse('<%=JSON.stringify(trabajadores._id)%>'));" class="btn" style="border: none; color: rgba(128, 128, 128, 0.789);"><i class="fa-regular fa-trash-can"></i></button>
+                                                </div>
+                            </div>
+
+                            <script>
+                                function abrirSwal(id){
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success mx-2',
+                  cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: '¿Está seguro de eliminarlo?',
+                text: "El registro del trabajador quedará eliminado.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: 'No, ¡cancelar!',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/panel/administracion/eliminar_trabajador/'+id;
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Operación cancelada',
+                    'error'
+                  )
+                }
+              })
+    }
+                            </script>
+
+                        </div>
+                        <!--Modulo de JS en SCRIPT-->
+                        <script>
+                            $(document).on("click", "#btnmodal2", function () {
+                                var nombre = $(this).data('nom');
+                                var id = $(this).data('identidad');
+                                var correo = $(this).data('correo');
+                                var celular = $(this).data('celular');
+                                var tipo = $(this).data('tipo');
+                                var foto = $(this).data('imagen');
+                                var fecha_r = $(this).data('fr');
+                                var fecha_modificacion = $(this).data('fm');
+                                $("#id_baja").val(id);
+                                $("#nombre_baja").val(nombre);
+                                $("#correo_baja").val(correo);
+                                $("#celular_baja").val(celular);
+                                $("#tipo_baja").val(tipo);
+                                $("#fecha_registro_baja").val(fecha_r);
+                                $("#foto_baja").val(foto);
+                                $("#fecha_modificacion_baja").val(fecha_modificacion);
+
+                                nombre = document.getElementById("nombre_baja").value;
+                                document.getElementById('nomb').innerHTML = nombre;
+
+                                fecha_modificacion = document.getElementById("fecha_modificacion_baja").value;
+                                document.getElementById('fecha_m_baja').value = fecha_modificacion;
+
+                                foto = document.getElementById("foto_baja").value;
+                                if (foto.includes("undefined") || foto == null || foto[foto.length-1]=='-') {
+                                    document.getElementById("imagen_baja").src = "http://localhost:3000/trabajadores/fondo_full.jpg";
+                                } else {
+                                    document.getElementById("imagen_baja").src = "http://localhost:3000/trabajadores/" + foto;
+                                }
+                            })
+                            $(document).ready(function () {
+                                $("#exampleModalToggle2").on('shown.bs.modal', function () {
+                                    $(this).find('#exampleFormControlTextarea').focus();
+                                });
+
+                                var area = document.getElementById('exampleFormControlTextarea1_baja');
+                                area.addEventListener('keyup', (event) => {
+                                    var inputText = event.path[0].value;
+                                    document.getElementById('motivo_baja').value = inputText;
+                                })
+                            });
+
+                            function estado() {
+                            document.getElementById('estado_baja').value = document.getElementById('prueba').value;
+                            }
+
+
+                            var fecha = document.getElementById('fecha_modificacion_baja');
+                            fecha.addEventListener('keyup', (event) => {
+                                var inputText = event.path[0].value;
+                                document.getElementById('fecha_m_baja').value = inputText;
+                            })
+
+                            var nombre_value = document.getElementById('nombre');
+                            nombre_value.addEventListener('keyup', (event) => {
+                                var inputText = event.path[0].value;
+                                document.getElementById('nom_baja').value = inputText;
+                            })
+
+                        </script>
+                        <!--MODAL-->
+                        <div class="modal fade " id="exampleModalToggle2" aria-hidden="true"
+                            aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title text-muted" style="font-family: 'Quicksand', sans-serif;" id="nomb"></h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row needs-validation text-black">
+                                            <div class="d-flex justify-content-center">
+                                                <input id="foto_baja" style="display: none;">
+                                                <img src="http://localhost:3000/usuarios/fondo_full.jpg"
+                                                    id="imagen_baja" style="object-fit: cover;" alt="Navarrete"
+                                                    width="150" height="150" class="rounded-circle bg-light">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="correo_baja" class="form-label text-muted"
+                                                    style="font-family: 'Quicksand', sans-serif">Correo
+                                                    electrónico</label>
+                                                <input type="text" class="form-control fw-bold" disabled readonly
+                                                    id="correo_baja" name="correo_baja">
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="celular_baja" class="form-label text-muted"
+                                                    style="font-family: 'Quicksand', sans-serif">Celular</label>
+                                                <input type="text" class="form-control fw-bold" disabled readonly
+                                                    id="celular_baja">
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="tipo_baja" class="form-label text-muted"
+                                                    style="font-family: 'Quicksand', sans-serif">Área
+                                                    de trabajo</label>
+                                                <div class="input-group has-validation">
+                                                    <input type="text" class="form-control fw-bold" disabled readonly
+                                                        id="tipo_baja" aria-describedby="inputGroupPrepend">
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="fecha_registro_baja" class="form-label text-muted"
+                                                    style="font-family: 'Quicksand', sans-serif">Fecha
+                                                    de registro</label>
+                                                <input type="text" class="form-control fw-bold" disabled readonly
+                                                    id="fecha_registro_baja">
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="fecha_modificacion_baja" class="form-label text-muted"
+                                                    style="font-family: 'Quicksand', sans-serif">Fecha
+                                                    de edición</label>
+                                                <input type="text" class="form-control fw-bold" disabled readonly
+                                                    id="fecha_modificacion_baja" name="fecha_modificacion_baja">
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="prueba" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Estado
+                                                    *</label>
+                                                <select class="form-select dropdown-menu-dark form-select-sm"
+                                                    id="prueba" name="prueba" onclick="estado();">
+                                                    <option class="text-black" selected disabled>
+                                                        <small>Selecciona una opcion</small></option>
+                                                    <option class="text-black" value="true">Activo</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="exampleFormControlTextarea1_baja"
+                                                    class="form-label text-black"
+                                                    style="font-family:'Quicksand', sans-serif;">Motivo
+                                                    de re-contratación *</label>
+                                                <textarea autofocus class="form-control autofocus"
+                                                    id="exampleFormControlTextarea1_baja" rows="2"></textarea>
+                                            </div>
+                                            <div class="col-12 d-flex justify-content-lg-end pt-3"></div>
+                                        <div>&nbsp;</div>
+                                        <form method="post"
+                                            class="justify-content-lg-end d-flex  col-12 float-end col-3"
+                                            action="/panel/admnistracion/activar-trabajador" name="formularioid"
+                                            id="formularioid">
+                                            <input type="text" id="id_baja" name="id_baja" style="display: none;">
+                                            <input id="nombre_baja" name="nombre_baja" style="display: none;">
+                                            <input id="fecha_m_baja" name="fecha_m_baja" style="display: none;">
+                                            <input id="motivo_baja" name="motivo_baja" style="display: none;">
+                                            <input id="estado_baja" name="estado_baja" style="display: none;">
+                                            <button type="submit"
+                                                class="btn btn-secondary col-3">ACTIVAR</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+                <div class="text-white mt-0 p-0" style="font-size: 8px;">.</div>
+                <% } }); %>
+                    </div>
+                    </div>
+                    </div>
+
+                    </div>
+                    </div>
+
+                    <div class="text-light">
+                        .
+                    </div>
+            </main>
+        </body>
+        <script>
+            window.sr = ScrollReveal();
+          sr.reveal('.top', {
+              duration: 3000,
+              origin: 'top',
+              distance: '-100px'
+          });
+      
+          sr.reveal('.bottom', {
+              duration: 3000,
+              origin: 'bottom',
+              distance: '-100px'
+          });
+          </script>

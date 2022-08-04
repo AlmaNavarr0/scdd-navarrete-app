@@ -1,0 +1,359 @@
+<%- include('templates/menuAdministrador.ejs')%>
+
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://scdd-navarrete-app.herokuapp.com/animate.css">  
+   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://unpkg.com/scrollreveal"></script>
+   <title>SCDD | Registrar nuevo usuario</title>
+<style>
+
+    input:-webkit-autofill, 
+    input:-webkit-autofill:hover, 
+    input:-webkit-autofill:focus, 
+    input:-webkit-autofill:active { 
+    -webkit-box-shadow: 0 0 0 30px rgb(255, 255, 255) inset !important; 
+    -webkit-text-fill-color: rgb(0, 0, 0) !important;
+    }
+
+    label {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 5px;
+}
+
+.custom-tooltip-success  {
+  background-color:  rgb(58, 158, 161);
+}
+
+.tooltip-inner {
+    white-space: pre-wrap;
+}
+
+</style>
+</head>
+
+<div class="container">
+    <main class="pt-4">
+      <div class="row g-5">
+          <!--DIV que abarca todo el lado izquierdo-->
+        <div class="col-md-5 col-lg-4 order-md-last">
+            <!--Lista de datos al lado izquierdo-->
+          <ul class="list-group mb-3 border border-secondary text-center botones " style="box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);">
+            <li class="d-flex pt-3 mb-3 lh-sm">
+                <!--Imagen de perfil previa-->
+              <div class="justify-content-center col-12 d-flex botones">
+                <div width="130" height="130" class="caja">
+                    <img src="https://scdd-navarrete-app.herokuapp.com/imagenes/fondo_full.jpg" id="img_ava" style="object-fit: cover;"
+                      alt="Navarrete" width="120" height="120" class="rounded-circle bg-light ">
+                </div>
+              </div>
+            </li>
+            <!--Datos basicos del usuario-->
+            <li class="list-group-item d-flex text-center lh-sm" style="background-color: rgba(54, 121, 126, 0.344);">
+              <div class="text-center  col-12 pt-1 mb-1">
+                <small class="my-0 text-muted ">Nombre completo</small> <br>
+                <small class="fw-bold nombre" style="background-color: transparent; color: rgb(27, 78, 78);"></small> <small class="fw-bold apellidos" style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex text-center lh-sm" style="background-color: rgba(54, 121, 126, 0.344);">
+                <div class="text-center col-12 pt-1 mb-1">
+                <small class="my-0 text-muted ">Correo electrónico</small> <br>
+                <small class="fw-bold correo" style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex text-center" style="background-color: rgba(54, 121, 126, 0.344);">
+              <div class="text-center col-12 pt-1 mb-1">
+                <small class="my-0 text-muted ">Área de trabajo</small> <br>
+                <small class="fw-bold area" style="background-color: transparent; color: rgb(27, 78, 78);;"></small>
+              </div>
+            </li>
+          </ul>
+          <!--Lista de los usuarios existentes-->
+          <ol class="list-group list-group-numbered my-2 mb-2 botones" style="font-weight: bold;">
+            <% usuarios.forEach((usuarios)=>{ %>
+            <li class="list-group-item d-flex justify-content-between align-items-start mb-2"
+              style="background-color: rgba(81, 123, 143, 0.199);">
+              <% if(usuarios.foto_usuario.includes("undefined") || (usuarios.foto_usuario=="" ) || (usuarios.foto_usuario[usuarios.foto_usuario.length-1]=="-")){ 
+                var foto='fondo_full.jpg' ; 
+                } else { foto=usuarios.foto_usuario; } %>
+              <img src="https://scdd-navarrete-app.herokuapp.com/usuarios/<%=foto%>" alt="mdo" width="32" height="32"
+                class="mx-2 d-flex rounded-circle">
+              <div class="ms-2 me-auto">
+                <div class=""> <small class="text-muted" style="font-weight: 650;"> <%= usuarios.nombre_usuario%></small></div>
+                <small class="text-muted" style="font-weight: 500; "><%= usuarios.email_usuario%></small>
+              </div>
+              <% if(usuarios.status_usuario== true){
+                  var opcion = 'ver';
+                 } else {
+                  opcion = 'ocultar';
+                }
+              %>
+              <span class="badge rounded-pill"><i class="fa-solid fa-circle-check <%=opcion%>"></i></span>
+            </li>
+            <% }); %>
+            
+          <a href="/panel/administracion/listado-usuarios" class="text-center pt-1 perfil text-secondary"
+          style="font-weight: bold; text-decoration: none; font-family: 'Raleway', sans-serif;">Ver lista
+          completa</a>
+          </ol>
+          <!--Alerta de contraseña-->
+          <div class="alert alert-warning alert-dismissible text-center py-4 fade show" id="mensaje_error" role="alert">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <strong>Las contraseñas no coinciden. </strong> 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        </div> 
+        <!--DIV que abarca todo el lado derecho-->
+        <div class="col-md-7 col-lg-8 mb-5  p-5 text-black nombres shadow-lg" id="formulario" style="background-image: url(https://scdd-navarrete-app.herokuapp.com/imagenes/otro.png);">
+        <p class="pt-3 mb-4 text-center text-muted fw-bold h2" style="font-family: 'Quicksand', sans-serif;"><i class="fa-regular fa-keyboard text-muted"></i> Registro de un nuevo usuario </p>
+        <!--FORMULARIO inicia-->
+          <form class="needs-validation text-black mb-5 nombres" autocomplete="new-password" method="POST" id="formulario"  action="/panel/administracion/registrar_usuario" enctype="multipart/form-data">
+            <small class="text-muted">LLene el siguiente formulario, los campos obligatorios son marcados *:</small>
+            <hr class="py-1">
+            <div class="row g-3">
+                <!--Campo de nombre-->
+              <div class="col-sm-6 ">
+                <label for="firstName" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-user"></i> Nombre *</label>
+                <input type="text" class="form-control fw-bold h6 text-secondary" autocomplete="off" style="text-transform: capitalize;" id="firstName" name="firstName" placeholder="Ej. José Luis" value="" required>
+                <div class="invalid-feedback">
+                  Por favor, ingrese un nombre.
+                </div>
+              </div>
+              <!--Campo de apellidos-->
+              <div class="col-sm-6">
+                <label for="lastName" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-user"></i> Apellidos *</label>
+                <input type="text" class="form-control fw-bold h6 text-secondary" autocomplete="off" id="lastName" name="lastName" style="text-transform: capitalize;" placeholder=" Ej.Pérez Lopez" value="" required="">
+                <div class="invalid-feedback">
+                    Por favor, ingrese los apellidos.
+                </div>
+              </div>
+              <!--Campo para el correo electronico-->
+              <div class="col-12">
+                  <label for="username" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-solid fa-at"></i> Correo electrónico
+                      *</label>
+                  <input type="text" autocomplete="new-password" class="form-control fw-bold h6 text-secondary" id="username"
+                      name="username" placeholder="ejemplo@navarrete.com" required="">
+                  <div class="invalid-feedback">
+                      Por favor, ingrese una dirección de correo válida.
+                  </div>
+              </div>
+              <!--Campos para el numero celular-->
+              <div class="col-sm-2">
+                <label for="address" class="form-label text-black fw-bold h6"><i class="small text-secondary  fa-solid fa-voicemail"></i> Lada * </label>
+                <input type="number" autocomplete="off" class="form-control fw-bold h6 text-secondary" id="address" name="address" list="colores" placeholder="427" required="" maxlength="3">
+                <datalist id="colores" autocomplete="off" >
+                    <option value="414">Tequisquiapan, Qro.</option>
+                    <option value="427">San Juan del Río, Qro.</option>
+                    <option value="442">Querétaro, Qro.</option>
+                    <option value="448">Amealco, Qro.</option>  
+                  </datalist>
+              </div>
+              <div class="col-sm-10">
+                <label for="celular" class="form-label text-black fw-bold h6"><i class="small text-secondary  fa-solid fa-voicemail"></i> Número celular *</label>
+                <input type="number" autocomplete="off"  class="form-control fw-bold h6 text-secondary" id="celular" name="celular" placeholder="456 78 90" required="" maxlength="10">
+                <div class="invalid-feedback">
+                  Por favor, ingrese un número celular.
+                </div>
+              </div>
+              <!--Campo para el area de trabajo-->
+              <div class="col-12">
+                <label for="area" class="form-label text-black fw-bold h6" ><i class="small text-secondary fa-solid fa-network-wired"></i> Área de trabajo </label>
+                <input type="text" class="form-control fw-bold h6 text-secondary border border-muted" list="areas" autocomplete="off" id="area" name="area" placeholder="Ej. Administración">
+                <datalist id="areas">
+                    <option value="Administración"></option>
+                    <option value="Logística"></option>
+                  </datalist>  
+            </div>
+            <!--Apartado para la contraseña-->
+            <div class="col-sm-6" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-custom-class="custom-tooltip-success" data-bs-title="Para el control de usuarios, cree una contraseña temporal. Al hacerla llegar al usuario final, el puede cambiarla.">
+                <label for="contrasena1" class="form-label text-black fw-bold h6"> Contraseña * </label> <i id="span" style="cursor: pointer;" class="fa-solid fa-eye text-secondary float-end" ></i>
+                <input type="password" autocomplete="new-password" autocomplete="current-password" class="form-control fw-bold h6 text-secondary" id="contrasena1" name="contrasena1" title="Mínimo 8 espacios, no se aceptan caracteres especiales." placeholder="Contraseña" value="" required>
+                <div class="invalid-feedback">
+                  Por favor, ingrese una contraseña.
+                </div>
+              </div>
+              <div class="col-sm-6" data-bs-toggle="tooltip" data-bs-placement="top"  data-bs-custom-class="custom-tooltip-success" data-bs-title="Para el control de usuarios, cree una contraseña temporal. Al hacerla llegar al usuario final, el puede cambiarla.">
+                <label for="contrasena2" class="form-label text-black fw-bold h6"> Verificar contraseña *</label> <i id="spa" style="cursor: pointer;" class="fa-solid fa-eye text-secondary float-end"></i>
+                <input type="password" autocomplete="off" class="form-control fw-bold h6 text-secondary" id="contrasena2" placeholder="Confirmar contraseña">
+                <div class="invalid-feedback">
+                    Por favor, verifique la contraseña.
+                </div>
+              </div>
+              <!--Campos para seleccionar la imagen de perfil-->
+            <div class="col-12 mb-5">
+                <label for="imagen" class="form-label text-black fw-bold h6"><i class="small text-secondary fa-regular fa-images"></i> Imagen de perfil </label> <span class="text-muted small">(Optional)</span>
+                <input type="file" accept="image/*" class="form-control form-control-sm" id="imagen" name="imagen" value="vavs" onchange="vista(event)">
+                <input type="text" style="display: none;" id="imagen_nueva" name="imagen_nueva">
+              </div>    
+            <!--Area de botones-->
+            <div class="col-12 d-flex justify-content-center">
+                <div class="enviar col-sm-5">
+                    <button class="w-100 btn btn-small enviar_dos" style="outline: none;" type="submit"><strong>REGISTRAR</strong></button>
+                </div>
+                <div class="col-sm-0"> &nbsp; &nbsp; </div>
+                <div class="enviar col-sm-5">
+                    <button class="w-100 btn btn-small enviar_dos" style="outline: none;" onclick="cancelar();" type="reset"><strong>LIMPIAR</strong></button>
+                </div>
+            </div>
+            <!--FIN DE FORMULARIO-->
+          </form>
+        </div>
+      </div>
+    </main>
+  </div>
+  
+<%- include('templates/pie.ejs')%>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script>
+    document.querySelector('#span').addEventListener('click', e => {
+        const passwordInput = document.querySelector('#contrasena1');
+        if (e.target.classList.contains('show')) {
+            e.target.classList.remove('show');
+            passwordInput.type = 'password';
+        } else {
+            e.target.classList.add('show');
+            passwordInput.type = 'text';
+        }
+    });
+
+    document.querySelector('#spa').addEventListener('click', e => {
+        const passwordInput = document.querySelector('#contrasena2');
+        if (e.target.classList.contains('show')) {
+            e.target.classList.remove('show');
+            passwordInput.type = 'password';
+        } else {
+            e.target.classList.add('show');
+            passwordInput.type = 'text';
+        }
+    });
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault()
+                    event.stopPropagation()
+                }
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+    var nombre = document.getElementById('firstName');
+    var apellidos = document.getElementById('lastName');
+    var correo = document.getElementById('username');
+    var area = document.getElementById('area');
+
+    nombre.addEventListener('keyup', (event) => {
+        var inputText = event.path[0].value;
+        document.querySelector('.nombre').innerHTML = inputText.toUpperCase();
+    })
+
+    apellidos.addEventListener('keyup', (event) => {
+        var inputText = event.path[0].value;
+        document.querySelector('.apellidos').innerHTML = inputText.toUpperCase();
+    })
+
+    correo.addEventListener('keyup', (event) => {
+        var inputText = event.path[0].value;
+        document.querySelector('.correo').innerHTML = inputText.toLowerCase();
+    })
+
+    area.addEventListener('keyup', (event) => {
+        var inputText = event.path[0].value;
+        document.querySelector('.area').innerHTML = inputText.toUpperCase();
+    })
+
+    window.sr = ScrollReveal();
+    sr.reveal('.formulario', {
+        duration: 3000,
+        origin: 'right',
+        distance: '-100px'
+    });
+
+    sr.reveal('.perfil', {
+        duration: 3000,
+        origin: 'left',
+        distance: '-100px'
+    });
+
+    sr.reveal('.nombres', {
+        duration: 3000,
+        origin: 'top',
+        distance: '-100px'
+    });
+    sr.reveal('.botones', {
+        duration: 3000,
+        origin: 'bottom',
+        distance: '-100px'
+    });
+
+    
+    
+    let vista = (event) => {
+        let leer_img = new FileReader();
+        let id_img = document.getElementById('img_ava');
+        leer_img.onload = () => {
+            if (leer_img.readyState == 2) {
+                id_img.src = leer_img.result
+            }
+        }
+        leer_img.readAsDataURL(event.target.files[0])
+        var imagen = document.getElementById('imagen').value;
+        var imagen_nueva = imagen.slice(12);
+        document.getElementById('imagen_nueva').value = imagen_nueva;
+    }
+
+    function cancelar(){
+        let id_img = document.getElementById('img_ava');
+        id_img.src = id_img.src = 'https://scdd-navarrete-app.herokuapp.com/imagenes/fondo_full.jpg';
+    }
+
+</script>
+<script>
+    $(document).ready(function () {
+    $('#mensaje_error').hide();  
+});
+
+
+    $("#contrasena2").keyup(function () {
+    var cont = $('#contrasena1').val();
+    var cont2 = $('#contrasena2').val();
+    if (cont == cont2) {
+        $('#mensaje_error').hide();
+    } else {
+        $('#mensaje_error').show();
+    }
+});
+
+
+$("#contrasena1").keyup(function () {
+    var cont = $('#contrasena1').val();
+    var cont2 = $('#contrasena2').val();
+    if (cont == cont2) {
+        $('#mensaje_error').hide();
+        $('#botones').show();
+    } else {
+        $('#mensaje_error').show();
+        $('#botones').hide();
+    }
+});
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
