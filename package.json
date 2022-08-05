@@ -21,7 +21,6 @@
   "devDependencies": {},
   "scripts": {
     "test": "react-scripts test",
-    "build": "react-script build",
     "eject": "react-script eject",
     "start": "nodemon app.js"
   },
