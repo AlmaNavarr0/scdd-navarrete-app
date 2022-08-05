@@ -9,7 +9,6 @@ const notifier = require('node-notifier'); //Alertas
 const nodemailer = require('nodemailer'); //Enviar correo
 
 const uniqueSuffix = Math.round(Math.random() * 1E5);
-console.log(uniqueSuffix)
 
 const fecha = new Date();
 var fecha_string = fecha.toDateString().slice(4);

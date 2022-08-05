@@ -35,7 +35,6 @@ if(mess==2){ mes_strin='Feb'} if(mess==6){ mes_strin='Jun'} if(mess==10){ mes_st
 if(mess==3){ mes_strin='Mar'} if(mess==7){ mes_strin='Jul'} if(mess==11){ mes_strin='Nov'}
 if(mess==4){ mes_strin='Abr'} if(mess==8){ mes_strin='Ago'} if(mess==12){ mes_strin='Dic'}
 
-console.log(mes_strin)
 
 function sumarDias(fecha, dias){
   fecha.setDate(fecha.getDate() + dias);
