@@ -38,10 +38,10 @@ app.use(express.static("archivos"));
 app.use(express.static("estilos"));
 
 //Levantamiento y acceso a las rutas de navegacion
-app.use('/', usuario);
-app.use('/', trabajador);
-app.use('/', flotilla); 
-app.use('/', permiso);
+app.use(usuario);
+app.use(trabajador);
+app.use(flotilla); 
+app.use(permiso);
 
 app.listen(process.env.PORT || 3000, function() {
 console.log('Servidor escuchando en el puerto 3000');
