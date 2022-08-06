@@ -1,21 +1,8 @@
 {
-    "version": 2,
-    "name": "petgram-server-soul",
-    "alias": ["petgram-api-soul"],
-    "builds": [
-        {
-            "src": "index.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [{
-        "headers": {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, POST",
-            "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
-        },
-            "src":"/.*",
-            "dest": "index.js"
-        }
+    "rewrites": [
+      {
+        "source": "/(.*)",
+        "destination": "/"
+      }
     ]
-}
+  }
