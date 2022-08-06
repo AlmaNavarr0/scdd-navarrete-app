@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Sistema de control de datos y documentos Navarrete",
   "main": "index.js",
+  "engines": {
+    "node": "14.x"
+  },
   "dependencies": {
     "alert": "^5.1.1",
     "alerts": "^0.1.3",
