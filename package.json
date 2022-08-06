@@ -20,7 +20,7 @@
   },
   "scripts": {
     "test": "Command",
-    "start": "nodemon app.js"
+    "start": "node app.js"
   },
   "keywords": [
     "Control",
