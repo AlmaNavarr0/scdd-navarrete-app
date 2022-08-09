@@ -6,7 +6,7 @@
             "use": "@vercel/node"
         },
         {
-            "src": "vercel.json", 
+            "src": "package.json", 
             "use": "vercel-sapper"
         }
     ], 
