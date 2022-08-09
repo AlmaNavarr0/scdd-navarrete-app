@@ -14,15 +14,17 @@ const historialSchema = new mongoose.Schema({
                     },
         formato_cambio:{
             type:String,
-                    },
-        foto_encargado:{
-            type: String,
         },
         nombre_encargado:{
             type:String,
         },
-        fecha_emision:{
-            type:String
+        email_encargado:{
+            type:String,
+        },
+        fecha_hora_emision:{
+            type:String,
+            unique: true,
+            require: true
         }
 });
 module.exports=mongoose.model('historial', historialSchema);

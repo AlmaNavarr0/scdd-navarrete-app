@@ -1,0 +1,373 @@
+<% if (puesto =="Administración") {%>
+    <%- include('templates/menuAdministrador.ejs')%>
+  <%}else{%>
+    <%- include('templates/menuLogistica.ejs')%>
+  <%}%>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <script src="https://unpkg.com/scrollreveal"></script>
+        <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.css">
+        <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+    
+        <!-- Buttons -->
+        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
+        <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
+        <script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    
+     <!-- Buttons -->
+    <title>SCDD | Historial de cambios </title>
+
+    <style>
+        table.dataTable{
+            border-bottom: 1px solid rgb(201, 201, 201);
+        }
+
+        table.dataTable thead{
+            background-color: #356967;
+            color: azure;
+        }
+
+        .page-item.active .page-link{
+            border: 1px solid white;
+            background-color: #356967;
+            color: azure;
+        }
+
+        .page-link{
+            color: #000;
+        }
+        
+        .dataTables_info{
+            color: rgb(65, 65, 65);
+        }
+
+        .buttons-excel:hover{
+            background-color: #356967;
+            color: #fff;
+        }
+
+        .buttons-excel{
+            border: 1px solid #356967;
+            color: #356967;
+        }
+
+        label {
+  color: #fff;
+  display: block;
+  font-size: 14px;
+  height: 16px;
+  margin-top: 20px;
+  font-family: 'Raleway', sans-serif;
+  margin-bottom: 5px;
+}
+
+    </style>
+</head>
+<div id="registro" class="text-white">.</div>
+
+<div class="mx-5 shadow border border-muted top" style="border-radius: 9px; background-color: rgba(172, 172, 172, 0.152);">
+    <p class="pt-4 mb-4 text-center text-muted fw-bold h2" style="font-family: 'Quicksand', sans-serif;"><i class="fa-solid fa-clock-rotate-left text-secondary"></i> Historial de cambios en rol de transporte</p>
+    <div class="row mx-2 d-flex justify-content-between p-0" style="background-color: transparent">
+        <div class="my-1 card text-center  pt-4 col-sm-3" style="border: none; background-color: transparent">
+            <div class="card-header mx-3 border border-secondary">
+                <strong class="text-secondary fw-bold" style="font-family: 'Quicksand', sans-serif;"> <i class="fa-solid fa-magnifying-glass"></i> Buscar:</strong>
+              </div>
+            <div class="card-body col-12 px-0">
+                <nav class="navbar col-12 px-3">
+                    <div class="container-fluid p-0">
+                        <input class="form-control col-12 fw-bold border border-secondary pt-0" id="buscarData" type="text" placeholder="Buscar" aria-label="Search">
+                    </div>
+                  </nav>
+            </div>
+          </div>
+          <div class="col-sm-9 px-5 ps-3 mb-4">
+            <table id="myTable" class="table table-bordered table-hover border border-success" style="width:100%">
+                <thead>
+                    <tr>
+                        <th class="text-center col-sm-4">Fecha y hora emisión</th>
+                        <th class="text-center">No. Cambio</th>
+                        <th class="text-center">Encargado</th>
+                        <th class="text-center">Documento</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% historial.forEach((historial)=>{ %>
+                    <tr>
+                        <td class="small text-muted fw-bold"><%= historial.fecha_hora_emision%></td>
+                        <td class="small text-muted fw-semibold"><%= historial.numero_cambio%></td>
+                        <td class="small text-muted fw-semibold"><%= historial.nombre_encargado%> <br>  <small class="text-muted"><%= historial.email_encargado%></small></td>
+                        <td class="small text-muted fw-semibold"><%= historial.formato_cambio%></td>
+                        <td class="align-middle">
+                        <div class="form-check col-sm-1 float-end">
+                                <button type="button" id="btnmodal" data-bs-toggle="modal" data-bs-target="#exampleModalToggle" 
+                                data-nom="<%= historial.nombre_encargado%>" data-identidad="<%= historial._id%>" 
+                                data-cambio="<%= historial.numero_cambio%>"
+                                data-fecha="<%= historial.fecha_hora_emision%>" 
+                                data-correo="<%= historial.email_encargado%>" class="btn border border-white">
+                                <small><i class="fa-solid fa-user-minus" style="color: rgba(128, 128, 128, 0.618);"></i></small></button>
+                        </div>
+                        <button onclick="abrirSwal(JSON.parse('<%=JSON.stringify(trabajadores._id)%>'))" type="button" class="btn" style="background: transparent; border: none; color: rgba(128, 128, 128, 0.789);"><i class="fa-regular fa-trash-can"></i></button>
+                    </td>
+                    </tr>
+                      <!--Modulo de JS en SCRIPT-->
+        <script>
+            $(document).on("click", "#btnmodal", function(){
+              var nombre = $(this).data('nom');
+              var id = $(this).data('identidad');
+              var correo = $(this).data('correo');
+              var fecha = $(this).data('fecha');
+              var cambio = $(this).data('cambio');
+              
+              $("#ide").val(id);
+              $("#nombre").val(nombre);
+              $("#correo").val(correo);
+              $("#fecha").val(fecha);
+              $("#cambio").val(cambio);
+
+              nombre = document.getElementById("nombre").value;
+              document.getElementById('nom').innerHTML = 'Encargado: '+nombre;
+
+              nombre = document.getElementById("correo").value;
+              document.getElementById('cor').innerHTML = '@: '+nombre;
+            });
+  
+          </script>
+          <!--MODAL DE DATOS-->
+          <div class="modal fade " id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title text-muted" style="font-family: 'Quicksand', sans-serif;" id="nom"> <br> 
+                        <small id="cor" class="text-muted"></small></h5>
+                    <button type="button" onclick="borrarLicencia()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form class="row needs-validation text-black" method="POST" action="/panel/administracion/editar_historial">
+                      <input type="text" id="ide" name="ide" style="display: none;">
+                      <input type="text" id="correo" name="correo" style="display: none;">
+                      <div class="col-md-6">
+                        <label for="fecha" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Fecha y hora de emisión</label>
+                        <input type="text" class="form-control fw-bold" disabled readonly id="fecha" name="fecha">
+                        
+                      </div>
+                      <div class="col-md-6">
+                        <label for="cambio" class="form-label text-muted" style="font-family: 'Quicksand', sans-serif">Número de cambio</label>
+                        <input type="text" class="form-control fw-bold" disabled readonly id="cambio" name="cambio">
+                      </div>
+                      <div class="col-sm-12 mx-5">
+                        <label for="imagen" class="form-label text-black fw-bold h6">Archivo de
+                            cambio </label> <span class="text-muted small">(Requerido)</span>
+                        <input type="file" class="form-control form-control-sm" id="pdffFile"
+                            accept=".pdf" name="pdffFile" onchange="pasarLicencia(event)">
+                        <input type="text" class="form-control form-control-sm"
+                            style="display: none;" id="nueva_licencia" name="nueva_licencia">
+                    </div>
+                    <div class="col-sm-12">
+                        <embed id="vistaPrevia" type="application/pdf" class="col-12 bg-secondary"
+                            height="300">
+                    </div>
+                            <input id="nombre" name="nombre" style="display: none;">
+                            <button type="submit" class="btn justify-content-lg-end btn-secondary col-4">SUBIR</button>
+                      </form>
+                      </div>
+                  </div>
+                </div>
+          </div>
+                    <% }); %>
+                </tbody>                  
+            </table>
+            <script>
+                function abrirSwal(id){
+                const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                  confirmButton: 'btn btn-success mx-2',
+                  cancelButton: 'btn btn-danger mx-2'
+                },
+                buttonsStyling: false
+              })
+              
+              swalWithBootstrapButtons.fire({
+                title: '¿Está seguro de eliminarlo?',
+                text: "El registro de permiso quedará eliminado.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '¡Si, eliminar!',
+                cancelButtonText: 'No, ¡cancelar!',
+                reverseButtons: true
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/panel/administracion/eliminar_permiso/'+id;
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swalWithBootstrapButtons.fire(
+                    'Cancelado',
+                    'Operación cancelada',
+                    'error'
+                  )
+                }
+              })
+                  }
+            </script>
+          </div>
+    </div>
+  </div>
+  
+  <div class="text-white mb-5">.</div>
+    
+
+  
+  <%- include('templates/pie.ejs')%>
+       
+      
+  <!-- jquery y bootstrap -->
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>   
+  
+  <!-- datatables con bootstrap -->
+  <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap5.min.js"></script>
+  
+  <!-- Para usar los botones -->
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+  
+  
+  <!-- Para los estilos en Excel     -->
+  <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+  <script src=//cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js></script>
+  <script>
+      let pasarLicencia = (event) => {
+                var licencia = document.getElementById('pdffFile').value;
+                var licencia_nueva = licencia.slice(12);
+                document.getElementById('nueva_licencia').value = licencia_nueva;
+
+                let pdffFile = document.querySelector('#pdffFile').files[0];
+                let pdffFileURL = URL.createObjectURL(pdffFile) + "#toolbar=0";
+
+                document.querySelector('#vistaPrevia').setAttribute('src', pdffFileURL);
+            }
+
+        function borrarLicencia(){
+            document.getElementById("pdffFile").value = "";
+            document.getElementById("nueva_licencia").value = "";
+            document.querySelector('#vistaPrevia').setAttribute('src', "");
+        }
+       window.sr = ScrollReveal();
+      sr.reveal('.top', {
+          duration: 2000,
+          origin: 'top',
+          distance: '-100px'
+      });
+  
+      sr.reveal('.bottom', {
+          duration: 2000,
+          origin: 'bottom',
+          distance: '-100px'
+      });
+  
+  $(document).ready(function () {
+     var table = $("#myTable").DataTable({
+         "language": {
+         "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
+         },
+         dom: 'tlipB',
+         buttons:{
+             dom: {
+                 button: {
+                     className: 'btn'
+                 }
+             },
+             buttons: [
+             {
+                 //definimos estilos del boton de excel
+                 extend: "excel",
+             title: 'Historial',
+                 text:'<i class="fa-solid fa-file-arrow-down"></i> Excel',
+                 className:'btn',
+  
+                 // 1 - ejemplo básico - uso de templates pre-definidos
+                 //definimos los parametros al exportar a excel
+                 pageStyle: {
+                 sheetPr: {
+                     pageSetUpPr: {
+                         fitToPage: 1            // Fit the printing to the page
+                     } 
+                 },
+                 printOptions: {
+                     horizontalCentered: true,
+                     verticalCentered: true,
+                 },
+                 pageSetup: {
+                     orientation: "landscape",   // Orientacion
+                     paperSize: "9",             // Tamaño del papel (1 = Legal, 9 = A4)
+                     fitToWidth: "1",            // Ajustar al ancho de la página
+                     fitToHeight: "0",           // Ajustar al alto de la página
+                 },
+                 pageMargins: {
+                     left: "0.2",
+                     right: "0.2",
+                     top: "0.4",
+                     bottom: "0.4",
+                     header: "0",
+                     footer: "0",
+                 },
+                 repeatHeading: true,    // Repeat the heading row at the top of each page
+                 repeatCol: 'A:A',       // Repeat column A (for pages wider than a single printed page)
+             },
+         
+                 excelStyles: {                
+                     //template: "header_blue",  // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                     //template:"green_medium" 
+                     
+                     "template": [
+                         "blue_gray_medium",
+                         "header_gray",
+                     ] 
+                     
+                 }, 
+             },
+         {
+             extend: "print",
+             title: 'Historial',
+                 text:'<i class="fa-solid fa-file-pdf"></i> Imprimir',
+                 className:'btn btn-outline-secondary',
+         }
+             ]            
+         }            
+     });
+  
+     $('#buscarData').on( 'keyup', function () {
+      table.search( this.value ).draw();
+  } );
+  });
+  
+  window.sr = ScrollReveal();
+  sr.reveal('.top', {
+     duration: 3000,
+     origin: 'top',
+     distance: '-100px'
+  });
+  
+  sr.reveal('.bottom', {
+     duration: 3000,
+     origin: 'bottom',
+     distance: '-100px'
+  });
+     </script>
+  
+  </head>

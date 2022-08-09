@@ -109,7 +109,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de
                                             seguro</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="button" class="btn-close" onclick="borrarSeguro()" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body d-flex justify-content-center">
@@ -170,8 +170,6 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Aceptar</button>
                                     </div>
@@ -187,7 +185,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de
                                             verificación vehicular</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="button" class="btn-close" onclick="borrarVeri()" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body d-flex justify-content-center">
@@ -259,8 +257,6 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Aceptar</button>
                                     </div>
@@ -483,6 +479,25 @@
         let id_img = document.getElementById('img_ava');
         id_img.src = id_img.src = 'http://localhost:3000/imagenes/fondo_full.jpg';
     }
+
+    function borrarExamen(){
+            document.getElementById("pdffFile").value = "";
+            document.getElementById("nueva_licencia").value = "";
+            document.getElementById("dia_examen").value = "";
+            document.getElementById("mes_examen").value = "";
+            document.getElementById("anyo_examen").value = "";
+            document.querySelector('#vistaPrevia').setAttribute('src', "");
+        }
+
+    function borrarVeri(){
+        document.getElementById("pdffFile2").value = "";
+        document.getElementById("nueva_licencia2").value = "";
+        document.getElementById("tipo_verificacion").value = "";
+        document.getElementById("dia_verificacion").value = "";
+        document.getElementById("mes_verificacion").value = "";
+        document.getElementById("anyo_verificacion").value = "";
+        document.querySelector('#vistaPrevia2').setAttribute('src', "");
+}
 
     let pasarLicencia = (event) => {
         var licencia = document.getElementById('pdffFile').value;

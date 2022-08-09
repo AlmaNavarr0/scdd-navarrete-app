@@ -4,6 +4,7 @@ const Permiso = require('../modelos/permisos');
 const Rutas = require('../modelos/rutas');
 const Trabajador = require('../modelos/trabajador');
 const Flotilla = require('../modelos/flotilla');
+const Historial = require('../modelos/historial');
 const path = require('path'); 
 const notifier = require('node-notifier'); //Alertas
 const nodemailer = require('nodemailer'); //Enviar correo
@@ -293,4 +294,24 @@ ruta.get('/panel/administracion/eliminar-ruta/:id', (req, res) =>{
     })
 
 })
+
+ruta.get('/panel/administracion/historial-cambios', (req, res) =>{
+    if (!req.session.usuario) {
+        res.redirect('/'); } 
+    Historial.find().sort({fecha_hora_emision: 1})
+    .then((historial)=>{
+        res.render('historial-rutas', {
+            historial:historial,
+            usuario: req.session.usuario,
+            foto: req.session.foto,
+            correo: req.session.correo,
+            puesto: req.session.puesto
+        });
+    })
+    .catch((err)=>{
+        
+        console.log('No se pueden mostrar el historial de cambios en rutas' + err);
+    })
+})
+
 module.exports = ruta;

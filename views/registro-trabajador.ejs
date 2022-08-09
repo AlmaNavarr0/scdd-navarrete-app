@@ -609,7 +609,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Selecciona una imagen de
                                             presentación</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="button" class="btn-close" onclick="borrarImagen()" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
@@ -646,7 +646,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de
                                             licencia</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="button" class="btn-close" onclick="borrarLicencia()" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body d-flex justify-content-center">
@@ -707,8 +707,6 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Aceptar</button>
                                     </div>
@@ -724,7 +722,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de examen
                                             médico</h5>
-                                        <button type="" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="" class="btn-close" onclick="borrarExamen()" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body d-flex justify-content-center">
@@ -785,8 +783,6 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Aceptar</button>
                                     </div>
@@ -802,7 +798,7 @@
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="staticBackdropLabel">Selecciona un archivo de
                                             tarjetón vehicular</h5>
-                                        <button type="" class="btn-close" data-bs-dismiss="modal"
+                                        <button type="" class="btn-close" onclick="borrarTarjeton()" data-bs-dismiss="modal"
                                             aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body d-flex justify-content-center">
@@ -864,8 +860,6 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="reset" class="btn btn-outline-secondary"
-                                            data-bs-dismiss="modal">Cancelar</button>
                                         <button type="button" class="btn btn-secondary"
                                             data-bs-dismiss="modal">Aceptar</button>
                                     </div>
@@ -968,6 +962,41 @@
                 document.getElementById('imagen_nueva').value = imagen_nueva;
             }
 
+        function borrarImagen(){
+            document.getElementById("imagen").value = "";
+            document.getElementById("imagen_nueva").value = "";
+            let id_img = document.getElementById('img_ava');
+            let id_img2 = document.getElementById('img_dos');
+            id_img.src = id_img.src = 'http://localhost:3000/imagenes/fondo_full.jpg';
+            id_img2.src = id_img.src = 'http://localhost:3000/imagenes/fondo_full.jpg';
+        }
+
+        function borrarLicencia(){
+            document.getElementById("pdffFile").value = "";
+            document.getElementById("nueva_licencia").value = "";
+            document.getElementById("dia_licencia").value = "";
+            document.getElementById("mes_licencia").value = "";
+            document.getElementById("anyo_licencia").value = "";
+            document.querySelector('#vistaPrevia').setAttribute('src', "");
+        }
+
+        function borrarExamen(){
+            document.getElementById("pdffFile2").value = "";
+            document.getElementById("nueva_licencia2").value = "";
+            document.getElementById("dia_examen").value = "";
+            document.getElementById("mes_examen").value = "";
+            document.getElementById("anyo_examen").value = "";
+            document.querySelector('#vistaPrevia2').setAttribute('src', "");
+        }
+
+        function borrarTarjeton(){
+            document.getElementById("pdffFile3").value = "";
+            document.getElementById("nueva_licencia3").value = "";
+            document.getElementById("dia_tarjeton  ").value = "";
+            document.getElementById("mes_tarjeton  ").value = "";
+            document.getElementById("anyo_tarjeton  ").value = "";
+            document.querySelector('#vistaPrevia3').setAttribute('src', "");
+        }
             
         function cancelar(){
         let id_img = document.getElementById('img_ava');
