@@ -1,14 +1,19 @@
 {
     "version": 2,
-    "name": "petgram-server-scdd-navarrete-app-oficial",
-    "alias": ["petgram-api-scdd-navarrete-app-oficial"],
-    "builds": [{ "src": "index.js", "use": "@vercel/node" }],
-    "routes": [{
-      "headers": {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
-          "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept"
-      },
-      "src": "/.*", "dest": "index.js" }
+    "builds": [
+        {
+            "src": "./index.js",
+            "use": "@vercel/node"
+        },
+        {
+            "src": "package.json", 
+            "use": "vercel-sapper"
+        }
+    ], 
+    "routes": [
+        {
+            "src": "/(.*)",
+            "dest": "/"
+        }
     ]
 }
