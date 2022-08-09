@@ -1,6 +1,7 @@
 {
   "name": "sistemanavarrete",
   "version": "1.0.0",
+  "private": true,
   "description": "Sistema de control de datos y documentos Navarrete",
   "main": "index.js",
   "engines": {
