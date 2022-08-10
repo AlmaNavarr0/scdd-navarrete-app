@@ -8,11 +8,29 @@ const Historial = require('../modelos/historial');
 const path = require('path'); 
 const notifier = require('node-notifier'); //Alertas
 const nodemailer = require('nodemailer'); //Enviar correo
+var moment = require('moment');
+const multer = require('multer'); //Subir archivos
 
 const uniqueSuffix = Math.round(Math.random() * 1E5);
 
 const fecha = new Date();
 var fecha_string = fecha.toDateString().slice(4);
+var now = moment().format("DD/MM/YYYY HH:mm:ss A");
+
+//Numero aleatorio
+const unique = Math.round(Math.random() * 1E9);
+
+/*METOODS*/ 
+function uploadFiles() {
+    const storage = multer.diskStorage({
+        destination: path.join(__dirname, '../archivos/rutas'),
+        filename: function (req, file, cb) {
+          cb(null, unique+'-'+file.originalname )
+        }
+    });
+    const upload = multer({ storage, dest: path.join(__dirname, '../archivos/rutas') }).fields([{name: 'pdffFile'}]) ;
+    return upload;
+}
 
 ruta.get('/panel/administracion/solicitud-trabajador', (req, res) =>{
     if (!req.session.usuario) {
@@ -311,6 +329,112 @@ ruta.get('/panel/administracion/historial-cambios', (req, res) =>{
     .catch((err)=>{
         
         console.log('No se pueden mostrar el historial de cambios en rutas' + err);
+    })
+})
+
+ruta.post('/panel/administracion/registrar_cambio', (req, res) =>{
+    if (!req.session.usuario) {
+        res.redirect('/'); } 
+        console.log(req.body);
+
+        var historial = new Historial({
+            dia_historial: req.body.dia_cambio,
+            mes_historial: req.body.mes_cambio,
+            anyo_historial: req.body.anyo_cambio, 
+            numero_cambio: req.body.numero_cambio,
+            nombre_encargado: req.body.nombre,
+            email_encargado: req.body.email,
+            fecha_hora_emision: now
+
+        });
+        console.log(historial);
+        historial.save()
+        .then(()=>{
+            notifier.notify({
+                title: 'SCDD | Rol de transporte de personal registrado',
+                message: 'Datos registrado correctamente. Suba el archivo descargado.',
+                icon: path.join(__dirname, '../archivos/imagenes/sinfondodos.png'),
+                sound: true,
+                timeout: 3,
+                sticky: true,
+                wait: false
+            });
+            res.redirect('/panel/administracion/historial-cambios');
+        })
+        .catch((err)=>{
+            notifier.notify({
+                title: 'SCDD | Rol de transporte no registrada',
+                message: 'Rol de transporte no registrada correctamente.',
+                icon: path.join(__dirname, '../archivos/imagenes/sinfondodos.png'),
+                sound: true,
+                timeout: 3,
+                sticky: true,
+                wait: false
+            });
+            console.log('Error. No se ha podido registrar el rol de transporte por. ' + err);
+        })
+})
+
+ruta.post('/panel/administracion/editar_historial', uploadFiles(), (req, res) =>{
+    if (!req.session.usuario) {
+        res.redirect('/'); } 
+    console.log(req.body)
+    Historial.findByIdAndUpdate(req.body.ide, {
+        formato_cambio: unique + '-'+ req.body.nueva_licencia
+    })
+    .then(()=>{
+        notifier.notify({
+            title: 'SCDD | Rol de transporte de personal subido',
+            message: 'Archivo subido correctamente',
+            icon: path.join(__dirname, '../archivos/imagenes/sinfondodos.png'),
+            sound: true,
+            timeout: 3,
+            sticky: true,
+            wait: false
+        });
+        res.redirect('/panel/administracion/historial-cambios');
+    })
+    .catch((err)=>{
+        notifier.notify({
+            title: 'SCDD | Rol de transporte no subido',
+            message: 'Rol de transporte no subido correctamente.',
+            icon: path.join(__dirname, '../archivos/imagenes/sinfondodos.png'),
+            sound: true,
+            timeout: 3,
+            sticky: true,
+            wait: false
+        });
+        console.log('Error. No se ha podido subir el rol de transporte por ' + err);
+    })
+})
+
+ruta.get('/panel/administracion/eliminar_historial/:id', (req, res)=>{
+    if (!req.session.usuario) {
+        res.redirect('/'); } 
+    Historial.findByIdAndRemove(req.params.id)
+    .then(()=>{
+        notifier.notify({
+            title: 'SCDD | Rol de transporte de personal eliminado',
+            message: 'Archivo eliminado correctamente',
+            icon: path.join(__dirname, '../archivos/imagenes/sinfondodos.png'),
+            sound: true,
+            timeout: 3,
+            sticky: true,
+            wait: false
+        });
+        res.redirect('/panel/administracion/historial-cambios');
+    })
+    .catch((err)=>{
+        notifier.notify({
+            title: 'SCDD | Rol de transporte no eliminado',
+            message: 'Rol de transporte no eliminado correctamente.',
+            icon: path.join(__dirname, '../archivos/imagenes/sinfondodos.png'),
+            sound: true,
+            timeout: 3,
+            sticky: true,
+            wait: false
+        });
+        console.log('Error. No se ha podido eliminar el rol de transportes por ' + err);
     })
 })
 

@@ -216,7 +216,9 @@
                       tooltip_tarjeton = 'custom-tooltip-success';
                     }
                     %>
-                    <button data-bs-toggle="modal" id="btnmodal_tarjeton" data-bs-target="#modal_tarjeton" data-nom="<%= trabajadores.nombre_trabajador%>" data-pdf="<%= trabajadores.tarjeton_vigente%>" type="button" class="btn btn-<%=color_tarjeton%> <%=tarjeton%>"><i data-bs-toggle="tooltip" data-bs-placement="top"
+                    <button data-bs-toggle="modal" id="btnmodal_tarjeton" data-bs-target="#modal_tarjeton" data-nom="<%= trabajadores.nombre_trabajador%>" 
+                      data-pdf="<%= trabajadores.tarjeton_vigente%>" type="button" class="btn btn-<%=color_tarjeton%> <%=tarjeton%>"><i data-bs-toggle="tooltip" 
+                      data-bs-placement="top"
                       data-bs-custom-class="<%=tooltip_tarjeton%>" title="Vigencia de tarjetón vehícular: 
 <%= trabajadores.dia_tarjeton%> de <%=trabajadores.mes_tarjeton%>, <%=trabajadores.anyo_tarjeton%>" class="fa-solid fa-download"></i> Tarjetón</button>
                   </div>

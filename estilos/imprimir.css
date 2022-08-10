@@ -1,0 +1,88 @@
+@media print {
+    @page {
+        margin:0cm;
+        margin-top:1cm;
+        margin-bottom:1cm;
+    } 
+
+    .menu{
+        display: none;
+    }
+
+    #div-menu{
+        display: none;
+    }
+
+    .form-label{
+        display: none;
+    }
+
+    .fa-regular{
+        display:none;
+    }
+
+    .fa-solid{
+        display:none;
+    }
+
+    .mini{
+        display: none;
+    }
+
+    #buscarData{
+        display: none;
+    }
+
+    #navigation{
+        display:none;
+    }
+    #navigationex{
+        display:none;
+    }
+    .form-check-input{
+        display:none;
+    }
+
+    .form-check-label{
+        display:none;
+    }
+
+    .row button{
+        display:none;
+    }
+
+    #body{
+        box-shadow: none;
+    }
+
+    .bottom{
+        box-shadow: none;
+    }
+
+    .tabla{
+        display:block;
+    }
+    
+    table{
+      border-bottom: 1px solid rgb(201, 201, 201);
+  }
+  
+  table thead{
+      background-color: #356967;
+      color: azure;
+  }
+
+  table thead tr td input{
+      font-size: 10px;
+  }
+
+  .show{
+      display: block;
+  }
+  
+  @page {size: landscape}
+  @page {size: A4 landscape}
+  
+  @page{ -webkit-print-color-adjust: exact; }
+  
+  }

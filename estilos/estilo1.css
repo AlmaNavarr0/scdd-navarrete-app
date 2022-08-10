@@ -527,26 +527,6 @@ section:hover{
   margin-top: 10px;
 }
 
-@media print {
-  
-  .show{
-    display: none;
-  }
-
-  table{
-    border-bottom: 1px solid rgb(201, 201, 201);
-}
-
-table thead{
-    background-color: #356967;
-    color: azure;
-}
-
-@page { padding: 10%; }
-
-@page {size: landscape}
-@page {size: A4 landscape}
-
-@page{ -webkit-print-color-adjust: exact; }
-
+.show{
+  display:none;
 }

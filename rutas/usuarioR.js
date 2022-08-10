@@ -127,28 +127,6 @@ ruta.get('/panel/administracion', (req, res) =>{
                         })
                 })
             })
-    /*Trabajador.find({
-        "status_trabajador": true,
-    }, (error, results) => {
-        if (error) throw error;
-        Flotilla.find({
-            "status_flotilla": true,
-        }, (error, resp) => {
-            if (error) throw error;
-            Rutas.find({}, (error, resr)=>{
-                if (error) throw error;
-                res.render('vistaadministracion', {
-                    trabajadores:results,
-                    flotillas: resp, 
-                    rutas: resr,
-                    usuario: req.session.usuario,
-                    foto: req.session.foto,
-                    correo: req.session.correo,
-                    puesto: req.session.puesto
-                });
-            })
-        });
-    });*/
 });
 
 ruta.get('/panel/administracion/eliminar_usuario/:id', (req, res) =>{
@@ -376,23 +354,14 @@ ruta.post('/contacta', (req, res) => {
                     pass: 'vwxsmmxdtzjhdpjw'
                 }
             }
-                /*auth: {
-                    //user: 'sistemacontrol@navarreteviajes.ml',
-                    //pass: 'd3KVKa4wU9xZ1'
-                    user: 'deliang.ti20@utsjr.edu.mx',
-                    pass: 'tcmyjcpfbugsgcms'
-                }*/
             );
 
-            //Formar el correo, para ello llamamos los campos del formulario
             var datosCorreo = {
                 from: '"Sistema de control Navarrete ☀" <sistemacontrolnavarrete@gmail.com>',
                 to: usu['email_usuario'],
                 subject: 'Sistema de control de datos y documentos Navarrete',
-                //Texto en formato simple
                 html: mensaje
             }
-            //Enviar el correo
             transporter.sendMail(datosCorreo, (err, data) => {
                 if (err) {
                     notifier.notify({
