@@ -296,18 +296,17 @@ input::-moz-focus-inner {
 }
 
 #submit {
-    margin-top: 42px;
+    margin-top: 45px;
     transition: color 300ms;
     background: linear-gradient(#117785, #84118f);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     border: 0;
-    
     font-size: 20px;
     font-family: 'Quicksand', sans-serif;
     font-weight: bold;
     outline: none;
-    width: 95%;
+    width: 100%;
 }
 
 #submit:focus {
