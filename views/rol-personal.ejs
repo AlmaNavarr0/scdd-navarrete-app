@@ -20,6 +20,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 border-bottom: 1px solid rgb(201, 201, 201);
             }
 
+            .DataTables_sort_icon { display:none;}
+
             table.dataTable thead{
                 background-color: #356967;
                 color: azure;
@@ -479,7 +481,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
             <div class="pt-0 mt-0 bottom" id="cuerpo1">
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> RUTAS PARA MK</h5>
                 <div id="imp1">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta1" onchange="ocultarContenido('tablaruta1', 'chbruta1')" checked>
@@ -498,7 +500,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                     <th class="text-center small text-light" scope="col">Ruta</th>
                                     <th class="text-center small text-light" scope="col">Turno</th>
                                     <th class="text-center small text-light" scope="col">Horario</th>
-                                    <th class="text-center small text-light" scope="col" colspan="2">Ruta</th>
+                                    <th class="text-center small text-light" scope="col" >Ruta</th>
+                                    <th class="text-center small text-light" scope="col" >Ruta</th>
                                     <th class="text-center small text-light" scope="col"> Unidad </th>
                                     <th class="text-center small text-light" scope="col"> Operador </th>
                                     <th class="small text-light"> </th>
@@ -513,7 +516,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
                                             <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <button type="button" class="borrar noimprimir btn btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -525,7 +528,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
                                             <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <button type="button" class="borrar noimprimir btn btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -537,7 +540,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
                                             <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <button type="button" class="borrar noimprimir btn btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -549,7 +552,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
                                             <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <button type="button" class="borrar noimprimir btn btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -561,7 +564,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
                                             <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar noimprimir btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <button type="button" class="borrar noimprimir btn btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                 </tbody>
@@ -569,7 +572,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp2">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta2" onchange="ocultarContenido('tablaruta2', 'chbruta2')" checked>
@@ -581,21 +584,22 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                             <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta2');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
                         </div>
                        </div>
-                        <div id="tabla2">
+                        <div id="tabla2" class=" col-sm-12">
                             <table id="tablaruta2" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
-                                <tbody id="tblbody small">
+                                <thead style="background-color: transparent; color: #000;">
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
-                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="aculco" id="turno10" name="turno10" oninput="onclickhandler(this, turno10, turno20)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
-                                            <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turno20" name="turno20" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
-                                            <td> <strong class="small" >Aculco/San Joaquín</strong></td>
-                                            <td class="col-sm-2"> <strong class="small">MK</strong></td>
-                                            <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
-                                            <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                        <th scope="row" class=" text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
+                                            <td scope="col" class=" m-0"> <input class="col-sm-12 small" list="aculco" id="turno10" name="turno10" oninput="onclickhandler(this, turno10, turno20)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
+                                            <td scope="col" class=" m-0"> <input class="col-sm-12 small" id="turno20" name="turno20" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
+                                            <td scope="col"> <strong class="small" >Aculco/San Joaquín</strong></td>
+                                            <td scope="col" class=""> <strong class="small">MK</strong></td>
+                                            <td scope="col" class=""> <input list="flotillas" class="col-sm-12 small" id="opcion1" name="opcion1" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
+                                            <td scope="col" class=""> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
+                                            <td scope="col" class="small text-light" >
                                             </td>
                                     </tr>
+                                  </thead>
+                                <tbody id="tblbody small">
                                     <tr>
                                         <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="mk" id="turno30" oninput="onclickhandler(this, turno30, turno40)"  name="turno30" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
@@ -604,9 +608,9 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <strong class="small">Aculco/San Joaquín</strong></td>
                                             <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
-                                            </td>
+                                            <td class="small text-light align-middle p-0 d-flex justify-content-center">
+                                                <button type="button" class="borrar btn me-0 btn-sm " value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                                </td>
                                     </tr>
                                     <tr>
                                         <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 2</strong> </th>
@@ -616,8 +620,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <strong class="small">MK</strong></td>
                                             <td class="col-sm-2"> <input list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores"  class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <td scope="col" class="small text-light align-middle p-0 m-0">
+                                            <button type="button" class="borrar btn ms-2 btn-sm " value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -628,8 +632,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <strong class="small col-sm-12">Aculco/San Joaquín</strong></td>
                                             <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <td scope="col" class="small text-light align-middle p-0 m-0">
+                                            <button type="button" class="borrar btn ms-2 btn-sm " value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -640,8 +644,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <strong class="small col-sm-12">MK</strong></td>
                                             <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <td scope="col" class="small text-light align-middle p-0 m-0">
+                                            <button type="button" class="borrar btn ms-2 btn-sm " value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -652,8 +656,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <strong class="small col-sm-12">Aculco/San Joaquín</strong></td>
                                             <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" id="turno" name="turno" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <td scope="col" class="small text-light align-middle p-0 m-0">
+                                            <button type="button" class="borrar btn ms-2 btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                     <tr>
@@ -664,8 +668,8 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             <td class="col-sm-2"> <input  list="destinos" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un destino"></td>
                                             <td class="col-sm-2"> <input  list="flotillas" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione una flotilla"></td>
                                             <td class="col-sm-2"> <input list="trabajadores" class="col-sm-12 small" style="border: none; outline: none; background: transparent;" placeholder="Seleccione un operador"> </td>
-                                            <td class="d-flex justify-content-center">
-                                            <button type="button" class="borrar btn btn-sm border border-muted" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
+                                            <td scope="col" class="small text-light align-middle p-0 m-0">
+                                            <button type="button" class="borrar btn ms-2 btn-sm" value="Eliminar"><small><i class="text-secondary fa-solid fa-circle-xmark"></i></small></button>
                                             </td>
                                     </tr>
                                 </tbody>
@@ -673,10 +677,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp3">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta3" onchange="ocultarContenido('tablaruta3', 'chbruta3')" >
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta3" onchange="ocultarContenido('tablaruta3', 'chbruta3')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.3</label>
                               </div>
                         </div>
@@ -752,21 +756,22 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                             </table>
                         </div>
                 </div>
-                <div id="imp4">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
-                        <div class="col-sm-8">
-                            <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta4" onchange="ocultarContenido('tablaruta4', 'chbruta4')">
-                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.4</label>
-                              </div>
-                        </div>
-                        <div class="col-sm-4 row ">
-                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta4')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
-                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta4');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
-                        </div>
-                       </div>
+                
+                <div class="row mb-2 p-0 d-flex justify-content-between antes">
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch row ms-1">
+                            <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta4" onchange="ocultarContenido('imp4', 'chbruta4')">
+                            <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.4</label>
+                          </div>
+                    </div>
+                    <div class="col-sm-4 row ">
+                        <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta4')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                        <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta4');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                    </div>
+                   </div>
+                <div id="imp4" style="display:none;">
                         <div id="tabla4">
-                            <table id="tablaruta4" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta4" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <tbody id="tblbody small">
                                     <tr>
                                         <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 4</strong> </th>
@@ -856,21 +861,21 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                             </table>
                         </div>
                 </div>
-                <div id="imp5">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
-                        <div class="col-sm-8">
-                            <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta5" onchange="ocultarContenido('tablaruta5', 'chbruta5')">
-                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.5</label>
-                              </div>
-                        </div>
-                        <div class="col-sm-4 row ">
-                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta5')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
-                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta5');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
-                        </div>
-                       </div>
+                <div class="row mb-2 p-0 d-flex justify-content-between antes">
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch row ms-1">
+                            <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta5" onchange="ocultarContenido('imp5', 'chbruta5')">
+                            <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.5</label>
+                          </div>
+                    </div>
+                    <div class="col-sm-4 row ">
+                        <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta5')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                        <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta5');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                    </div>
+                   </div>
+                <div id="imp5" style="display:none;" >
                         <div id="tabla5">
-                            <table id="tablaruta5" style="display:none;" style="display: none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta5"  class="table tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <tbody id="tblbody small">
                                     <tr>
                                         <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 5</strong> </th>
@@ -900,21 +905,21 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                             </table>
                         </div>
                 </div>
-                <div id="imp6">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
-                        <div class="col-sm-8">
-                            <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta6" onchange="ocultarContenido('tablaruta6', 'chbruta6')">
-                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.7</label>
-                              </div>
-                        </div>
-                        <div class="col-sm-4 row ">
-                            <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta6')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
-                            <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta6');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
-                        </div>
-                       </div>
+                <div class="row mb-2 p-0 d-flex justify-content-between antes">
+                    <div class="col-sm-8">
+                        <div class="form-check form-switch row ms-1">
+                            <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta6" onchange="ocultarContenido('imp6', 'chbruta6')">
+                            <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA NO.7</label>
+                          </div>
+                    </div>
+                    <div class="col-sm-4 row ">
+                        <button class="btn btn-sm col-sm-8 text-end float-end border border-white" onclick="agregarFila('tablaruta6')" type="button"><i class="text-secondary fa-solid fa-plus"></i> Nueva fila</button>
+                        <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta6');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
+                    </div>
+                   </div>
+                <div id="imp6" style="display:none;">
                         <div id="tabla6">
-                            <table id="tablaruta6" style="display:none;" class="table tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta6"  class="table tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <tbody id="tblbody small">
                                     <tr>
                                         <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta 7</strong> </th>
@@ -957,7 +962,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp7">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta7" onchange="ocultarContenido('tablaruta7', 'chbruta7')">
@@ -1013,7 +1018,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp8">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta8" onchange="ocultarContenido('tablaruta8', 'chbruta8')">
@@ -1093,7 +1098,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp9">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta9" onchange="ocultarContenido('tablaruta9', 'chbruta9')">
@@ -1149,7 +1154,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp10">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta10" onchange="ocultarContenido('tablaruta10', 'chbruta10')">
@@ -1205,7 +1210,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp11">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta11" onchange="ocultarContenido('tablaruta11', 'chbruta11')">
@@ -1285,7 +1290,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp12">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta12" onchange="ocultarContenido('tablaruta12', 'chbruta12')">
@@ -1366,7 +1371,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp13">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta13" onchange="ocultarContenido('tablaruta13', 'chbruta13')">
@@ -1422,7 +1427,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp14">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta14" onchange="ocultarContenido('tablaruta14', 'chbruta14')">
@@ -1502,7 +1507,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                        </div>
                 </div>
                 <div id="imp15">
-                    <div class="row mb-2 p-0 d-flex justify-content-between">
+                    <div class="row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta15" onchange="ocultarContenido('tablaruta15', 'chbruta15')">
@@ -1562,7 +1567,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
             <div class="pt-0 mt-0 nomostrar" id="cuerpo2">
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> RUTAS PARA APPAREL</h5>
                 <div id="imp16">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta16" onchange="ocultarContenido('tablaruta16', 'chbruta16')" checked>
@@ -1574,7 +1579,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                             <button class="btn btn-sm col-sm-4 float-end border border-white" type="button" onclick="borrar('tablaruta16');"><i class="text-secondary fa-solid fa-trash-can"></i> Última fila</button>
                         </div>
                        </div>
-                        <div id="tabla1">
+                        <div id="tabla16">
                             <table id="tablaruta16" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
@@ -1628,7 +1633,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp17">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta17" onchange="ocultarContenido('tablaruta17', 'chbruta17')" checked>
@@ -1684,10 +1689,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp18">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta18" onchange="ocultarContenido('tablaruta18', 'chbruta18')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta18" onchange="ocultarContenido('tablaruta18', 'chbruta18')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA A2</label>
                               </div>
                         </div>
@@ -1697,7 +1702,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla18">
-                            <table id="tablaruta18" style="display:none;"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta18"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <tbody id="tblbody small">
                                     <tr>
                                         <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta A2</strong> </th>
@@ -1740,7 +1745,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp19">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta19" onchange="ocultarContenido('tablaruta19', 'chbruta19')">
@@ -1796,7 +1801,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp20">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta20" onchange="ocultarContenido('tablaruta20', 'chbruta20')">
@@ -1852,7 +1857,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp21">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta21" onchange="ocultarContenido('tablaruta21', 'chbruta21')">
@@ -1908,7 +1913,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp22">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta22" onchange="ocultarContenido('tablaruta22', 'chbruta22')">
@@ -1964,7 +1969,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp23">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta23" onchange="ocultarContenido('tablaruta23', 'chbruta23')">
@@ -2020,7 +2025,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp24">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta24" onchange="ocultarContenido('tablaruta24', 'chbruta24')">
@@ -2076,7 +2081,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp25">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta25" onchange="ocultarContenido('tablaruta25', 'chbruta25')">
@@ -2132,7 +2137,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp26">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta26" onchange="ocultarContenido('tablaruta26', 'chbruta26')">
@@ -2188,7 +2193,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp27">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta27" onchange="ocultarContenido('tablaruta27', 'chbruta27')">
@@ -2244,7 +2249,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp28">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta28" onchange="ocultarContenido('tablaruta28', 'chbruta28')">
@@ -2300,7 +2305,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp29">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta29" onchange="ocultarContenido('tablaruta29', 'chbruta29')">
@@ -2356,7 +2361,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp30">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta30" onchange="ocultarContenido('tablaruta30', 'chbruta30')">
@@ -2412,7 +2417,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp31">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta31" onchange="ocultarContenido('tablaruta31', 'chbruta31')">
@@ -2468,7 +2473,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp32">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta32" onchange="ocultarContenido('tablaruta32', 'chbruta32')">
@@ -2512,7 +2517,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp33">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta33" onchange="ocultarContenido('tablaruta33', 'chbruta33')">
@@ -2560,11 +2565,11 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
             <div class="pt-0 mt-0 nomostrar" id="cuerpo3">
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> RUTAS PARA HOME</h5>
                 <div id="imp34">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta34" onchange="ocultarContenido('tablaruta34', 'chbruta34')" checked>
-                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA H1</label>
+                                <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA H1 </label>
                               </div>
                         </div>
                         <div class="col-sm-4 row">
@@ -2626,7 +2631,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp35">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta35" onchange="ocultarContenido('tablaruta35', 'chbruta35')">
@@ -2682,7 +2687,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp36">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta36" onchange="ocultarContenido('tablaruta36', 'chbruta36')" >
@@ -2738,7 +2743,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp37">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta37" onchange="ocultarContenido('tablaruta37', 'chbruta37')">
@@ -2794,7 +2799,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp38">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta38" onchange="ocultarContenido('tablaruta38', 'chbruta38')">
@@ -2850,7 +2855,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp39">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta39" onchange="ocultarContenido('tablaruta39', 'chbruta39')">
@@ -2908,7 +2913,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                  <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> RUTAS PARA ACABADO</h5>
                 <div id="imp40">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta40" onchange="ocultarContenido('tablaruta40', 'chbruta40')" checked>
@@ -3022,7 +3027,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp41">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta41" onchange="ocultarContenido('tablaruta41', 'chbruta41')">
@@ -3126,7 +3131,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp42">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta42" onchange="ocultarContenido('tablaruta42', 'chbruta42')">
@@ -3170,7 +3175,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                 </div>
                 <div id="imp43">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta43" onchange="ocultarContenido('tablaruta43', 'chbruta43')">
@@ -3228,7 +3233,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> RUTAS PARA CORTE</h5>
                 <div id="imp44">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta44" onchange="ocultarContenido('tablaruta44', 'chbruta44')" checked>
@@ -3346,7 +3351,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
             <div class="pt-0 mt-0 nomostrar" id="cuerpo4">
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> TECNORAMPA</h5>
                 <div id="imp45">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta45" onchange="ocultarContenido('tablaruta45', 'chbruta45')" checked>
@@ -3510,10 +3515,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> VIÑEDOS</h5>
                 <div id="imp46">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta46" onchange="ocultarContenido('tablaruta46', 'chbruta46')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta46" onchange="ocultarContenido('tablaruta46', 'chbruta46')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA VIÑEDOS</label>
                               </div>
                         </div>
@@ -3523,7 +3528,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla46">
-                            <table id="tablaruta46" style="display: none;" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta46"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
                                     <th class="text-center small text-light" style="background-color: #356967;" scope="col">Ruta</th>
@@ -3578,10 +3583,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> LAZZI</h5>
                 <div id="imp47">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta47" onchange="ocultarContenido('tablaruta47', 'chbruta47')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta47" onchange="ocultarContenido('tablaruta47', 'chbruta47')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA LAZZI</label>
                               </div>
                         </div>
@@ -3591,7 +3596,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla47">
-                            <table id="tablaruta47" style="display: none;" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta47"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
                                     <th class="text-center small text-light" style="background-color: #356967;" scope="col">Ruta</th>
@@ -3604,7 +3609,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                 </thead>
                                 <tbody id="tblbody small">
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="cade" id="turnocadela1" name="turnocadela1" oninput="onclickhandler(this, turnocadela1, turnocadela2)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadela2" name="turnocadela2" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >Cadereyta</strong></td>
@@ -3616,7 +3621,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="redonda" id="turnocadela3" oninput="onclickhandler(this, turnocadela3, turnocadela4)"  name="turnocadela3" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadela4" name="turnocadela4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">Lazzi</strong></td>
@@ -3646,10 +3651,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> SYD</h5>
                 <div id="imp48">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta48" onchange="ocultarContenido('tablaruta48', 'chbruta48')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta48" onchange="ocultarContenido('tablaruta48', 'chbruta48')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA SYD</label>
                               </div>
                         </div>
@@ -3659,7 +3664,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla48">
-                            <table id="tablaruta48" style="display:none;" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta48" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
                                     <th class="text-center small text-light" style="background-color: #356967;" scope="col">Ruta</th>
@@ -3672,7 +3677,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                 </thead>
                                 <tbody id="tblbody small">
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="denxhi" id="turnodensyd" name="turnodensyd" oninput="onclickhandler(this, turnodensyd, turnodensyd1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnodensyd1" name="turnodensyd1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >San Pedro Denxhi</strong></td>
@@ -3684,7 +3689,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="syd" id="turnodensyd2" oninput="onclickhandler(this, turnodensyd2, turnodensyd4)"  name="turnodensyd2" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnodensyd4" name="turnodensyd4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">SYD</strong></td>
@@ -3696,7 +3701,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="denxhi" id="turnodensyd4" name="turnodensyd4" oninput="onclickhandler(this, turnodensyd4, turnodensyd5)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnodensyd5" name="turnodensyd5" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >San Pedro Denxhi</strong></td>
@@ -3708,7 +3713,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="syd" id="turnodensyd6" oninput="onclickhandler(this, turnodensyd6, turnodensyd7)"  name="turnodensyd6" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnodensyd7" name="turnodensyd7" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">SYD</strong></td>
@@ -3720,7 +3725,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="denxhi" id="turnodensyd8" name="turnodensyd8" oninput="onclickhandler(this, turnodensyd8, turnodensyd9)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnodensyd9" name="turnodensyd9" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >San Pedro Denxhi</strong></td>
@@ -3732,7 +3737,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="syd" id="turnodensyd10" oninput="onclickhandler(this, turnodensyd10, turnodensyd11)"  name="turnodensyd10" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnodensyd11" name="turnodensyd11" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">SYD</strong></td>
@@ -3758,7 +3763,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
 
                                     <!--INICIO DE CADEREYTA-->
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="cade" id="turnocadesyd" name="turnocadesyd" oninput="onclickhandler(this, turnocadesyd, turnocadesyd1)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadesyd1" name="turnocadesyd1" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >Cadereyta</strong></td>
@@ -3770,7 +3775,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="syd" id="turnocadesyd2" oninput="onclickhandler(this, turnocadesyd2, turnocadesyd4)"  name="turnocadesyd2" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadesyd4" name="turnocadesyd4" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">SYD</strong></td>
@@ -3782,7 +3787,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="cade" id="turnocadesyd4" name="turnocadesyd4" oninput="onclickhandler(this, turnocadesyd4, turnocadesyd5)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadesyd5" name="turnocadesyd5" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >Cadereyta</strong></td>
@@ -3794,7 +3799,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="syd" id="turnocadesyd6" oninput="onclickhandler(this, turnocadesyd6, turnocadesyd7)"  name="turnocadesyd6" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadesyd7" name="turnocadesyd7" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">SYD</strong></td>
@@ -3806,7 +3811,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="cade" id="turnocadesyd8" name="turnocadesyd8" oninput="onclickhandler(this, turnocadesyd8, turnocadesyd9)" style="border: none; outline: none; background: transparent;" placeholder="Turno" > </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadesyd9" name="turnocadesyd9" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small" >Cadereyta</strong></td>
@@ -3818,7 +3823,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                                             </td>
                                     </tr>
                                     <tr>
-                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta H1</strong> </th>
+                                        <th scope="row" class="col-sm-1 text-muted align-middle text-center"> <strong class="prueba small" id="prueba">Ruta </strong> </th>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" list="syd" id="turnocadesyd10" oninput="onclickhandler(this, turnocadesyd10, turnocadesyd11)"  name="turnocadesyd10" style="border: none; outline: none; background: transparent;" placeholder="Turno"> </td>
                                             <td class="col-sm-1 m-0"> <input class="col-sm-12 small" id="turnocadesyd11" name="turnocadesyd11" style="border: none; outline: none; background: transparent;" placeholder="Horario"> </td>
                                             <td> <strong class="small">SYD</strong></td>
@@ -3851,7 +3856,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
             <div class="pt-0 mt-0 nomostrar" id="cuerpo5">
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> E.C.I</h5>
                 <div id="imp49">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta49" onchange="ocultarContenido('tablaruta49', 'chbruta49')" checked>
@@ -4039,10 +4044,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> INTERPLAS</h5>
                 <div id="imp50">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta50" onchange="ocultarContenido('tablaruta50', 'chbruta50')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta50" onchange="ocultarContenido('tablaruta50', 'chbruta50')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA INTERPLAS</label>
                               </div>
                         </div>
@@ -4052,7 +4057,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla50">
-                            <table id="tablaruta50" style="display:none;" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta50"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
                                     <th class="text-center small text-light" style="background-color: #356967;" scope="col">Ruta</th>
@@ -4155,10 +4160,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> RANCHO EL MILAGRO</h5>
                 <div id="imp51">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta51" onchange="ocultarContenido('tablaruta51', 'chbruta51')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta51" onchange="ocultarContenido('tablaruta51', 'chbruta51')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA RANCHO MILAGRO</label>
                               </div>
                         </div>
@@ -4168,7 +4173,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla51">
-                            <table id="tablaruta51" style="display:none;" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta51"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
                                     <th class="text-center small text-light" style="background-color: #356967;" scope="col">Ruta</th>
@@ -4223,10 +4228,10 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                 <hr>
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-map-location-dot"></i> GMI</h5>
                 <div id="imp52">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
-                                <input class="form-check-input bg-muted" type="checkbox" role="switch" id="chbruta52" onchange="ocultarContenido('tablaruta52', 'chbruta52')">
+                                <input class="form-check-input bg-success" type="checkbox" role="switch" id="chbruta52" onchange="ocultarContenido('tablaruta52', 'chbruta52')" checked>
                                 <label class="form-check-label text-muted fw-bold" style="font-family: 'Quicksand', sans-serif;" for="">INCLUIR RUTA GMI</label>
                               </div>
                         </div>
@@ -4236,7 +4241,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                         </div>
                        </div>
                         <div id="tabla52">
-                            <table id="tablaruta52" style="display:none;" class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
+                            <table id="tablaruta52"  class="table tabla tabla table-sm table-hover table-bordered border-muted mb-4">
                                 <thead>
                                   <tr>
                                     <th class="text-center small text-light" style="background-color: #356967;" scope="col">Ruta</th>
@@ -4318,7 +4323,7 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
             <div class="pt-3">
                 <h5 class="h5 text-center mb-1 text-muted fw-bold" style="font-family: 'Quicksand', sans-serif"><i class="fa-solid fa-location-plus"></i></i> Rutas Extras</h5>
                 <div id="imp49">
-                    <div class="show row mb-2 p-0 d-flex justify-content-between">
+                    <div class="show row mb-2 p-0 d-flex justify-content-between antes">
                         <div class="col-sm-8">
                             <div class="form-check form-switch row ms-1">
                                 
@@ -4470,9 +4475,9 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
                             </div>
                             </form>
                         </div>
-                    <button type="button" class="btn btn-outline-secondary col-sm-2 float-end me-3 gris" onclick="imprimir();" id="imprimir" name="imprimir"><i class="fa-solid fa-print"></i> Imprimir</button>
-                    <div class="btn border border-secondary float-end">
-                        <a href="#body" title="Regresa al inicio del formulario"><i
+                    <button type="button" class="btn btn-outline-secondary col-sm-2 float-end me-3 gris" onclick="document.execCommand('print');" id="imprimir" name="imprimir"><i class="fa-solid fa-print"></i> Imprimir</button>
+                    <div class="btn border float-end">
+                        <a href="#body" title="Regresa al inicio de la página"><i
                                 class="fa-solid fa-hand-point-up text-secondary"></i></a>
                     </div>    
                 </div>
@@ -4630,32 +4635,36 @@ integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmV
  <script>
 
  $(document).ready(function () {
-    var table = $("#tablaruta1").DataTable({
-         "language": {
+   
+    var table = $('#tablaruta1').DataTable({
+        "language": {
          "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
          },
-         orderCellsTop: true,
+         orderCellsTop: false,
          fixedHeader: true,
-         dom: '<"wrapper"t>',
-         buttons:{
-             dom: {
-                 button: {
-                     className: 'btn'
-                 }
-             },
-             buttons: [ {
-                 extend: "print",
-                 title: 'Trabajadores',
-                 text:'<i class="fa-solid fa-print"></i> Imprimir',
-                 className:'btn btn-outline-secondary mt-3',
-             }
-             ]            
-         }            
-     });
+         ordering: false,
+         dom: '<"wrapper"t>'
+    });
+    var table2 = $('#tablaruta2').DataTable({ "language": {"url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"},
+         orderCellsTop: false,
+         fixedHeader: true,
+         ordering: false,
+         dom: '<"wrapper"t>'
+    });
+
+    var table16 = $('#tablaruta16').DataTable({ "language": {"url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"},
+         orderCellsTop: false,
+         fixedHeader: true,
+         ordering: false,
+         dom: '<"wrapper"t>'
+    });
+    
 
 $("#buscarData").on( 'keyup', function () {
     table.search( this.value ).draw();
-} );
+    table2.search( this.value ).draw();
+    table16.search( this.value ).draw();
+    });
  });
 
  window.sr = ScrollReveal();
@@ -4673,12 +4682,7 @@ $("#buscarData").on( 'keyup', function () {
 
 
     function imprimir(){
-        document.getElementById("cuerpo1").classList.remove("nomostrar");
-        document.getElementById("cuerpo2").classList.remove("nomostrar");
-        document.getElementById("cuerpo3").classList.remove("nomostrar");
-        document.getElementById("cuerpo4").classList.remove("nomostrar");
-        document.getElementById("cuerpo5").classList.remove("nomostrar");
-        document.getElementById("cuerpo5").classList.add("mostrar");
-        document.execCommand('print');
+        document.execCommand('print', false, null);
+        
     }
 </script>
